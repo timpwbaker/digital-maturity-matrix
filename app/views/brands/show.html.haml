@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @brand.user
+%p
+  %b Color a:
+  = @brand.color_a
+%p
+  %b Color b:
+  = @brand.color_b
+
+= link_to 'Edit', edit_brand_path(@brand)
+\|
+= link_to 'Back', brands_path

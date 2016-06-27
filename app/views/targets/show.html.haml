@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Question answered:
+  = @target.question_answered
+%p
+  %b Choice:
+  = @target.choice
+%p
+  %b Question:
+  = @target.question
+%p
+  %b Submission:
+  = @target.submission
+
+= link_to 'Edit', edit_target_path(@target)
+\|
+= link_to 'Back', targets_path

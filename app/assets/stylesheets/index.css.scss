@@ -1,0 +1,38 @@
+
+.index-header {
+	background: $brand-secondary center center;
+	background-size: 100%;
+	height:100vh;
+	width:100%;
+	position:relative;
+}
+
+.vertically-centered {
+   position: absolute;               /* 2 */
+   top: 50vh;                      /* 3 */
+   transform: translate(0, -50%);
+   width:100%;
+   text-align:center;
+} 
+
+#chart-graphic {
+	background: url(/images/radarchart.png) center center no-repeat;
+	height:100%;
+	width:100%;
+}
+
+h1 span.index-title {
+	color: #fff;
+	width:100%;
+	font-size:70px;
+}
+
+.scroll-button {
+	position:relative;
+	z-index:100;
+	top:80vh;
+	text-align:center;
+}
+.scroll-button i {
+	font-size:50px;
+}

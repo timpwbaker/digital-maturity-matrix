@@ -1,0 +1,25 @@
+= form_for @brand do |f|
+  - if @brand.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@brand.errors.count, "error")} prohibited this brand from being saved:"
+      %ul
+        - @brand.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.hidden_field :user_id, :value => current_user.id
+  .field
+    = f.hidden_field :submission_id, :value => @submission.id
+  .field
+    = f.hidden_field :matrix_id, :value => @matrix.id
+  .field
+    = f.label "Primary colour: current state"
+    = f.text_field :color_a, :class => "color-input"
+  .field
+    = f.label "Secondary colour: target state"
+    = f.text_field :color_b, :class => "color-input"
+  = f.submit 'Save', :class => "btn btn-primary"
+
+
+:javascript
+  $('input[type=text]').minicolors();

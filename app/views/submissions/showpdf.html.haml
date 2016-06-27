@@ -1,0 +1,92 @@
+= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
+%style{type: "text/css"}
+  = File.read(Rails.root.join("public","pdf-styles.css"))
+= javascript_include_tag 'http://code.jquery.com/jquery-1.10.0.min.js'
+= javascript_include_tag 'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js'
+= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js'
+
+%p#notice= notice
+%div.col-md-12
+  %h1{:style => "text-align:center"}
+    = "#{@user.organisation} Digital Maturity Matrix"
+
+%div.col-md-12
+%div#placeholder{:style => "position:relative"}
+%div#chart
+  <canvas style="margin:30px 100px" id='radarChart' width='600' height='450'></canvas><br>
+
+.row
+  %h2{:style => "text-align:center"} Your Score
+  .col-md-4.center-block{:style=>"float:none;width:50%"}
+    .col-xs-8
+      - @answers_data_array = []
+      - Matrix.digital_maturity_areas.each do |area|
+        %h4{:style=>"margin-top:10px"}
+          %strong= area
+        - @total_score = 0
+        - @ordered_answers.each do |answer|
+          - if answer.question.area == area
+            - @total_score = @total_score+answer.score
+        %p= "Current: #{@total_score.round(0)}%"
+        - @answers_data_array.push(@total_score.round)
+
+
+    .col-xs-4
+      - @targets_data_array = []
+      - Matrix.digital_maturity_areas.each do |area|
+        %h4{:style=>"margin-top:10px", :class => "bg"}
+          %strong= "-"
+        - @total_score = 0
+        - @ordered_targets.each do |target|
+          - if target.question.area == area
+            - @total_score = @total_score+target.score
+        - @targets_data_array.push(@total_score.round)
+        %p{:style => "text-align:right"}= "Target: #{@total_score.round(0)}%"
+        
+
+
+
+:javascript
+  //radar chart data
+  radarData = {
+    labels: #{Matrix.digital_maturity_areas.to_s},
+    datasets : [
+          {
+              label: "Answers",
+              fillColor: "rgba(255,255,255,0)",
+              strokeColor: "#{@brand_1}",
+              pointColor: "rgba(0,0,0,1)",
+              pointStrokeColor: "#fff",
+              data: #{@answers_data_array.to_s}
+          },
+          {
+              label: "Targets",
+              fillColor: "rgba(255,255,255,0)",
+              strokeColor: "#{@brand_2}",
+              pointColor: "rgba(0,0,0,1)",
+              pointStrokeColor: "#fff",
+              data: #{@targets_data_array.to_s}
+          }
+      ],
+  }
+
+  //Create Radar chart
+  $(document).ready(function(){
+
+  var options = {
+    scaleShowLabels : true, // to hide vertical lables
+    scaleOverride: true,
+    scaleSteps: 10,
+    scaleStepWidth: 10,
+    scaleStartValue: 0
+  };
+  var ctx2 = document.getElementById("radarChart").getContext("2d");
+  var myNewChart = new Chart(ctx2).Radar(radarData);
+
+  new Chart(ctx2).Radar(radarData,options);
+  var data = radarData;  // refers to the charts data
+  legend(document.getElementById('placeholder'), data)
+
+
+  });
+

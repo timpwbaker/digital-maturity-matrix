@@ -1,0 +1,39 @@
+%div#small-warning
+  %h3 Small screen warning
+  %p This section doesn't work so well on narrow screens. It will work better if you turn your phone on it's side
+%div.container
+  %div.row
+    %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
+      %h1= "#{@user.organisation} Digital Maturity Matrix"
+      %div
+        - Matrix.digital_maturity_areas.each_with_index do |area|
+          - if area == @area
+            =link_to 'Edit '+area, edit_matrix_submission_path(@matrix,@submission,:area => area),{ :class=>"btn btn-secondary" }
+          -else
+            =link_to 'Edit '+area, edit_matrix_submission_path(@matrix,@submission,:area => area),{ :class=>"btn btn-primary" }
+  %div.row
+    %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
+      %h1= "Editing Submission - "+@area
+      = render 'existingform'
+
+:javascript
+  function sortHeights() {
+    array = [];
+    $('p.question').each(function(index){
+      var height = $(this).height();
+      array.push(height);
+    });
+    $(".answer-box").each(function(index){
+      $(this).height(array[index]);
+    });
+    $(".target-box").each(function(index){
+      $(this).height(array[index]);
+    });
+  }
+  $(document).ready(function(){
+    sortHeights();
+  });
+  $(window).resize(function(){
+    sortHeights();
+  });
+

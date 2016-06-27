@@ -1,0 +1,112 @@
+// Place all the styles related to the Submissions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.btn {
+	margin-top:10px;
+}
+
+.btn-primary a {
+	color: #fff !important;
+}
+
+form.edit_submission select {
+	width:100%;
+}
+
+@media screen and (min-width:900px) {
+
+	#chart {
+		width: 800px;
+		height:800px;
+		margin:auto;
+	}
+
+	.email-pdf {
+		display:none;
+	}
+
+	.show-pdf {
+		display:block;
+	}
+
+}
+
+@media screen and (min-width:700px) and (max-width:899px) {
+
+	#chart {
+		width: 600px;
+		height:600px;
+		margin:auto;
+	}
+
+	.email-pdf {
+		display:block;
+	}
+
+	.show-pdf {
+		display:none;
+	}
+
+}
+
+@media screen and (min-width:500px) and (max-width:699px) {
+
+	#chart {
+		width: 400px;
+		max-width: 400px;
+		height:400px;
+		max-height:400px;
+		margin:auto;
+	}
+
+	.email-pdf {
+		display:block;
+	}
+
+	.show-pdf {
+		display:none;
+	}
+
+}
+
+@media screen and (max-width:499px) {
+
+	#small-warning {
+		position: fixed;
+		top:0px;
+		left:0px;
+		z-index:10;
+		width:100%;
+		height:100%;
+		background: rgba(0,0,0,0.4);
+		padding:20px;
+		margin:auto;
+	}
+
+	#small-warning p {
+		background:#fff;
+		padding:20px;
+	}
+
+	#chart {
+		width: 300px;
+		height:300px;
+		margin:auto;
+	}
+
+	.email-pdf {
+		display:block;
+	}
+
+	.show-pdf {
+		display:none;
+	}
+
+}
+
+@media screen and (min-width:500px) {
+	#small-warning {
+		display:none;
+	}
+}

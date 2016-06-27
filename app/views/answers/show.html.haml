@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %strong Submission:
+  = @answer.submission
+%p
+  %strong Question:
+  = @answer.question
+= link_to 'Edit', edit_answer_path(@answer)
+|
+= link_to 'Back', answers_path

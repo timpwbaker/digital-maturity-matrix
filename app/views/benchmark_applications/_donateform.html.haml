@@ -1,0 +1,27 @@
+= form_for([@user,@benchmark_application]) do |f|
+  - if @benchmark_application.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@benchmark_application.errors.count, "error")} prohibited this benchmark_application from being saved:"
+      %ul
+        - @benchmark_application.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.hidden_field :user_id, :value => current_user.id
+  .field
+    = f.label :organisation
+    = f.text_field :organisation_name
+  .field
+    = f.label :organisation_turnover
+    = f.select :organisation_turnover, BenchmarkApplication.turnover
+  .field
+    = f.label :organisation_employees
+    = f.select :organisation_employees, BenchmarkApplication.employees
+  .field
+    = f.label :digital_employees
+    = f.select :digital_employees, BenchmarkApplication.digital
+  .field
+    = f.label :opt_in
+    = f.check_box :opt_in
+  .actions
+    %script.stripe-button{ src: "https://checkout.stripe.com/checkout.js",
+          data: {amount: 5000, description: "Suggested Donation", key: Rails.configuration.stripe[:publishable_key], currency: "gbp"}}

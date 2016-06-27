@@ -1,0 +1,148 @@
+%div.container
+  %div.row
+    %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
+      %div.col-md-6
+        %h1
+          = @matrix.name
+        %h2
+          %strong Created by:
+          = @submission.user.name
+      %div.col-md-6
+        %div.col-md-12.text-right
+          -if Brand.exists?(user_id: current_user.id)
+            =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary"}
+          -else
+            =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary"}
+
+        %div.col-md-12.text-right.show-pdf
+          =link_to "Save as PDF", matrix_submission_path(@matrix, @submission, format: :pdf),{:class => "btn btn-primary", :target => "_blank"}
+
+        %div.col-md-12.text-right
+          =link_to "Email my PDF", submissions_emailpdf_path(@matrix,@submission),{:class => "btn btn-primary emailpdf"}
+
+        %div.col-md-12.text-right
+          =link_to 'Edit Submission', edit_matrix_submission_path(@matrix,@submission),{:class => "btn btn-primary"}
+
+      %div.col-md-12
+      %div#placeholder{:style => "position:relative"}
+      %div#chart
+        <canvas id='radarChart' width='800' height='650'></canvas><br>
+ 
+      .row
+        %h2{:style => "text-align:center"} Your Score
+        .col-md-6.col-xs-12.center-block{:style=>"float:none"}
+          .col-xs-7
+            - @answers_data_array = []
+            - Matrix.digital_maturity_areas.each do |area|
+              %p
+                %strong= area
+              - @total_score = 0
+              - @ordered_answers.each do |answer|
+                - if answer.question.area == area
+                  - @total_score = @total_score+answer.score
+              %h3= "Current: #{@total_score.round(0)}%"
+              - @answers_data_array.push(@total_score.round)
+              %button.btn.btn-primary{:style => "margin-bottom:50px"}
+                = link_to 'Edit Section', edit_matrix_submission_path(@matrix,@submission,:area => area)
+
+          .col-xs-5
+            - @targets_data_array = []
+            - Matrix.digital_maturity_areas.each do |area|
+              %p{:class => "bg"}
+                %strong= "-"
+              - @total_score = 0
+              - @ordered_targets.each do |target|
+                - if target.question.area == area
+                  - @total_score = @total_score+target.score
+              %h3{:style => "text-align:right"}= "Target: #{@total_score.round(0)}%"
+              - @targets_data_array.push(@total_score.round)
+              %button.btn.btn-primary{:style => "visibility:hidden;margin-bottom:50px"}
+                = link_to 'Edit Section', edit_matrix_submission_path(@matrix,@submission,:area => area)
+      .row
+        %h2{:style => "text-align:center"} Your Answers
+        .col-md-6
+          %h3 Current Level
+          - @answers_data_array = []
+          - Matrix.digital_maturity_areas.each do |area|
+            %h4= area
+            - @total_score = 0
+            - @ordered_answers.each do |answer|
+              - if answer.question.area == area
+                %p
+                %strong= answer.question_answered
+                %br= answer.choice
+                - @total_score = @total_score+answer.score
+            %p
+              %strong= "Area Score: #{@total_score.round(0)}"
+            - @answers_data_array.push(@total_score.round)
+            %button.btn.btn-primary
+              = link_to 'Edit Section', edit_matrix_submission_path(@matrix,@submission,:area => area)
+        .col-md-6
+          %h3 Target Level
+          - @targets_data_array = []
+          - Matrix.digital_maturity_areas.each do |area|
+            %h4= area
+            - @total_score = 0
+            - @ordered_targets.each do |target|
+              - if target.question.area == area
+                %p
+                %strong= target.question_answered
+                %br= target.choice
+                - @total_score = @total_score+target.score
+            %p
+              %strong= "Area Target: #{@total_score.round(0)}"
+            - @targets_data_array.push(@total_score.round)
+            %button.btn.btn-primary
+              = link_to 'Edit Section', edit_matrix_submission_path(@matrix,@submission,:area => area)
+
+
+      :javascript
+
+        $(".emailpdf").click(function(){
+          $(".emailpdf").html("<img height='30px' width='30px' src='/images/loading.gif'>");
+        });
+        
+
+        //radar chart data
+        radarData = {
+          labels: #{Matrix.digital_maturity_areas.to_s},
+          datasets : [
+                {
+                    label: "Answers",
+                    fillColor: "rgba(255,255,255,0)",
+                    strokeColor: "#{@brand_1}",
+                    pointColor: "#{@brand_1}",
+                    pointStrokeColor: "#fff",
+                    data: #{@answers_data_array.to_s}
+                },
+                {
+                    label: "Targets",
+                    fillColor: "rgba(255,255,255,0)",
+                    strokeColor: "#{@brand_2}",
+                    pointColor: "#{@brand_2}",
+                    pointStrokeColor: "#fff",
+                    data: #{@targets_data_array.to_s}
+                }
+            ],
+        }
+
+        //Create Radar chart
+
+
+        var options = {
+          scaleShowLabels : true, 
+          scaleOverride: true,
+          multiTooltipTemplate: "<%= value + ' %' %>",
+          responsive: true,
+          scaleSteps: 10,
+          scaleStepWidth: 10,
+          scaleStartValue: 0,
+        };
+        var ctx2 = document.getElementById("radarChart").getContext("2d");
+        var myNewChart = new Chart(ctx2).Radar(radarData);
+
+        new Chart(ctx2).Radar(radarData,options);
+        var data = radarData;  // refers to the charts data
+        legend(document.getElementById('placeholder'), data)
+
+

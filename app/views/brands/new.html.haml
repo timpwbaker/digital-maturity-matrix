@@ -1,0 +1,8 @@
+%div.container
+  %div.row
+    %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
+      %h1 New brand
+
+      = render 'form'
+
+      = link_to 'Back', matrix_submission_path(@matrix, @submission),{:class => "btn btn-secondary", :style => "margin-left:15px"}

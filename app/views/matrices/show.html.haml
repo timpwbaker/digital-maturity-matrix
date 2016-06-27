@@ -1,0 +1,26 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @matrix.name
+%p
+  %strong Questions:
+  %br/
+  %table.table
+    %thead
+    %tr
+      %td
+        %strong Question
+      %td 
+        %strong Area
+    %tbody
+      - @questions.each do |question|
+        %tr
+          %td
+            = question.body
+          %td
+            = question.area 
+= link_to 'Add Question', new_matrix_question_path(@matrix)
+= link_to 'Add Submission', new_matrix_submission_path(@matrix)
+= link_to 'Edit', edit_matrix_path(@matrix)
+|
+= link_to 'Back', matrices_path
