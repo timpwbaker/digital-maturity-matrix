@@ -17,8 +17,11 @@ gem 'bootstrap-sass'
 gem 'devise'
 gem 'high_voltage'
 gem 'stripe'
+gem 'simple_form'
 gem 'pony'
-gem 'delayed_job_active_record'
+gem 'paperclip'
+gem 'aws-sdk'
+gem 'figaro'
 group :production do 
   gem 'rails_12factor'
 end
@@ -27,6 +30,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
+  gem 'to_factory'
 end
 group :development do
   gem 'web-console', '~> 2.0'
@@ -36,6 +40,7 @@ group :development do
   gem 'rails_layout'
   gem 'spring-commands-rspec'
   gem 'erb2haml'
+  gem 'rubocop'
 end
 group :test do
   gem 'capybara'

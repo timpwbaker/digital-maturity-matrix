@@ -6,9 +6,10 @@
     %div.scroll-button
       %p <a href="#about" class="btn btn-circle page-scroll"><i class="fa fa-angle-double-down animated"></i></a>
 %div.container#about
-  %div.row
+  %div.row.home-row
     %div.col-md-12.col-xs-11.text-center{:style=>"z-index:10;margin-bottom:25px"}
-      -if !current_user
+      -if !Matrix.exists?(id: 1)
+      -elsif !current_user
         =link_to 'Create My Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary"
       -elsif current_user && Submission.exists?(user_id: current_user.id)
         =link_to 'View My Matrix', matrix_submission_path(Matrix.find(1),Submission.find_by_user_id(current_user.id)), :class => "btn btn-primary"
@@ -17,48 +18,87 @@
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 About
 
-      %p The Third Sector Digital Maturity Matrix is a tool developed by the Digital Team at <a href="https://www.breastcancercare.org.uk">Breast Cancer Care</a> to assess the maturity of a charity’s digital output (i.e. the current state) compared to its aspiration or desired state.
+      /%p The Third Sector Digital Maturity Matrix is a tool developed by the Digital Team at <a href="https://www.breastcancercare.org.uk">Breast Cancer Care</a> to assess the maturity of a charity’s digital output (i.e. the current state) compared to its aspiration or desired state.
+
+      %p The Third Sector Digital Maturity Matrix is a free tool developed by the Digital Team at <a href="https://www.breastcancercare.org.uk">Breast Cancer Care</a> to assess the current maturity of a not-for-profit organisation’s digital capability, compared with its desired target state. Through a simple self-assessment, you can understand where your organisation needs to invest to reach digital excellence.
 
       %p Read more about why we talk about digital maturity rather than digital transformation in this <a href="https://medium.com/@gambollingsylph/why-i-choose-digital-maturity-over-digital-transformation-2a1f0ac27804">Medium post</a>. 
+  %div.row.home-row.tint
+    %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
+      %h2 Featured in
+      %br/
 
-  %div.row.tint
+      .col-md-4.text-center.home-featured
+        = link_to "http://www.thirdsector.co.uk/why-i-choose-digital-maturity-digital-transformation/digital/article/1394746" do
+          =image_tag "thirdsector.jpg"
+      .col-md-4.text-center.home-featured
+        =link_to "http://tech.newstatesman.com/enterprise-it/digital-transformation-maturity-breast-cancer-care" do
+          =image_tag "nstech.jpg"
+      .col-md-4.text-center.home-featured
+        = link_to "http://www.civilsociety.co.uk/it/news/content/22027/stop_looking_for_a_big_bang_moment_for_digital_transformation?topic=&print=1" do
+          = image_tag "csuk.jpg"
+
+  %div.row.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 Why?
-      %p A Breast Cancer Care we developed the digital maturity matrix to:
+      %p At Breast Cancer Care we developed the Digital Maturity Matrix to:
       %ul
         %li Identify gaps in capability
         %li Prioritise areas for development
         %li Measure maturity over time to understand positive or negative change
-      %p We launched an ambitious digital strategy for Breast Cancer Care in early 2016. To measure the success of this strategy in developing organisational digital maturity we developed a Maturity Matrix. The tool highlighted our areas of focus and supported conversations with senior leadership. After using the tool we realised it was not only applicable to Breast Cancer Care, but could be used across the charity sector.
+      /%p We launched an ambitious digital strategy for Breast Cancer Care in early 2016. To measure the success of this strategy in developing organisational digital maturity we developed a Maturity Matrix. The tool highlighted our areas of focus and supported conversations with senior leadership. After using the tool we realised it was not only applicable to Breast Cancer Care, but could be used across the charity sector.
+      %p After launching an ambitious digital strategy for 2016, we needed a means to measure the progress and overall success of its implementation. From this need came the development of our maturity matrix, tailored to the way digital maturity should look like in the third-sector.
 
-      %p Our quick and simple tool is now free use by any charity. It started life as an Excel spreadsheet, but has evolved into a web application. We hope it’s useful to your organisation
+      %p The usefulness of the tool within our organisation exceeded expectations and we soon realised this was something that could benefit the third-sector as a whole. We decided to develop the tool into a web application and make it freely accessible to anyone. We hope it’s useful to you and your organisation.
 
-      %p We’d love to hear your feedback or questions. Please contact <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>
-  %div.row
+      %p We’d love to hear your feedback or questions. Please contact <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>. Feel free to submit any feature requests to <a href="https://github.com/timpwbaker/digital-maturity-matrix">github</a>.
+
+      /%p Our quick and simple tool is now free to use by any charity. It started life as an Excel spreadsheet, but has evolved into a web application. We hope it’s useful to your organisation
+
+      /%p We’d love to hear your feedback or questions. Please contact <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>
+  %div.row.home-row.tint
+    %div.col-md-10.col-xs-11.center-block#matrix-makers{:style => "float:none"}
+      %h2 Digital matrix makers
+      %br/
+
+      .col-md-4.text-center.home-featured
+        = image_tag "tim.jpg"
+        %h4 
+          %strong Tim Baker
+        %h4 Technical Design & Development
+      .col-md-4.text-center.home-featured
+        =image_tag "jo.jpg"
+        %h4
+          %strong Jo Wolfe
+        %h4 Strategy, Marketing & Communications
+      .col-md-4.text-center.home-featured
+        =image_tag "tom.jpg"
+        %h4 
+          %strong Tom Kluge
+        %h4 Concept Design, Theory & Analytics
+
+  %div.row.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 Benchmarking
       %p There’s already an appetite for benchmarking information on the Maturity Matrix. From experience, we know that your own scores are most powerful when compared to other similar organisations. We’d love to open up the data we receive in an aggregated and anonymised format. <a href="mailto:digital@breastcancercare.org.uk">Let us know what you think about this idea</a>.
-  %div.row.tint
+  %div.row.tint.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 Open source
-      %p The application is open source and built using Ruby on Rails. Feel free to <a href="https://github.com/timpwbaker/digital-maturity-matrix">submit any feature requests to github</a>, although we make this all in our own time so can't promise to be super agile on it
-  %div.row
-    %div.col-md-12.col-xs-11.text-center
-      -if !current_user
-        %h3
-          =link_to 'Create My Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary"
-      -elsif current_user && Submission.exists?(user_id: current_user.id)
-        %h3
-          =link_to 'View My Matrix', matrix_submission_path(Matrix.find(1),Submission.find_by_user_id(current_user.id)), :class => "btn btn-primary"
-      -elsif current_user && !Submission.exists?(user_id: current_user.id)
-        %h3
-          =link_to 'Create Digital Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary"
-  %div.row
+      %p The application is open source and built using Ruby on Rails. Feel free to <a href="https://github.com/timpwbaker/digital-maturity-matrix">submit any feature requests to github</a>, although we make this all in our own time so can't promise to be super agile on it.
+
+  %div.row.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 #digitalmaturitymatrix
       %p 
         %strong Join the conversation…
-      %div.row
+      %div.row.home-row
+        %div.col-md-6
+          <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">It’s digital maturity – not transformation – over at Breast Cancer Care <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://t.co/etvmk0FAPN">https://t.co/etvmk0FAPN</a> <a href="https://t.co/ti2o159yhr">pic.twitter.com/ti2o159yhr</a></p>&mdash; NSTech (@Technology_NS) <a href="https://twitter.com/Technology_NS/status/749969797023236096">July 4, 2016</a></blockquote>
+          <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        %div.col-md-6
+          <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Jo Wolfe: Charity sector&#39;s digital know-how is improving and we need to measure the change <a href="https://t.co/APLA4MPMa6">https://t.co/APLA4MPMa6</a> <a href="https://t.co/AxX24bkCp8">pic.twitter.com/AxX24bkCp8</a></p>&mdash; ThirdSector (@ThirdSector) <a href="https://twitter.com/ThirdSector/status/731915565460127744">May 15, 2016</a></blockquote>
+          <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      %div.row.home-row
         %div.col-md-6
           %p <blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Finally found time to delve into <a href="https://twitter.com/msjowolfe">@msjowolfe</a> <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a> - it&#39;s fabulous! Check it out <a href="https://t.co/asHoDSradR">https://t.co/asHoDSradR</a></p>&mdash; Megan Griffith Gray (@meggriffithgray) <a href="https://twitter.com/meggriffithgray/status/729632624835186688">9 May 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
         %div.col-md-6

@@ -12,7 +12,7 @@
       = f.label :password
       = f.password_field :password, class: 'form-control'
     .form-group
-      = f.label "Please re-enter your password"
+      = f.label :password_confirmation
       = f.password_field :password_confirmation, class: 'form-control'
     .form-group
       = f.label :organisation_name
@@ -34,4 +34,4 @@
       %p We are aware that benchmarking is of real interest and value to the charity sector. We may in future make some benchmarking data from this tool available. 
       %p All identifiable information about your organisation will be removed and combined with other anonymous data. If you would like to be excluded please email <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>.
     .form-group.text-center
-      = f.submit 'Sign up', :class => 'btn btn-primary center-block', :style => "float:none"
+      = f.submit 'Sign up', :class => 'btn btn-primary center-block', :style => 'float:none', :id => 'create-account'

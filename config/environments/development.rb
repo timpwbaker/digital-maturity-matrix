@@ -27,26 +27,35 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+config.paperclip_defaults = {
+  :storage => :s3,
+  :s3_region => ENV['AWS_REGION'],
+  :s3_credentials => {
+    :bucket => ENV['AWS_BUCKET'],
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  }
+}
+
   Pony.options = {
     :via => :smtp,
     :via_options => {
       :address => 'smtp.gmail.com',
       :port => '587',
       :domain => 'example.com',
-      user_name: 'whosturnis',
-      password: 'whosturn',
+      user_name: ENV['GMAIL_USER'],
+      password: ENV['GMAIL_PASS'],
       :authentication => :plain,
       :enable_starttls_auto => true
     }
   }
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
+  config.action_mailer.default_url_options = { host: Rails.application.secrets.domain_name }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.raise_delivery_errors = true
   # Send email in development mode?
   config.action_mailer.perform_deliveries = true
-
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
@@ -61,4 +70,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.assets.compile = true
+
+  # Precompile the JS for generating charts so it can be used in the view submissions#show
+  config.assets.precompile += ['edit_submission_display.js', 'new_submission_display.js', 'loading_button.js']
 end

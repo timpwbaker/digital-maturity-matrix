@@ -13,8 +13,8 @@ html, body {
 
 .alert {
     position: relative;
-    top: 52px;
     z-index: 100;
+    margin-bottom:0px !important;
 }
 
 h1,h2,h3,h4,p {
@@ -59,7 +59,7 @@ main > .container {
   position:relative;
 }
 
-.row {
+.home-row {
   padding: 50px 0;
 }
 
@@ -98,7 +98,7 @@ main {
   background-color: #eee;
   padding-bottom: 80px;
   width: 100%;
-  margin-top: 0; // accommodate the navbar
+  margin-top: 50px; // accommodate the navbar
   padding: 0;
   }
 
@@ -145,4 +145,29 @@ section {
   @extend .btn;
   @extend .btn-primary;
   @extend .btn-xs;
+}
+
+.no-margin {
+  margin:0px !important;
+}
+
+#radar-legend ul {
+  list-style: none;
+}
+
+#bar-legend ul {
+  list-style: none;
+}
+
+#radar-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+#bar-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
 }

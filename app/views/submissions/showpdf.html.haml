@@ -7,8 +7,10 @@
 
 %p#notice= notice
 %div.col-md-12
-  %h1{:style => "text-align:center"}
-    = "#{@user.organisation} Digital Maturity Matrix"
+  %h1.text-center
+    = "#{@submission.user.organisation} #{@matrix.name}"
+  %p.text-center
+    = "Created on: #{@submission.updated_at.strftime("%d-%m-%Y")}"
 
 %div.col-md-12
 %div#placeholder{:style => "position:relative"}
@@ -16,7 +18,13 @@
   <canvas style="margin:30px 100px" id='radarChart' width='600' height='450'></canvas><br>
 
 .row
-  %h2{:style => "text-align:center"} Your Score
+  %h2{:style => "text-align:center"} Your Maturity
+  .col-xs-6.text-right
+    %h4
+      %strong= "Current maturity: #{@current}%"
+  .col-xs-6.text-left
+    %h4
+      %strong= "Target maturity: #{@target}%"
   .col-md-4.center-block{:style=>"float:none;width:50%"}
     .col-xs-8
       - @answers_data_array = []
@@ -24,7 +32,7 @@
         %h4{:style=>"margin-top:10px"}
           %strong= area
         - @total_score = 0
-        - @ordered_answers.each do |answer|
+        - @answers.each do |answer|
           - if answer.question.area == area
             - @total_score = @total_score+answer.score
         %p= "Current: #{@total_score.round(0)}%"
@@ -37,7 +45,7 @@
         %h4{:style=>"margin-top:10px", :class => "bg"}
           %strong= "-"
         - @total_score = 0
-        - @ordered_targets.each do |target|
+        - @targets.each do |target|
           - if target.question.area == area
             - @total_score = @total_score+target.score
         - @targets_data_array.push(@total_score.round)
@@ -69,10 +77,8 @@
           }
       ],
   }
-
   //Create Radar chart
   $(document).ready(function(){
-
   var options = {
     scaleShowLabels : true, // to hide vertical lables
     scaleOverride: true,
@@ -82,11 +88,7 @@
   };
   var ctx2 = document.getElementById("radarChart").getContext("2d");
   var myNewChart = new Chart(ctx2).Radar(radarData);
-
   new Chart(ctx2).Radar(radarData,options);
   var data = radarData;  // refers to the charts data
   legend(document.getElementById('placeholder'), data)
-
-
   });
-

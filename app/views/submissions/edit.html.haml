@@ -1,6 +1,4 @@
-%div#small-warning
-  %h3 Small screen warning
-  %p This section doesn't work so well on narrow screens. It will work better if you turn your phone on it's side
+
 %div.container
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
@@ -8,32 +6,21 @@
       %div
         - Matrix.digital_maturity_areas.each_with_index do |area|
           - if area == @area
-            =link_to 'Edit '+area, edit_matrix_submission_path(@matrix,@submission,:area => area),{ :class=>"btn btn-secondary" }
+            %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-secondary", :disabled => "true", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
           -else
-            =link_to 'Edit '+area, edit_matrix_submission_path(@matrix,@submission,:area => area),{ :class=>"btn btn-primary" }
+            %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-primary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
-      %h1= "Editing Submission - "+@area
       = render 'existingform'
+      #loading.hidden
+        =image_tag '/images/loading.gif'
 
 :javascript
-  function sortHeights() {
-    array = [];
-    $('p.question').each(function(index){
-      var height = $(this).height();
-      array.push(height);
-    });
-    $(".answer-box").each(function(index){
-      $(this).height(array[index]);
-    });
-    $(".target-box").each(function(index){
-      $(this).height(array[index]);
-    });
-  }
-  $(document).ready(function(){
-    sortHeights();
-  });
-  $(window).resize(function(){
-    sortHeights();
-  });
+
+  $(document).ready( function() {
+    $("#block_#{@area}").removeClass("hidden").addClass("on-show");
+  });      
+= javascript_include_tag 'edit_submission_display'
+= javascript_include_tag 'loading_button'
+
 

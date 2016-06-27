@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528075128) do
+ActiveRecord::Schema.define(version: 20160819134227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,21 +28,6 @@ ActiveRecord::Schema.define(version: 20160528075128) do
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["submission_id"], name: "index_answers_on_submission_id", using: :btree
-
-  create_table "benchmark_applications", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "organisation_name"
-    t.string   "organisation_turnover"
-    t.string   "organisation_employees"
-    t.string   "digital_employees"
-    t.boolean  "opt_in"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "card_token"
-    t.string   "email"
-  end
-
-  add_index "benchmark_applications", ["user_id"], name: "index_benchmark_applications_on_user_id", using: :btree
 
   create_table "brands", force: :cascade do |t|
     t.integer  "user_id"
@@ -89,9 +74,14 @@ ActiveRecord::Schema.define(version: 20160528075128) do
   create_table "submissions", force: :cascade do |t|
     t.integer  "matrix_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "name"
+    t.string   "export_file_name"
+    t.string   "export_content_type"
+    t.integer  "export_file_size"
+    t.datetime "export_updated_at"
+    t.string   "s3_url"
   end
 
   add_index "submissions", ["matrix_id"], name: "index_submissions_on_matrix_id", using: :btree
@@ -139,7 +129,6 @@ ActiveRecord::Schema.define(version: 20160528075128) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "submissions"
-  add_foreign_key "benchmark_applications", "users"
   add_foreign_key "brands", "users"
   add_foreign_key "questions", "matrices"
   add_foreign_key "submissions", "matrices"

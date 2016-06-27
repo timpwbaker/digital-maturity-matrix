@@ -1,3 +1,4 @@
+# This controller acts on matrices, admin only!
 class MatricesController < ApplicationController
   before_action :set_matrix, only: [:show, :edit, :update, :destroy]
   before_action :is_admin
@@ -12,7 +13,7 @@ class MatricesController < ApplicationController
   # GET /matrices/1.json
   def show
     @matrix = Matrix.find(params[:id])
-    @questions = @matrix.questions.order("area")
+    @questions = @matrix.questions.order('area')
   end
 
   # GET /matrices/new
@@ -31,11 +32,23 @@ class MatricesController < ApplicationController
 
     respond_to do |format|
       if @matrix.save
-        format.html { redirect_to @matrix, notice: 'Matrix was successfully created.' }
-        format.json { render :show, status: :created, location: @matrix }
+        format.html do
+          redirect_to @matrix,
+                      notice: 'Matrix was successfully created.'
+        end
+        format.json do
+          render :show,
+                 status: :created,
+                 location: @matrix
+        end
       else
-        format.html { render :new }
-        format.json { render json: @matrix.errors, status: :unprocessable_entity }
+        format.html do
+          render :new
+        end
+        format.json do
+          render json: @matrix.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -45,11 +58,23 @@ class MatricesController < ApplicationController
   def update
     respond_to do |format|
       if @matrix.update(matrix_params)
-        format.html { redirect_to @matrix, notice: 'Matrix was successfully updated.' }
-        format.json { render :show, status: :ok, location: @matrix }
+        format.html do
+          redirect_to @matrix,
+                      notice: 'Matrix was successfully updated.'
+        end
+        format.json do
+          render :show,
+                 status: :ok,
+                 location: @matrix
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @matrix.errors, status: :unprocessable_entity }
+        format.html do
+          render :edit
+        end
+        format.json do
+          render json: @matrix.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -59,19 +84,25 @@ class MatricesController < ApplicationController
   def destroy
     @matrix.destroy
     respond_to do |format|
-      format.html { redirect_to matrices_url, notice: 'Matrix was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html do
+        redirect_to matrices_url,
+                    notice: 'Matrix was successfully destroyed.'
+      end
+      format.json do
+        head :no_content
+      end
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_matrix
-      @matrix = Matrix.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def matrix_params
-      params.require(:matrix).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_matrix
+    @matrix = Matrix.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def matrix_params
+    params.require(:matrix).permit(:name)
+  end
 end

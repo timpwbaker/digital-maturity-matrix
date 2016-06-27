@@ -39,4 +39,8 @@
         = f.password_field :current_password, class: 'form-control'
     .form-group.text-center
       = f.submit 'Update', :class => 'btn btn-primary center-block', :style => "float:none"
+/ .authform
+/   %h3 Cancel Account
+/   %p Want to delete your account? Use the button below, this action cannot be undone.
+/   %p= link_to 'Cancel my account', cancel_user_registration_path, :method=>'delete', :data => { :confirm => "Are you sure?" }
 
