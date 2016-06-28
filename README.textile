@@ -27,3 +27,19 @@ Restore the test database
 	pg_restore --verbose --clean --no-acl --no-owner -h localhost -U timothybaker -d maturity_matrix_db_test test.dump
 
 rake test
+
+=Local developemnt:
+
+The application requires the database to contain the Digital Maturity Matrix structure in order to run. You can simply use the test database to populate the dev database:
+
+	pg_restore --verbose --clean --no-acl --no-owner -h localhost -U timothybaker -d maturity_matrix_db_development test.dump
+
+=Deploying:
+
+The application should work deployed direct to heroku. You may need to do some work to deploy to differnet hosting, particularly around the pdf generation. 
+
+The application needs the Digital Maturity Matrix structure in the database in order to run. You can use the test database in the root of the application to prepopulate the production database. 
+
+For Heroku host the test database somewhere that can be accessed by a standard http request (such as amazon s3) and use:
+
+heroku pg:backups restore [WEB URL FOR DATABASE]
