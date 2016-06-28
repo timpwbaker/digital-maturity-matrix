@@ -40,6 +40,6 @@ The application should work deployed direct to heroku. You may need to do some w
 
 The application needs the Digital Maturity Matrix structure in the database in order to run. You can use the test database in the root of the application to prepopulate the production database. 
 
-For Heroku host the test database somewhere that can be accessed by a standard http request (such as amazon s3) and use:
+For Heroku, once the app is up and running and has postgres added, host the test database somewhere that can be accessed by a standard http request (such as amazon s3) and use:
 
-heroku pg:backups restore [WEB URL FOR DATABASE]
+heroku pg:backups restore [WEB URL FOR DATABASE] DATABASE_URL
