@@ -24,7 +24,7 @@ Update the test database if you add more tables
 	pg_dump -U timothybaker maturity_matrix_db_test -Fc > test.dump
 
 Restore the test database
-	pg_restore --verbose --clean --no-acl --no-owner -h localhost -U timothybaker -d maturity_matrix_db_test test.dump
+	pg_restore -h localhost -U [YOUR USERNAME] -d maturity_matrix_db_test test.dump
 
 rake test
 
@@ -32,7 +32,7 @@ rake test
 
 The application requires the database to contain the Digital Maturity Matrix structure in order to run. You can simply use the test database to populate the dev database:
 
-	pg_restore --verbose --clean --no-acl --no-owner -h localhost -U timothybaker -d maturity_matrix_db_development test.dump
+	pg_restore -h localhost -U [YOUR USERNAME] -d maturity_matrix_db_development test.dump
 
 =Deploying:
 
