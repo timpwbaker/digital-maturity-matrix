@@ -10,7 +10,7 @@ feature 'Home page' do
   #   Then I see "Welcome"
   scenario 'visit the home page' do
     visit root_path
-    expect(page).to have_content 'Welcome'
+    expect(page).to have_content 'The Third Sector Digital Maturity Matrix is a tool developed by the Digital Team at Breast Cancer Care'
   end
 
 end

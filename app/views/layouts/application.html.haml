@@ -4,7 +4,7 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
     %title= content_for?(:title) ? yield(:title) : "Third Sector Digital Maturity Matrix"
-    %meta{:content => "#{content_for?(:description) ? yield(:description) : "Rails Devise"}", :name => "description"}/
+    %meta{:content => "The Third Sector Digital Maturity Matrix is a tool developed by the Digital Team at Breast Cancer Care to assess the maturity of a charity’s digital output (i.e. the current state) compared to its aspiration or desired state", :name => "description"}/
     = stylesheet_link_tag 'application', media: 'all'
     = stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', media: 'all'
     = javascript_include_tag 'application'
@@ -19,13 +19,13 @@
       = render 'layouts/messages'
       = yield
 
-:javascript
-  $(function() {
-      $('a.page-scroll').bind('click', function(event) {
-          var $anchor = $(this);
-          $('html, body').stop().animate({
-              scrollTop: $($anchor.attr('href')).offset().top
-          }, 1500, 'easeInOutExpo');
-          event.preventDefault();
-      });
-  });
+  :javascript
+    $(function() {
+        $('a.page-scroll').bind('click', function(event) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $($anchor.attr('href')).offset().top
+            }, 1500, 'easeInOutExpo');
+            event.preventDefault();
+        });
+    });

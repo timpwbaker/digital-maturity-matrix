@@ -8,7 +8,8 @@
 %div.container#about
   %div.row
     %div.col-md-12.col-xs-11.text-center{:style=>"z-index:10;margin-bottom:25px"}
-      -if !current_user
+      -if !Matrix.exists?(id: 1)
+      -elsif !current_user
         =link_to 'Create My Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary"
       -elsif current_user && Submission.exists?(user_id: current_user.id)
         =link_to 'View My Matrix', matrix_submission_path(Matrix.find(1),Submission.find_by_user_id(current_user.id)), :class => "btn btn-primary"
@@ -44,7 +45,8 @@
       %p The application is open source and built using Ruby on Rails. Feel free to <a href="https://github.com/timpwbaker/digital-maturity-matrix">submit any feature requests to github</a>, although we make this all in our own time so can't promise to be super agile on it
   %div.row
     %div.col-md-12.col-xs-11.text-center
-      -if !current_user
+      -if !Matrix.exists?(id: 1)
+      -elsif !current_user
         %h3
           =link_to 'Create My Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary"
       -elsif current_user && Submission.exists?(user_id: current_user.id)

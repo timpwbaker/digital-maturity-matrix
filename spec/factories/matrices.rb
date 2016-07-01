@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :matrix do
-    name "MyString"
+    name "Digital Maturity Matrix"
   end
 
 end
