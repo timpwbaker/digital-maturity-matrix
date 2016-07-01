@@ -10,31 +10,35 @@ The emailed pdfs are generated in the same way as they are shown and dumped in a
 
 To interact with the db via command line if running postgres app:
 
-psql -h localhost
-\list [list databases]
-\connect maturity_matrix_db_development [connect to the database you want]
-\dt [list data tables]
-\q [quit]
+    $ psql -h localhost
+    \list [list databases]
+    \connect maturity_matrix_db_development [connect to the database you want]
+    \dt [list data tables]
+    \q [quit]
 
-Tests:
+=Tests
 
-Running the tests requries a database. There is a test.dump in the root which is needed for the tests.
+There are Minitest tests for the matrix generation, as the data requirements made it easier to do in the database. Running thes tests requries a database. There is a test.dump in the root which is needed for the tests.
 
 Update the test database if you add more tables
-	pg_dump -U timothybaker maturity_matrix_db_test -Fc > test.dump
+    $ pg_dump -U timothybaker maturity_matrix_db_test -Fc > test.dump
 
 Restore the test database
-	pg_restore -h localhost -U [YOUR USERNAME] -d maturity_matrix_db_test test.dump
+    $ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U [USERNAME] -d maturity_matrix_db_test test.dump
 
-rake test
+Run the Minitest tests
+    $ rake test
 
-=Local developemnt:
+There are RSpec tests for user management (devise). Run these using rake spec
+    $ rake spec
 
-The application requires the database to contain the Digital Maturity Matrix structure in order to run. You can simply use the test database to populate the dev database:
+=Local developemnt
 
-	pg_restore -h localhost -U [YOUR USERNAME] -d maturity_matrix_db_development test.dump
+The application requires the database to contain the Digital Maturity Matrix structure in order to work properly. You can simply use the test database to populate the dev database:
 
-=Deploying:
+	pg_restore --verbose --clean --no-acl --no-owner -h localhost -U [USERNAME] -d maturity_matrix_db_development test.dump
+
+=Deploying
 
 The application should work deployed direct to heroku. You may need to do some work to deploy to differnet hosting, particularly around the pdf generation. 
 
