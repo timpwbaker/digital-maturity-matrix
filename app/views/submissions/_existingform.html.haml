@@ -12,40 +12,33 @@
     = f.hidden_field :matrix_id, :value => params[:matrix_id]
   .field
     = f.hidden_field :user_id, :value => current_user.id
-  %div{:class => "row"}
-    %div{:class => "col-xs-4"}
-      %p
-        %strong Questions
-        - @questions.each do |question|
-          -if question.area == @area
-            %p{:class => "question"}= question.body
-    %div{:class => "col-xs-4"}
-      %p
-        %strong Current Level
-        = f.fields_for :answers, @answers do |answer|
-          -if answer.object.question.area == @area
-            %p
-              .field{:class => "answer-box"} 
+  - Matrix.digital_maturity_areas.each_with_index do |area, index|
+    %div{:id => "block_#{area}"}
+      %h2= area
+      - @questions.each_with_index do |question, qi|
+        -if question.area == area
+          = question.body 
+          = f.fields_for :answers, @answers do |answer|
+            -if question.id == answer.object.question_id
+              .field 
+                = answer.label :current_state
                 = answer.select :choice, Submission.choices
-
-            .field
-              = answer.hidden_field :question_answered, :value => answer.object.question.body
-            .field
-              = answer.hidden_field :question_id, :value => answer.object.question.id
-    %div{:class => "col-xs-4"}
-      %p
-        %strong Targets
-        = f.fields_for :targets, @targets do |target|
-          -if target.object.question.area == @area
-            %p
-              .field{:class => "target-box"} 
+              .field
+                = answer.hidden_field :question_answered, :value => question.body
+              .field
+                = answer.hidden_field :question_id, :value => question.id
+          = f.fields_for :targets, @targets do |target|
+            -if question.id == target.object.question_id
+              .field 
+                = target.label :target_state
                 = target.select :choice, Submission.choices
 
-            .field
-              = target.hidden_field :question_answered, :value => target.object.question.body
-            .field
-              = target.hidden_field :question_id, :value => target.object.question.id
-
-        
+              .field
+                = target.hidden_field :question_answered, :value => question.body
+              .field
+                = target.hidden_field :question_id, :value => question.id
+    
   .actions
-    = f.submit 'Submit',:class => "btn btn-primary"
+    = f.submit
+
+

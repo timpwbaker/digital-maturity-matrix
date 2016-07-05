@@ -216,6 +216,9 @@ GEM
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     sexp_processor (4.7.0)
+    simple_form (3.2.1)
+      actionpack (> 4, < 5.1)
+      activemodel (> 4, < 5.1)
     spring (1.7.1)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
@@ -281,6 +284,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   selenium-webdriver
+  simple_form
   spring
   spring-commands-rspec
   stripe

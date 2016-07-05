@@ -12,94 +12,29 @@
     = f.hidden_field :matrix_id, :value => params[:matrix_id]
   .field
     = f.hidden_field :user_id, :value => current_user.id
-  %div{:class => "row"}
-    %div{:class => "col-xs-4"}
-      - Matrix.digital_maturity_areas.each_with_index do |area, index|
-        -if index != 0
-          %div{:id => "block_#{index}", :class => "question-block hidden"}
-            %p
-              %h2= area
-              %strong Questions
-              - @questions.each do |question|
-                - if question.area == area
-                  %p{:class => "question"}= question.body
-        -else
-          %div{:id => "block_#{index}", :class => "question-block"}
-            %p
-              %h2= area
-              %strong Questions
-              - @questions.each do |question|
-                - if question.area == area
-                  %p{:class => "question"}= question.body
-    %div{:class => "col-xs-4"}
-      - Matrix.digital_maturity_areas.each_with_index do |area, index|
-        -if index != 0
-          %div{:id => "answer_block_#{index}", :class => "answer-block hidden"}
-            %p
-              %h2.bg= "-"
-              %strong Current State
-              - @questions.each do |question|
-                - if question.area == area
-                  = f.fields_for :answers, [Answer.new] do |answer|
-                    %p
-                      .field{:class => "answer-box"} 
-                        = answer.select :choice, Submission.choices
+  - @questions.each_with_index do |question, qi|
+    = question.body 
+    = f.fields_for :answers, [Answer.new] do |answer|
+      -if answer.options[:child_index] == qi
+        .field 
+          = answer.label :current_state
+          = answer.select :choice, Submission.choices
+        .field
+          = answer.hidden_field :question_answered, :value => question.body
+        .field
+          = answer.hidden_field :question_id, :value => question.id
+    = f.fields_for :targets, [Target.new] do |target|
+      -if target.options[:child_index] == qi
+        .field 
+          = target.label :target_state
+          = target.select :choice, Submission.choices
 
-                    .field
-                      = answer.hidden_field :question_answered, :value => question.body
-                    .field
-                      = answer.hidden_field :question_id, :value => question.id
-        -else
-          %div{:id => "answer_block_#{index}", :class => "answer-block"}
-            %p
-              %h2.bg= "-"
-              %strong Current State
-              - @questions.each do |question|
-                - if question.area == area
-                  = f.fields_for :answers, [Answer.new] do |answer|
-                    %p
-                      .field{:class => "answer-box"} 
-                        = answer.select :choice, Submission.choices
+        .field
+          = target.hidden_field :question_answered, :value => question.body
+        .field
+          = target.hidden_field :question_id, :value => question.id
+    
 
-                    .field
-                      = answer.hidden_field :question_answered, :value => question.body
-                    .field
-                      = answer.hidden_field :question_id, :value => question.id
-    %div{:class => "col-xs-4"}
-      - Matrix.digital_maturity_areas.each_with_index do |area, index|
-        -if index != 0
-          %div{:id => "target_block_#{index}", :class => "target-block hidden"}
-            %p
-              %h2.bg= "-"
-              %strong Target
-              - @questions.each do |question|
-                - if question.area == area
-                  = f.fields_for :targets, [Target.new] do |target|
-                    %p
-                      .field{:class => "target-box"} 
-                        = target.select :choice, Submission.choices
-
-                    .field
-                      = target.hidden_field :question_answered, :value => question.body
-                    .field
-                      = target.hidden_field :question_id, :value => question.id
-        -else
-          %div{:id => "target_block_#{index}", :class => "target-block"}
-            %p
-              %h2.bg= "-"
-              %strong Target
-              - @questions.each do |question|
-                - if question.area == area
-                  = f.fields_for :targets, [Target.new] do |target|
-                    %p
-                      .field{:class => "target-box"} 
-                        = target.select :choice, Submission.choices
-
-                    .field
-                      = target.hidden_field :question_answered, :value => question.body
-                    .field
-                      = target.hidden_field :question_id, :value => question.id
-
-      
+    
   .actions
-    = f.submit "Create my matrix", :id => "submit-button", :class => "hidden btn btn-primary", :style => "margin:20px 10px 0 0"
+    = f.submit
