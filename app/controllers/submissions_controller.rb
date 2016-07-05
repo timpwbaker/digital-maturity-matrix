@@ -13,9 +13,10 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1
   # GET /submissions/1.json
   def show
-    @user = current_user
+    
     @matrix = Matrix.find(params[:matrix_id])
     @submission = Submission.find(params[:id])
+    @user = @submission.user
     @questions = @matrix.questions
     @answers = @submission.answers
     @ordered_answers = @answers.joins(:question).order("questions.area").order("questions.id")

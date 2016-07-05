@@ -3,7 +3,7 @@
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
       %div.col-md-6
         %h1
-          = @matrix.name
+          = @submission.user.organisation + @matrix.name
         %h2
           %strong Created by:
           = @submission.user.name
