@@ -22,12 +22,12 @@ class SubmissionsController < ApplicationController
     @ordered_answers = @answers.joins(:question).order("questions.area").order("questions.id")
     @targets = @submission.targets
     @ordered_targets = @targets.joins(:question).order("questions.area").order("questions.id")
-    if !Brand.exists?(user_id: current_user.id)
+    if !Brand.exists?(user_id: @user.id)
       @brand_1 = "rgba(0,255,0,1)"
       @brand_2 = "rgba(255,0,0,1)"
     else
-      @brand_1 = current_user.brand.color_a
-      @brand_2 = current_user.brand.color_b
+      @brand_1 = @user.brand.color_a
+      @brand_2 = @user.brand.color_b
     end
     respond_to do |format|
       format.html
