@@ -15,74 +15,50 @@
       %button{:class => "btn btn-primary", :id => "next-block", :onclick => "nextBlock();"} Next
       
       :javascript
-        function sortHeights() {
-          array = [];
-          $('p.question').each(function(index){
-            var height = $(this).height();
-            array.push(height);
-          });
-          $(".answer-box").each(function(index){
-            $(this).height(array[index]);
-          });
-          $(".target-box").each(function(index){
-            $(this).height(array[index]);
-          });
-        }
+        
+        $(document).ready( function() {
+
+          $("#block_Technology").removeClass("hidden").addClass("on-show");
+
+        });
+
         function nextBlock() {
-          var visible = $(".question-block:not(.hidden)").attr("id");
-          console.log(visible);
-          $("#"+visible).addClass("hidden");
-          $("#"+visible).next(".question-block").removeClass("hidden");
-          $("#answer_"+visible).addClass("hidden");
-          $("#answer_"+visible).next(".answer-block").removeClass("hidden");
-          $("#target_"+visible).addClass("hidden");
-          $("#target_"+visible).next(".target-block").removeClass("hidden");
-          if (!$("#block_7").hasClass("hidden")) {
-            $("#submit-button").removeClass("hidden");
-            $("#next-block").addClass("hidden");
-          }
-          else {
-            $("#submit-button").addClass("hidden");
-            $("#next-block").removeClass("hidden");
-          }
-          if (!$("#block_0").hasClass("hidden")) {
-            $("#prev-block").addClass("hidden");
-          }
-          else {
-            $("#prev-block").removeClass("hidden");
-          }
-
-          sortHeights();
+          $(".new-show").removeClass("new-show");
+          $(".on-show").next( ".area-block" ).removeClass("hidden").addClass("new-show");
+          $(".on-show").addClass("hidden").removeClass("on-show");
+          $(".on-show").removeClass("on-show");
+          $(".new-show").addClass("on-show");
+          nextPrevButtons();
         }
+
         function previousBlock() {
-          var visible = $(".question-block:not(.hidden)").attr("id");
-          $("#"+visible).addClass("hidden");
-          $("#"+visible).prev(".question-block").removeClass("hidden");
-          $("#answer_"+visible).addClass("hidden");
-          $("#answer_"+visible).prev(".answer-block").removeClass("hidden");
-          $("#target_"+visible).addClass("hidden");
-          $("#target_"+visible).prev(".target-block").removeClass("hidden");
-          if (!$("#block_7").hasClass("hidden")) {
-            $("#submit-button").removeClass("hidden");
-            $("#next-block").removeClass("hidden");
-          }
-          else {
-            $("#submit-button").addClass("hidden");
-            $("#next-block").removeClass("hidden");
-          }
-          if (!$("#block_0").hasClass("hidden")) {
+          $(".new-show").removeClass("new-show");
+          $(".on-show").prev( ".area-block" ).removeClass("hidden").addClass("new-show");
+          $(".on-show").addClass("hidden").removeClass("on-show");
+          $(".on-show").removeClass("on-show");
+          $(".new-show").addClass("on-show");
+          nextPrevButtons();
+        }
+
+        function nextPrevButtons() {
+          
+          if ($(".area-block").first().hasClass("on-show")) {
+            console.log("first");
             $("#prev-block").addClass("hidden");
           }
           else {
             $("#prev-block").removeClass("hidden");
           }
 
-          sortHeights();
+          if ($(".area-block").last().hasClass("on-show")) {
+            console.log("last");
+            $("#next-block").addClass("hidden");
+            $(".actions").removeClass("hidden");
+          }
+          else {
+            $("#next-block").removeClass("hidden");
+            $(".actions").addClass("hidden");
+          }
+
         }
-        $(document).ready(function(){
-          sortHeights();
-        });
-        $(window).resize(function(){
-          sortHeights();
-        });
 
