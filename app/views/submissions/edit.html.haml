@@ -8,32 +8,28 @@
       %div
         - Matrix.digital_maturity_areas.each_with_index do |area|
           - if area == @area
-            =link_to 'Edit '+area, edit_matrix_submission_path(@matrix,@submission,:area => area),{ :class=>"btn btn-secondary" }
+            %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-secondary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
           -else
-            =link_to 'Edit '+area, edit_matrix_submission_path(@matrix,@submission,:area => area),{ :class=>"btn btn-primary" }
+            %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-primary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
-      %h1= "Editing Submission - "+@area
       = render 'existingform'
 
-:javascript
-  function sortHeights() {
-    array = [];
-    $('p.question').each(function(index){
-      var height = $(this).height();
-      array.push(height);
+      
+  :javascript
+    
+    $(document).ready( function() {
+
+      $("#block_#{@area}").removeClass("hidden").addClass("on-show");
+
     });
-    $(".answer-box").each(function(index){
-      $(this).height(array[index]);
-    });
-    $(".target-box").each(function(index){
-      $(this).height(array[index]);
-    });
-  }
-  $(document).ready(function(){
-    sortHeights();
-  });
-  $(window).resize(function(){
-    sortHeights();
-  });
+
+    function changeArea(block) {
+      $("#block_"+block).removeClass("hidden");
+      $(".on-show").addClass("hidden");
+      $(".on-show").removeClass("on-show");
+      $("#block_"+block).addClass("on-show");
+      $("button.btn-secondary").removeClass("btn-secondary").addClass("btn-primary");
+      $("button#button"+block).removeClass("btn-primary").addClass("btn-secondary");
+    }
 

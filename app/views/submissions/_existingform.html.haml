@@ -13,28 +13,32 @@
   .field
     = f.hidden_field :user_id, :value => current_user.id
   - Matrix.digital_maturity_areas.each_with_index do |area, index|
-    %div{:id => "block_#{area}", :class => "container"}
-      %h2= area
+    .area-block.hidden{:id => "block_#{area.delete(' ').delete('&')}"}
+      .row
+        .col-xs-6.no-padding
+          %h2= area
+        .col-xs-3.no-padding
+          %h3 Current State
+        .col-xs-3.no-padding
+          %h3 Target State
       - @questions.each_with_index do |question, qi|
-        %div{:class => "row"}
-          -if question.area == area
-            %div{:class => "col-md-4"}
+        -if question.area == area
+          .row
+            .col-xs-6.no-padding
               = question.body 
-            %div{:class => "col-md-4"}
+            .col-xs-3.no-padding
               = f.fields_for :answers, @answers do |answer|
                 -if question.id == answer.object.question_id
                   .field 
-                    = answer.label :current_state
                     = answer.select :choice, Submission.choices
                   .field
                     = answer.hidden_field :question_answered, :value => question.body
                   .field
                     = answer.hidden_field :question_id, :value => question.id
-            %div{:class => "col-md-4"}  
+            .col-xs-3.no-padding 
               = f.fields_for :targets, @targets do |target|
                 -if question.id == target.object.question_id
                   .field 
-                    = target.label :target_state
                     = target.select :choice, Submission.choices
 
                   .field
@@ -43,7 +47,4 @@
                     = target.hidden_field :question_id, :value => question.id
     
   .actions
-    = f.submit
-
-
-https://www.breastcancercare.org.uk/campaigners-network-redirect-0?FIRSTNAME=Tim&LASTNAME=Baker&EMAILADDRESS=tim.baker%40breastcancercare.org.uk
+    = f.submit "Save my matrix", :id => "submit-button", :class => "btn btn-primary", :style => "margin:20px 10px 0 0"

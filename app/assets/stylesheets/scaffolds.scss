@@ -15,6 +15,18 @@ pre {
   font-size: 11px;
 }
 
+.row {
+  margin: 10px 0 10px 0
+}
+
+.no-padding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+select {
+  max-width:90%;
+}
 
 div {
   &.field, &.actions {

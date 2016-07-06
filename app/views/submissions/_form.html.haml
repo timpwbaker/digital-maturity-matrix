@@ -13,20 +13,20 @@
   .field
     = f.hidden_field :user_id, :value => current_user.id
   - Matrix.digital_maturity_areas.each_with_index do |area, index|
-    %div{:id => "block_#{area}", :class => "area-block hidden"}
-      %div{:class => "row"}
-        %div{:class => "col-md-4"}
+    .area-block.hidden{:id => "block_#{area.delete(' ').delete('&')}"}
+      .row
+        .col-xs-6.no-padding
           %h2= area
-        %div{:class => "col-md-4"}
+        .col-xs-3.no-padding
           %h3 Current State
-        %div{:class => "col-md-4"}
+        .col-xs-3.no-padding
           %h3 Target State
       - @questions.each_with_index do |question, qi|
         -if question.area == area
-          %div{:class => "row"}
-            %div{:class => "col-md-4"}
+          .row
+            .col-xs-6.no-padding
               = question.body 
-            %div{:class => "col-md-4"}
+            .col-xs-3.no-padding
               = f.fields_for :answers, [Answer.new] do |answer|
                 .field 
                   = answer.select :choice, Submission.choices
@@ -34,7 +34,7 @@
                   = answer.hidden_field :question_answered, :value => question.body
                 .field
                   = answer.hidden_field :question_id, :value => question.id
-            %div{:class => "col-md-4"}  
+            .col-xs-3.no-padding
               = f.fields_for :targets, [Target.new] do |target|
                 .field 
                   = target.select :choice, Submission.choices
