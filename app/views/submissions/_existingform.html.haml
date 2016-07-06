@@ -13,32 +13,37 @@
   .field
     = f.hidden_field :user_id, :value => current_user.id
   - Matrix.digital_maturity_areas.each_with_index do |area, index|
-    %div{:id => "block_#{area}"}
+    %div{:id => "block_#{area}", :class => "container"}
       %h2= area
       - @questions.each_with_index do |question, qi|
-        -if question.area == area
-          = question.body 
-          = f.fields_for :answers, @answers do |answer|
-            -if question.id == answer.object.question_id
-              .field 
-                = answer.label :current_state
-                = answer.select :choice, Submission.choices
-              .field
-                = answer.hidden_field :question_answered, :value => question.body
-              .field
-                = answer.hidden_field :question_id, :value => question.id
-          = f.fields_for :targets, @targets do |target|
-            -if question.id == target.object.question_id
-              .field 
-                = target.label :target_state
-                = target.select :choice, Submission.choices
+        %div{:class => "row"}
+          -if question.area == area
+            %div{:class => "col-md-4"}
+              = question.body 
+            %div{:class => "col-md-4"}
+              = f.fields_for :answers, @answers do |answer|
+                -if question.id == answer.object.question_id
+                  .field 
+                    = answer.label :current_state
+                    = answer.select :choice, Submission.choices
+                  .field
+                    = answer.hidden_field :question_answered, :value => question.body
+                  .field
+                    = answer.hidden_field :question_id, :value => question.id
+            %div{:class => "col-md-4"}  
+              = f.fields_for :targets, @targets do |target|
+                -if question.id == target.object.question_id
+                  .field 
+                    = target.label :target_state
+                    = target.select :choice, Submission.choices
 
-              .field
-                = target.hidden_field :question_answered, :value => question.body
-              .field
-                = target.hidden_field :question_id, :value => question.id
+                  .field
+                    = target.hidden_field :question_answered, :value => question.body
+                  .field
+                    = target.hidden_field :question_id, :value => question.id
     
   .actions
     = f.submit
 
 
+https://www.breastcancercare.org.uk/campaigners-network-redirect-0?FIRSTNAME=Tim&LASTNAME=Baker&EMAILADDRESS=tim.baker%40breastcancercare.org.uk

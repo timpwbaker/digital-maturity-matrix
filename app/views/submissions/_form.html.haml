@@ -12,29 +12,35 @@
     = f.hidden_field :matrix_id, :value => params[:matrix_id]
   .field
     = f.hidden_field :user_id, :value => current_user.id
-  - @questions.each_with_index do |question, qi|
-    = question.body 
-    = f.fields_for :answers, [Answer.new] do |answer|
-      -if answer.options[:child_index] == qi
-        .field 
-          = answer.label :current_state
-          = answer.select :choice, Submission.choices
-        .field
-          = answer.hidden_field :question_answered, :value => question.body
-        .field
-          = answer.hidden_field :question_id, :value => question.id
-    = f.fields_for :targets, [Target.new] do |target|
-      -if target.options[:child_index] == qi
-        .field 
-          = target.label :target_state
-          = target.select :choice, Submission.choices
+  - Matrix.digital_maturity_areas.each_with_index do |area, index|
+    %div{:id => "block_#{area}"}
+      %h2= area
+      - @questions.each_with_index do |question, qi|
+        -if question.area == area
+          %div{:class => "row"}
+            %div{:class => "col-md-4"}
+              = question.body 
+            %div{:class => "col-md-4"}
+              = f.fields_for :answers, [Answer.new] do |answer|
+                .field 
+                  = answer.label :current_state
+                  = answer.select :choice, Submission.choices
+                .field
+                  = answer.hidden_field :question_answered, :value => question.body
+                .field
+                  = answer.hidden_field :question_id, :value => question.id
+            %div{:class => "col-md-4"}  
+              = f.fields_for :targets, [Target.new] do |target|
+                .field 
+                  = target.label :target_state
+                  = target.select :choice, Submission.choices
 
-        .field
-          = target.hidden_field :question_answered, :value => question.body
-        .field
-          = target.hidden_field :question_id, :value => question.id
-    
+                .field
+                  = target.hidden_field :question_answered, :value => question.body
+                .field
+                  = target.hidden_field :question_id, :value => question.id
+        
 
-    
+        
   .actions
     = f.submit

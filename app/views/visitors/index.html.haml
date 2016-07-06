@@ -6,7 +6,7 @@
     %div.scroll-button
       %p <a href="#about" class="btn btn-circle page-scroll"><i class="fa fa-angle-double-down animated"></i></a>
 %div.container#about
-  %div.row
+  %div.row.home-row
     %div.col-md-12.col-xs-11.text-center{:style=>"z-index:10;margin-bottom:25px"}
       -if !Matrix.exists?(id: 1)
       -elsif !current_user
@@ -22,7 +22,7 @@
 
       %p Read more about why we talk about digital maturity rather than digital transformation in this <a href="https://medium.com/@gambollingsylph/why-i-choose-digital-maturity-over-digital-transformation-2a1f0ac27804">Medium post</a>. 
 
-  %div.row.tint
+  %div.row.tint.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 Why?
       %p A Breast Cancer Care we developed the digital maturity matrix to:
@@ -35,15 +35,15 @@
       %p Our quick and simple tool is now free use by any charity. It started life as an Excel spreadsheet, but has evolved into a web application. We hope it’s useful to your organisation
 
       %p We’d love to hear your feedback or questions. Please contact <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>
-  %div.row
+  %div.row.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 Benchmarking
       %p There’s already an appetite for benchmarking information on the Maturity Matrix. From experience, we know that your own scores are most powerful when compared to other similar organisations. We’d love to open up the data we receive in an aggregated and anonymised format. <a href="mailto:digital@breastcancercare.org.uk">Let us know what you think about this idea</a>.
-  %div.row.tint
+  %div.row.tint.home-row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h2 Open source
       %p The application is open source and built using Ruby on Rails. Feel free to <a href="https://github.com/timpwbaker/digital-maturity-matrix">submit any feature requests to github</a>, although we make this all in our own time so can't promise to be super agile on it
-  %div.row
+  %div.row.home-row
     %div.col-md-12.col-xs-11.text-center
       -if !Matrix.exists?(id: 1)
       -elsif !current_user
@@ -60,7 +60,7 @@
       %h2 #digitalmaturitymatrix
       %p 
         %strong Join the conversation…
-      %div.row
+      %div.row.home-row
         %div.col-md-6
           %p <blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Finally found time to delve into <a href="https://twitter.com/msjowolfe">@msjowolfe</a> <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a> - it&#39;s fabulous! Check it out <a href="https://t.co/asHoDSradR">https://t.co/asHoDSradR</a></p>&mdash; Megan Griffith Gray (@meggriffithgray) <a href="https://twitter.com/meggriffithgray/status/729632624835186688">9 May 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
         %div.col-md-6
