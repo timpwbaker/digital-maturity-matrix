@@ -14,13 +14,18 @@ form.edit_submission select {
 	width:100%;
 }
 
-@media screen and (min-width:900px) {
+#chart {
+	width: 100%;
+	height:auto;
+	margin:auto;
+}
 
-	#chart {
-		width: 800px;
-		height:800px;
-		margin:auto;
-	}
+#chart-placeholder {
+	border-bottom: 1px solid #ccc;
+	padding:30px 0;
+}
+
+@media screen and (min-width:900px) {
 
 	.email-pdf {
 		display:none;
@@ -34,12 +39,6 @@ form.edit_submission select {
 
 @media screen and (min-width:700px) and (max-width:899px) {
 
-	#chart {
-		width: 600px;
-		height:600px;
-		margin:auto;
-	}
-
 	.email-pdf {
 		display:block;
 	}
@@ -52,13 +51,6 @@ form.edit_submission select {
 
 @media screen and (min-width:500px) and (max-width:699px) {
 
-	#chart {
-		width: 400px;
-		max-width: 400px;
-		height:400px;
-		max-height:400px;
-		margin:auto;
-	}
 
 	.email-pdf {
 		display:block;
@@ -87,12 +79,6 @@ form.edit_submission select {
 	#small-warning p {
 		background:#fff;
 		padding:20px;
-	}
-
-	#chart {
-		width: 300px;
-		height:300px;
-		margin:auto;
 	}
 
 	.email-pdf {
