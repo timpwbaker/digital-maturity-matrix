@@ -1,26 +1,26 @@
 .container
   %div.col-md-10.center-block{:style => "float:none"}
     .row
-      .col-sm-6
+      .col-sm-8
         %h1
           = "#{@submission.user.organisation} #{@matrix.name}"
         %h2
           %strong Created by:
           = @submission.user.name
-      .col-sm-6
-        .col-md-12.text-right
+      .col-sm-4
+        .col-md-12.text-right.no-padding
           -if Brand.exists?(user_id: current_user.id)
             =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary"}
           -else
             =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary"}
 
-        .col-md-12.text-right.show-pdf
+        .col-md-12.text-right.show-pdf.no-padding
           =link_to "Save as PDF", matrix_submission_path(@matrix, @submission, format: :pdf),{:class => "btn btn-primary", :target => "_blank"}
 
-        .col-md-12.text-right
+        .col-md-12.text-right.no-padding
           =link_to "Email my PDF", submissions_emailpdf_path(@matrix,@submission),{:class => "btn btn-primary emailpdf"}
 
-        .col-md-12.text-right
+        .col-md-12.text-right.no-padding
           =link_to 'Edit Submission', edit_matrix_submission_path(@matrix,@submission),{:class => "btn btn-primary"}
     .row.home-row
       .col-md-6
@@ -32,10 +32,10 @@
           #bar-legend
           #chart
             <div id="bar-legend" class="chart-legend"></div>
-            <canvas id='barChart'></canvas><br>
+            <canvas height="300px" id='barChart'></canvas><br>
       .col-md-6
         %h2{:style => "text-align:center"} Your Maturity
-        .col-md-11.col-xs-12.center-block{:style=>"float:none"}
+        .col-xs-12.center-block.no-padding{:style=>"float:none"}
           
           - @answers_data_array = []
           - @targets_data_array = []
@@ -44,7 +44,7 @@
               %p
                 %strong= area
             .row    
-              .col-sm-4
+              .col-sm-4.no-padding
                 - @total_score = 0
                 - @ordered_answers.each do |answer|
                   - if answer.question.area == area
@@ -52,7 +52,7 @@
                 %p= "Current: #{@total_score.round(0)}%"
                 - @answers_data_array << @total_score.round
 
-              .col-sm-4
+              .col-sm-4.no-padding
                 - @total_score = 0
                 - @ordered_targets.each do |target|
                   - if target.question.area == area
@@ -60,9 +60,8 @@
                 %p= "Target: #{@total_score.round(0)}%"
                 - @targets_data_array << @total_score.round
 
-              .col-sm-4
-                %button.no-margin.btn.btn-primary
-                  = link_to 'Edit Section', edit_matrix_submission_path(@matrix,@submission,:area => area)
+              .col-sm-4.no-padding
+                = link_to 'Edit', edit_matrix_submission_path(@matrix,@submission,:area => area), :class => "no-margin btn btn-secondary edit-area-button"
           
 
     .row
@@ -151,12 +150,25 @@
           var barOptions = {
             multiTooltipTemplate: "<%= value + ' %' %>",
             responsive: true,
+            scaleShowLabels : true, 
+            scaleOverride: true,
+            scaleSteps: 10,
+            scaleStepWidth: 10,
             legend: {
                 display: true,
                 labels: {
                     fontColor: 'rgb(255, 99, 132)'
                 }
-            }
+            },
+            scales: {
+                    xAxes: [{
+                            stacked: true
+                    }],
+                    yAxes: [{
+                            stacked: true
+                    }]
+                }
+            
           };
 
           //bar
