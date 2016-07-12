@@ -22,47 +22,53 @@
 
         .col-md-3.text-center.no-padding
           =link_to 'Edit Submission', edit_matrix_submission_path(@matrix,@submission),{:class => "btn btn-primary"}
-    .row.home-row
+    .row
       .col-md-6
         #chart-placeholder{:style => "position:relative"}
+          %h2 Your Digital Maturity (Radar Chart)
+        
           #chart
             <div id="radar-legend" class="chart-legend"></div>
             <canvas id='radarChart'></canvas><br>
         #chart-placeholder{:style => "position:relative"}
+          %h2 Your Digital Maturity (Bar Chart)
           #bar-legend
           #chart
             <div id="bar-legend" class="chart-legend"></div>
             <canvas height="300px" id='barChart'></canvas><br>
       .col-md-6
-        %h2{:style => "text-align:center"} Your Maturity
-        .col-xs-12.center-block.no-padding{:style=>"float:none"}
-          
-          - @answers_data_array = []
-          - @targets_data_array = []
-          - Matrix.digital_maturity_areas.each do |area|
-            .row
-              %p
-                %strong= area
-            .row    
-              .col-sm-4.no-padding
-                - @total_score = 0
-                - @ordered_answers.each do |answer|
-                  - if answer.question.area == area
-                    - @total_score = @total_score+answer.score
-                %p= "Current: #{@total_score.round(0)}%"
-                - @answers_data_array << @total_score.round
+        #chart-placeholder
+          %h2= "Current digital maturity: #{@current}%"
+          %h2= "Target digital maturity: #{@target}%"
+        #chart-placeholder
+          .col-xs-12.center-block.no-padding{:style=>"float:none"}
+            
+            - @answers_data_array = []
+            - @targets_data_array = []
+            - Matrix.digital_maturity_areas.each do |area|
+              .row
+                %p
+                  %strong= area
+              .row    
+                .col-sm-4.no-padding
+                  - @total_score = 0
+                  - @ordered_answers.each do |answer|
+                    - if answer.question.area == area
+                      - @total_score = @total_score+answer.score
+                  %p= "Current: #{@total_score.round(0)}%"
+                  - @answers_data_array << @total_score.round
 
-              .col-sm-4.no-padding
-                - @total_score = 0
-                - @ordered_targets.each do |target|
-                  - if target.question.area == area
-                    - @total_score = @total_score+target.score
-                %p= "Target: #{@total_score.round(0)}%"
-                - @targets_data_array << @total_score.round
+                .col-sm-4.no-padding
+                  - @total_score = 0
+                  - @ordered_targets.each do |target|
+                    - if target.question.area == area
+                      - @total_score = @total_score+target.score
+                  %p= "Target: #{@total_score.round(0)}%"
+                  - @targets_data_array << @total_score.round
 
-              .col-sm-4.no-padding
-                = link_to 'Edit', edit_matrix_submission_path(@matrix,@submission,:area => area), :class => "no-margin btn btn-secondary edit-area-button"
-          
+                .col-sm-4.no-padding
+                  = link_to 'Edit', edit_matrix_submission_path(@matrix,@submission,:area => area), :class => "no-margin btn btn-secondary edit-area-button"
+            
 
     .row
       %h2{:style => "text-align:center"} Your Answers

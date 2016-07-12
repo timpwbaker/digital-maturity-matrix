@@ -19,8 +19,10 @@ class SubmissionsController < ApplicationController
     @user = @submission.user
     @questions = @matrix.questions
     @answers = @submission.answers
+    @current = (@answers.sum("score")/Matrix.digital_maturity_areas.count).round(0)
     @ordered_answers = @answers.joins(:question).order("questions.area").order("questions.id")
     @targets = @submission.targets
+    @target = (@targets.sum("score")/Matrix.digital_maturity_areas.count).round(0)
     @ordered_targets = @targets.joins(:question).order("questions.area").order("questions.id")
     if !Brand.exists?(user_id: @user.id)
       @brand_1 = "rgba(0,255,0,1)"
