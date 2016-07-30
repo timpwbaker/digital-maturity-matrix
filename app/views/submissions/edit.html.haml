@@ -1,6 +1,4 @@
-%div#small-warning
-  %h3 Small screen warning
-  %p This section doesn't work so well on narrow screens. It will work better if you turn your phone on it's side
+
 %div.container
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
@@ -8,28 +6,17 @@
       %div
         - Matrix.digital_maturity_areas.each_with_index do |area|
           - if area == @area
-            %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-secondary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
+            %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-secondary", :disabled => "true", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
           -else
             %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-primary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
       = render 'existingform'
 
-      
-  :javascript
-    
-    $(document).ready( function() {
+:javascript
+  $(document).ready( function() {
+    $("#block_#{@area}").removeClass("hidden").addClass("on-show");
+  });      
+= javascript_include_tag 'edit_submission_display'
 
-      $("#block_#{@area}").removeClass("hidden").addClass("on-show");
-
-    });
-
-    function changeArea(block) {
-      $("#block_"+block).removeClass("hidden");
-      $(".on-show").addClass("hidden");
-      $(".on-show").removeClass("on-show");
-      $("#block_"+block).addClass("on-show");
-      $("button.btn-secondary").removeClass("btn-secondary").addClass("btn-primary");
-      $("button#button"+block).removeClass("btn-primary").addClass("btn-secondary");
-    }
 

@@ -24,7 +24,7 @@
         %h4{:style=>"margin-top:10px"}
           %strong= area
         - @total_score = 0
-        - @ordered_answers.each do |answer|
+        - @answers.each do |answer|
           - if answer.question.area == area
             - @total_score = @total_score+answer.score
         %p= "Current: #{@total_score.round(0)}%"
@@ -37,7 +37,7 @@
         %h4{:style=>"margin-top:10px", :class => "bg"}
           %strong= "-"
         - @total_score = 0
-        - @ordered_targets.each do |target|
+        - @targets.each do |target|
           - if target.question.area == area
             - @total_score = @total_score+target.score
         - @targets_data_array.push(@total_score.round)

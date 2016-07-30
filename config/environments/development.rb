@@ -61,4 +61,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.assets.compile = true
+
+  # Precompile the JS for generating charts so it can be used in the view submissions#show
+  config.assets.precompile += ['edit_submission_display.js', 'new_submission_display.js']
 end

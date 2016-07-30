@@ -1,27 +1,26 @@
 .container
   %div.col-md-10.center-block{:style => "float:none"}
-    .row.show-submission-header
-      .col-sm-12.text-center
-        %h1
-          = "#{@submission.user.organisation} #{@matrix.name}"
-        %h2
-          %strong Created by:
-          = @submission.user.name
-      .col-sm-12
-        .col-md-3.text-center.no-padding
-          -if Brand.exists?(user_id: current_user.id)
-            =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary"}
-          -else
-            =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary"}
+    .row.text-center
+      %h1
+        = "#{@submission.user.organisation} #{@matrix.name}"
+      %h2
+        %strong Created by:
+        = @submission.user.name
+    .row 
+      .col-md-3.text-center
+        -if Brand.exists?(user_id: current_user.id)
+          =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary"}
+        -else
+          =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary"}
 
-        .col-md-3.text-center.show-pdf.no-padding
-          =link_to "Save as PDF", matrix_submission_path(@matrix, @submission, format: :pdf),{:class => "btn btn-primary", :target => "_blank"}
+      .col-md-3.text-center.show-pdf
+        =link_to "Save as PDF", matrix_submission_path(@matrix, @submission, format: :pdf),{:class => "btn btn-primary", :target => "_blank"}
 
-        .col-md-3.text-center.no-padding
-          =link_to "Email my PDF", submissions_emailpdf_path(@matrix,@submission),{:class => "btn btn-primary emailpdf"}
+      .col-md-3.text-center
+        =link_to "Email my PDF", submissions_emailpdf_path(@matrix,@submission),{:class => "btn btn-primary emailpdf"}
 
-        .col-md-3.text-center.no-padding
-          =link_to 'Edit Submission', edit_matrix_submission_path(@matrix,@submission),{:class => "btn btn-primary"}
+      .col-md-3.text-center
+        =link_to 'Edit Submission', edit_matrix_submission_path(@matrix,@submission),{:class => "btn btn-primary"}
     .row
       .col-md-6
         #chart-placeholder{:style => "position:relative"}
@@ -52,7 +51,7 @@
               .row    
                 .col-sm-4.no-padding
                   - @total_score = 0
-                  - @ordered_answers.each do |answer|
+                  - @answers.each do |answer|
                     - if answer.question.area == area
                       - @total_score = @total_score+answer.score
                   %p= "Current: #{@total_score.round(0)}%"
@@ -60,7 +59,7 @@
 
                 .col-sm-4.no-padding
                   - @total_score = 0
-                  - @ordered_targets.each do |target|
+                  - @targets.each do |target|
                     - if target.question.area == area
                       - @total_score = @total_score+target.score
                   %p= "Target: #{@total_score.round(0)}%"
@@ -78,7 +77,7 @@
         - Matrix.digital_maturity_areas.each do |area|
           %h4= area
           - @total_score = 0
-          - @ordered_answers.each do |answer|
+          - @answers.each do |answer|
             - if answer.question.area == area
               %p
               %strong= answer.question_answered
@@ -95,7 +94,7 @@
         - Matrix.digital_maturity_areas.each do |area|
           %h4= area
           - @total_score = 0
-          - @ordered_targets.each do |target|
+          - @targets.each do |target|
             - if target.question.area == area
               %p
               %strong= target.question_answered
@@ -107,8 +106,6 @@
           %button.btn.btn-primary
             = link_to 'Edit Section', edit_matrix_submission_path(@matrix,@submission,:area => area)
 
-
-   
 
         :javascript
 
