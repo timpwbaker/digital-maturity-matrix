@@ -35,14 +35,32 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
-    render  javascript_delay: 2000,
+    pdf = render_to_string  javascript_delay: 2000,
             pdf:       'submission',
             layout:    'pdf', 
             template:  'submissions/showpdf.html.haml',
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
             save_only: true
-    SendpdfJob.delay.perform_later(@user.name, @user.id, @user.email, @matrix.id, @submission.id)
+    # SendpdfJob.delay.perform_later(@user.name, @user.id, @user.email, @matrix.id, @submission.id)
+    Pony.mail(
+      :to => @user.email, 
+      :from => 'info@digitalmaturity.co.uk', 
+      :subject => 'Here’s your Third Sector Digital Maturity Matrix', 
+      :html_body => "<h2>Hello #{@user.name}.</h2>
+        <p> Your Maturity Matrix is attached. We hope you find this useful.
+        <p> We’d love to know what you think, so please email <a href='mailto:digital@breastcancercare.org.uk'>digital@breastcancercare.org.uk</a> with any feedback or questions.
+        <p >All the best
+        <p> Breast Cancer Care Digital Team", 
+      :attachments => {
+        "matrix.pdf" => WickedPdf.new.pdf_from_string(
+          render_to_string  javascript_delay: 2000,
+            pdf:       'submission',
+            layout:    'pdf', 
+            template:  'submissions/showpdf.html.haml'
+        )
+      }
+    );
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
 
