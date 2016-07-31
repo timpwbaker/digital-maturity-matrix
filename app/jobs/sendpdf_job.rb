@@ -11,7 +11,7 @@ class SendpdfJob < ActiveJob::Base
         <p >All the best
         <p> Breast Cancer Care Digital Team', 
       :attachments => {
-        "matrix.pdf" => File.read("pdfs/submission#{userid}.pdf")
+        "matrix.pdf" => File.read("pdf/submission#{userid}.pdf")
       }
     );
   end
