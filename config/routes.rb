@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   		resources :targets
   	end
   end
-  get '/matrices/:matrix_id/submissions/:id/email' => 'submissions#emailpdf', as: :submissions_emailpdf
+  # The below route is currently broken. See note in submission#emailpdf
+  # get '/matrices/:matrix_id/submissions/:id/email' => 'submissions#emailpdf', as: :submissions_emailpdf
   root to: 'visitors#index'
   devise_for :users, controllers: { sessions: "users/sessions", :registrations => "users/registrations" }
   resources :users do
