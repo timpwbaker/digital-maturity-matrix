@@ -39,7 +39,7 @@ class SubmissionsController < ApplicationController
             layout:    'pdf', 
             template:  'submissions/showpdf.html.haml',
             show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('pdfs', "submission#{@user.id}.pdf"),
+            save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
             save_only: true
     SendpdfJob.delay.perform_later(@user.name, @user.id, @user.email, @matrix.id, @submission.id)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
