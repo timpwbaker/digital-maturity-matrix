@@ -7,19 +7,16 @@
         %strong Created by:
         = @submission.user.name
     .row 
-      .col-md-3.text-center
+      .col-md-4.text-center
         -if Brand.exists?(user_id: current_user.id)
           =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary"}
         -else
           =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary"}
 
-      .col-md-3.text-center.show-pdf
+      .col-md-4.text-center.show-pdf
         =link_to "Save as PDF", matrix_submission_path(@matrix, @submission, format: :pdf),{:class => "btn btn-primary", :target => "_blank"}
 
-      .col-md-3.text-center
-        =link_to "Email my PDF", submissions_emailpdf_path(@matrix,@submission),{:class => "btn btn-primary emailpdf"}
-
-      .col-md-3.text-center
+      .col-md-4.text-center
         =link_to 'Edit Submission', edit_matrix_submission_path(@matrix,@submission),{:class => "btn btn-primary", :id => "edit-submission-button"}
     .row
       .col-md-6
