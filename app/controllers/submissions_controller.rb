@@ -23,7 +23,8 @@ class SubmissionsController < ApplicationController
                 pdf:       'submission',
                 layout:    'pdf', 
                 template:  'submissions/showpdf.html.haml',
-                show_as_html: params.key?('debug')
+                show_as_html: params.key?('debug'),
+                save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf")
 
       end
     end            
