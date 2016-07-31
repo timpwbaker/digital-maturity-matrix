@@ -130,9 +130,9 @@ class SubmissionsController < ApplicationController
     end
 
     def get_submission_details
-      @user = @submission.user
       @matrix = Matrix.find(params[:matrix_id])
       @submission = Submission.find(params[:id])
+      @user = @submission.user
       @questions = @matrix.questions
       @answers = @submission.answers.joins(:question).order("questions.area").order("questions.id")
       @targets = @submission.targets.joins(:question).order("questions.area").order("questions.id")

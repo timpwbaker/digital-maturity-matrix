@@ -14,6 +14,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = current_user
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to root_url, notice: 'User deleted.' }
+      format.json { head :no_content }
+    end
+  end
+
 private
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -21,7 +21,7 @@ To interact with the db via command line if running postgres app:
 There are Minitest tests for the matrix generation, as the data requirements made it easier to do in the database. Running thes tests requries a database. There is a test.dump in the root which is needed for the tests.
 
 Update the test database if you add more tables
-    $ pg_dump -U timothybaker maturity_matrix_db_test -Fc > test.dump
+    $ pg_dump -U [USERNAME] maturity_matrix_db_development -Fc > test.dump
 
 Restore the test database
     $ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U [USERNAME] -d maturity_matrix_db_test test.dump

@@ -1,6 +1,6 @@
 class SendpdfJob < ActiveJob::Base
   queue_as :default
-  def perform(username, userid, useremail,matrixid,submissionid)
+  def perform(username, userid, useremail, matrixid, submissionid)
     Pony.delay.mail(
       :to => useremail, 
       :from => 'info@digitalmaturity.co.uk', 

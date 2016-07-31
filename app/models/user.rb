@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 	has_one :benchmark_application
 	accepts_nested_attributes_for :benchmark_application, allow_destroy: true
 	has_one :brand, :dependent => :destroy
+	has_one :submission, :dependent => :destroy
 	accepts_nested_attributes_for :brand,
 		:allow_destroy => true
 

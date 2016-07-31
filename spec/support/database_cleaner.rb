@@ -1,6 +1,6 @@
 RSpec.configure do |config|
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation, {:except => %w[matrices questions]})
   end
 
   config.before(:each) do
@@ -8,7 +8,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, :js => true) do
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :truncation, {:except => %w[matrices questions]}
   end
 
   config.before(:each) do
@@ -16,6 +16,6 @@ RSpec.configure do |config|
   end
 
   config.append_after(:each) do
-    DatabaseCleaner.clean
+    DatabaseCleaner.clean_with(:truncation, {:except => %w[matrices questions]})
   end
 end
