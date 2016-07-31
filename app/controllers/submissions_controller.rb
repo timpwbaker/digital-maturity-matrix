@@ -29,23 +29,21 @@ class SubmissionsController < ApplicationController
     end            
   end
 
-  # This is currently not working, I believe it is something to do with the Heroku ephemeral filesystem. 
-  # It needs to be moved to Amazon S3.
-  
-  # def emailpdf
-  #   get_submission_details
-  #   get_topline_stats
-  #   get_brand
-  #   render  javascript_delay: 2000,
-  #           pdf:       'submission',
-  #           layout:    'pdf', 
-  #           template:  'submissions/showpdf.html.haml',
-  #           show_as_html: params.key?('debug'),
-  #           save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
-  #           save_only: true
-  #   SendpdfJob.delay.perform_later(@user.name, @user.id, @user.email, @matrix.id, @submission.id)
-  #   redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
-  # end
+
+  def emailpdf
+    get_submission_details
+    get_topline_stats
+    get_brand
+    render  javascript_delay: 2000,
+            pdf:       'submission',
+            layout:    'pdf', 
+            template:  'submissions/showpdf.html.haml',
+            show_as_html: params.key?('debug'),
+            save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
+            save_only: true
+    SendpdfJob.delay.perform_later(@user.name, @user.id, @user.email, @matrix.id, @submission.id)
+    redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
+  end
 
   # GET /submissions/new
   def new
