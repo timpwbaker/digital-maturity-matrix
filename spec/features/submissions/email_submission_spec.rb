@@ -9,7 +9,7 @@ feature 'Email submission', :devise do
   	page.find('#submit-button').click
   	expect(page).to have_content('Created by:')
   	visit submissions_emailpdf_path(Matrix.find(1).id,Submission.find_by_user_id(user.id))
-  	expect(Delayed::Job.count).to eq(1)
+  	expect(page).to have_content('We have emailed you your PDF')
   end
 
 end
