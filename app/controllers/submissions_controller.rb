@@ -41,7 +41,19 @@ class SubmissionsController < ApplicationController
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
             save_only: true
-    SendpdfJob.delay.perform_later(@user.name, @user.id, @user.email, @matrix.id, @submission.id)
+    Pony.mail(
+      :to => @user.email, 
+      :from => 'info@digitalmaturity.co.uk', 
+      :subject => 'Here’s your Third Sector Digital Maturity Matrix', 
+      :html_body => '<h2>Hello '+ @user.name+'.</h2>
+        <p> Your Maturity Matrix is attached. We hope you find this useful.
+        <p> We’d love to know what you think, so please email <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a> with any feedback or questions.
+        <p >All the best
+        <p> Breast Cancer Care Digital Team', 
+      :attachments => {
+        "matrix.pdf" => File.read("pdf/submission#{userid}.pdf")
+      }
+    );
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
 
