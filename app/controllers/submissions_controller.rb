@@ -115,7 +115,7 @@ class SubmissionsController < ApplicationController
       format.html { redirect_to matrix_submissions_url, notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
     end
-  endf
+  end
 
   public
 

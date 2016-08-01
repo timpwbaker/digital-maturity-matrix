@@ -19,7 +19,6 @@ gem 'high_voltage'
 gem 'stripe'
 gem 'simple_form'
 gem 'pony'
-gem 'delayed_job_active_record'
 group :production do 
   gem 'rails_12factor'
 end
