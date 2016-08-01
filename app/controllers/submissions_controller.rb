@@ -51,7 +51,7 @@ class SubmissionsController < ApplicationController
         <p >All the best
         <p> Breast Cancer Care Digital Team', 
       :attachments => {
-        "matrix.pdf" => File.read("pdf/submission#{userid}.pdf")
+        "matrix.pdf" => File.read("pdf/submission#{@user.id}.pdf")
       }
     );
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
