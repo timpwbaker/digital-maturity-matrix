@@ -41,19 +41,7 @@ class SubmissionsController < ApplicationController
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
             save_only: true
-    Pony.mail(
-      :to => @user.email, 
-      :from => 'info@digitalmaturity.co.uk', 
-      :subject => 'Here’s your Third Sector Digital Maturity Matrix', 
-      :html_body => '<h2>Hello '+ @user.name+'.</h2>
-        <p> Your Maturity Matrix is attached. We hope you find this useful.
-        <p> We’d love to know what you think, so please email <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a> with any feedback or questions.
-        <p >All the best
-        <p> Breast Cancer Care Digital Team', 
-      :attachments => {
-        "matrix.pdf" => File.read("pdf/submission#{@user.id}.pdf")
-      }
-    );
+    send_email_pdf(@user.id, @user.name, @user.email)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
 
@@ -127,6 +115,26 @@ class SubmissionsController < ApplicationController
       format.html { redirect_to matrix_submissions_url, notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
     end
+  endf
+
+  public
+
+  def send_email_pdf(userid, username, useremail)
+
+    Pony.mail(
+      :to => useremail, 
+      :from => 'info@digitalmaturity.co.uk', 
+      :subject => 'Here’s your Third Sector Digital Maturity Matrix', 
+      :html_body => '<h2>Hello '+ username+'.</h2>
+        <p> Your Maturity Matrix is attached. We hope you find this useful.
+        <p> We’d love to know what you think, so please email <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a> with any feedback or questions.
+        <p >All the best
+        <p> Breast Cancer Care Digital Team', 
+      :attachments => {
+        "matrix.pdf" => File.read("pdf/submission#{userid}.pdf")
+      }
+    );
+
   end
 
 
