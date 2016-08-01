@@ -34,13 +34,7 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
-    render  javascript_delay: 2000,
-            pdf:       'submission',
-            layout:    'pdf', 
-            template:  'submissions/showpdf.html.haml',
-            show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
-            save_only: true
+    render_pdf(true)
     send_email_pdf(@user.id, @user.name, @user.email)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
@@ -119,29 +113,39 @@ class SubmissionsController < ApplicationController
 
   public
 
+  def render_pdf(saveonly)
+    render  javascript_delay: 2000,
+        pdf:       'submission',
+        layout:    'pdf', 
+        template:  'submissions/showpdf.html.haml',
+        show_as_html: params.key?('debug'),
+        save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
+        save_only: true
+  end
+
   def get_brand
-      if !Brand.exists?(user_id: @user.id)
-        @brand_1 = "rgba(0,255,0,1)"
-        @brand_2 = "rgba(255,0,0,1)"
-      else
-        @brand_1 = @user.brand.color_a
-        @brand_2 = @user.brand.color_b
-      end
+    if !Brand.exists?(user_id: @user.id)
+      @brand_1 = "rgba(0,255,0,1)"
+      @brand_2 = "rgba(255,0,0,1)"
+    else
+      @brand_1 = @user.brand.color_a
+      @brand_2 = @user.brand.color_b
     end
+  end
 
-    def get_submission_details
-      @matrix = Matrix.find(params[:matrix_id])
-      @submission = Submission.find(params[:id])
-      @user = @submission.user
-      @questions = @matrix.questions
-      @answers = @submission.answers.joins(:question).order("questions.area").order("questions.id")
-      @targets = @submission.targets.joins(:question).order("questions.area").order("questions.id")
-    end
+  def get_submission_details
+    @matrix = Matrix.find(params[:matrix_id])
+    @submission = Submission.find(params[:id])
+    @user = @submission.user
+    @questions = @matrix.questions
+    @answers = @submission.answers.joins(:question).order("questions.area").order("questions.id")
+    @targets = @submission.targets.joins(:question).order("questions.area").order("questions.id")
+  end
 
-    def get_topline_stats
-      @current = (@answers.sum("score")/Matrix.digital_maturity_areas.count).round(0)
-      @target = (@targets.sum("score")/Matrix.digital_maturity_areas.count).round(0)
-    end
+  def get_topline_stats
+    @current = (@answers.sum("score")/Matrix.digital_maturity_areas.count).round(0)
+    @target = (@targets.sum("score")/Matrix.digital_maturity_areas.count).round(0)
+  end
 
   def send_email_pdf(userid, username, useremail)
 
