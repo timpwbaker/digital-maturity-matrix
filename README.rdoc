@@ -4,8 +4,6 @@ The default DB is PostgreSQL, the easisest way to use this locally in my opinion
 
 To use the PDF generator (wkhtmltopdf & wicked_pdf) locally you need to install the wkhtmltopdf binary. This is handled on the server by the wkhtmltopdf-binary-edge gem, on Heroku it should just work and there's no reason why you can't host it in other place but you might need to jump through some hoops. 
 
-To use the email pdf functionality you need to run a worker on heroku or something like Foreman locally to support the delayed job
-
 The emailed pdfs are generated in the same way as they are shown and dumped in a root folder called pdfs and sent as an attachment using the Pony gem.  
 
 To interact with the db via command line if running postgres app:
@@ -18,7 +16,7 @@ To interact with the db via command line if running postgres app:
 
 =Tests
 
-There are Minitest tests for the matrix generation, as the data requirements made it easier to do in the database. Running thes tests requries a database. There is a test.dump in the root which is needed for the tests.
+There are Spec tests for the matrix generation, as the data requirements made it easier to do in the database. Running thes tests requries a database. There is a test.dump in the root which is needed for the tests.
 
 Restore the test database
     $ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U [USERNAME] -d maturity_matrix_db_test test.dump
