@@ -9,10 +9,14 @@ The emailed pdfs are generated in the same way as they are shown and dumped in a
 To interact with the db via command line if running postgres app:
 
     $ psql -h localhost
-    \list [list databases]
-    \connect maturity_matrix_db_development [connect to the database you want]
-    \dt [list data tables]
-    \q [quit]
+    # list databases
+    \list 
+    # connect to the database you want
+    \connect maturity_matrix_db_development 
+    # list data tables
+    \dt 
+    # quit
+    \q
 
 =Tests
 
