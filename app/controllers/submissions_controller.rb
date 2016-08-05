@@ -147,7 +147,7 @@ class SubmissionsController < ApplicationController
 
     Pony.mail(
       :to => useremail, 
-      :from => 'info@digitalmaturity.co.uk', 
+      :from => 'digital@breastcancercare.org.uk', 
       :subject => 'Here’s your Third Sector Digital Maturity Matrix', 
       :html_body => '<h2>Hello '+ username+'.</h2>
         <p> Your Maturity Matrix is attached. We hope you find this useful.
