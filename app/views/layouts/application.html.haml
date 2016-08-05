@@ -4,6 +4,7 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
     =favicon_link_tag '/images/favicon.png'
+    =favicon_link_tag '/images/favicon.png', rel: 'apple-touch-icon', type: 'image/png'
     %title= content_for?(:title) ? yield(:title) : "Third Sector Digital Maturity Matrix"
     %meta{:content => "The Third Sector Digital Maturity Matrix is a tool developed by the Digital Team at Breast Cancer Care to assess the maturity of a charity’s digital output (i.e. the current state) compared to its aspiration or desired state", :name => "description"}/
     = stylesheet_link_tag 'application', media: 'all'
