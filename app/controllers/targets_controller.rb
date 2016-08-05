@@ -1,3 +1,4 @@
+# This controller acts on targets, which belong to questions and submissions.
 class TargetsController < ApplicationController
   before_action :set_target, only: [:show, :edit, :update, :destroy]
 
@@ -28,11 +29,23 @@ class TargetsController < ApplicationController
 
     respond_to do |format|
       if @target.save
-        format.html { redirect_to @target, notice: 'Target was successfully created.' }
-        format.json { render :show, status: :created, location: @target }
+        format.html do
+          redirect_to @target,
+                      notice: 'Target was successfully created.'
+        end
+        format.json do
+          render :show,
+                 status: :created,
+                 location: @target
+        end
       else
-        format.html { render :new }
-        format.json { render json: @target.errors, status: :unprocessable_entity }
+        format.html do
+          render :new
+        end
+        format.json do
+          render json: @target.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -42,11 +55,23 @@ class TargetsController < ApplicationController
   def update
     respond_to do |format|
       if @target.update(target_params)
-        format.html { redirect_to @target, notice: 'Target was successfully updated.' }
-        format.json { render :show, status: :ok, location: @target }
+        format.html do
+          redirect_to @target,
+                      notice: 'Target was successfully updated.'
+        end
+        format.json do
+          render :show,
+                 status: :ok,
+                 location: @target
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @target.errors, status: :unprocessable_entity }
+        format.html do
+          render :edit
+        end
+        format.json do
+          render json: @target.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -56,19 +81,33 @@ class TargetsController < ApplicationController
   def destroy
     @target.destroy
     respond_to do |format|
-      format.html { redirect_to targets_url, notice: 'Target was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html do
+        redirect_to targets_url,
+                    notice: 'Target was successfully destroyed.'
+      end
+      format.json do
+        head :no_content
+      end
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_target
-      @target = Target.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def target_params
-      params.require(:target).permit(:question_answered, :choice, :question_id, :submission_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_target
+    @target = Target.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def target_params
+    params.require(
+      :target
+    )
+          .permit(
+            :question_answered,
+            :choice,
+            :question_id,
+            :submission_id
+          )
+  end
 end

@@ -3,7 +3,6 @@
 #   I want to visit a home page
 #   So I can learn more about the website
 feature 'Home page' do
-
   # Scenario: Visit the home page
   #   Given I am a visitor
   #   When I visit the home page
@@ -12,5 +11,4 @@ feature 'Home page' do
     visit root_path
     expect(page).to have_content 'The Third Sector Digital Maturity Matrix is a free tool developed by the Digital Team at Breast Cancer Care'
   end
-
 end

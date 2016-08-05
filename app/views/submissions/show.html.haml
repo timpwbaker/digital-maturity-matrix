@@ -9,9 +9,9 @@
     .row 
       .col-md-3.text-center.no-padding
         -if Brand.exists?(user_id: current_user.id)
-          =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary"}
+          =link_to "Edit brand colours", edit_brand_path(current_user.brand, submission_id: @submission.id),{:class => "btn btn-primary", :id => "edit-brand-colours"}
         -else
-          =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary"}
+          =link_to "Add your brand colours", new_brand_path(submission_id: @submission.id),{:class => "btn btn-primary", :id => "add-brand-colours"}
 
       .col-md-3.text-center.show-pdf.no-padding
         =link_to "Save as PDF", matrix_submission_path(@matrix, @submission, format: :pdf),{:class => "btn btn-primary", :target => "_blank"}

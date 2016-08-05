@@ -19,7 +19,7 @@ gem 'high_voltage'
 gem 'stripe'
 gem 'simple_form'
 gem 'pony'
-group :production do 
+group :production do
   gem 'rails_12factor'
 end
 group :development, :test do
@@ -37,6 +37,7 @@ group :development do
   gem 'rails_layout'
   gem 'spring-commands-rspec'
   gem 'erb2haml'
+  gem 'rubocop'
 end
 group :test do
   gem 'capybara'

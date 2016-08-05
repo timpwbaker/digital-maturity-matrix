@@ -3,14 +3,14 @@ class Question < ActiveRecord::Base
 
   def self.digital_maturity_areas
     [
-      "Technology",
-      "Channels & Devices",
-      "Audiences",
-      "User Experience",
-      "Content",
-      "Campaigns",
-      "Analytics",
-      "Governance",
+      'Technology',
+      'Channels & Devices',
+      'Audiences',
+      'User Experience',
+      'Content',
+      'Campaigns',
+      'Analytics',
+      'Governance'
     ]
   end
 end

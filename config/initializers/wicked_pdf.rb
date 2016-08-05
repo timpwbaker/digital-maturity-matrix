@@ -1,1 +1,1 @@
-WickedPdf.config = { }
+WickedPdf.config = {}
