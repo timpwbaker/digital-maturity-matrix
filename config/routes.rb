@@ -11,6 +11,6 @@ Rails.application.routes.draw do
   get '/matrices/:matrix_id/submissions/:id/email' => 'submissions#emailpdf', as: :submissions_emailpdf
   root to: 'visitors#index'
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
-  resources :users, only: [:show, :delete]
+  resources :users, only: [:index, :show, :delete]
   resources :charges
 end
