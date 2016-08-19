@@ -260,6 +260,7 @@ class SubmissionsController < ApplicationController
       :matrix_id,
       :user_id,
       :name,
+      :s3_url,
       answers_attributes: [
         :id,
         :question_answered,
