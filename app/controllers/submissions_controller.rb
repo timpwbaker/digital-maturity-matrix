@@ -53,17 +53,18 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
+    rand = SecureRandom.hex
     render  javascript_delay: 2000,
             pdf:       'submission',
             layout:    'pdf', 
             template:  'submissions/showpdf.html.haml',
             show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
+            save_to_file: Rails.root.join('pdf', "submission#{rand}.pdf"),
             save_only: true
     Submission.add_attachment
-    @submission.export = File.open Rails.root.join('pdf', "submission#{@user.id}.pdf")
+    @submission.export = File.open Rails.root.join('pdf', "submission#{rand}.pdf")
     @submission.export.save
-    file_url = "https://s3-eu-west-1.amazonaws.com/digitalmaturitymatrix/submission#{@user.id}.pdf"
+    file_url = "https://s3-eu-west-1.amazonaws.com/digitalmaturitymatrix/submission#{rand}.pdf"
     makepost(@user.name, @user.email, file_url)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
