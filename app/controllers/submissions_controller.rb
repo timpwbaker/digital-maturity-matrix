@@ -49,7 +49,6 @@ class SubmissionsController < ApplicationController
   end
 
   def emailpdf_api
-    puts "a string", ENV['AWS_REGION']
     get_submission_details
     get_topline_stats
     get_brand
@@ -61,10 +60,7 @@ class SubmissionsController < ApplicationController
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('pdf', "submission#{rand}.pdf"),
             save_only: true
-    Submission.add_attachment
-    @submission.export = File.open Rails.root.join('pdf', "submission#{rand}.pdf")
-    @submission.export.save
-    file_url = "https://s3-eu-west-1.amazonaws.com/digitalmaturitymatrix/submission#{rand}.pdf"
+    file_url = to_s3_return_url(rand)
     makepost(@user.name, @user.email, file_url)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
@@ -84,6 +80,17 @@ class SubmissionsController < ApplicationController
     })
     response = http.request(request)
 
+  end
+
+  def to_s3_return_url(rand)
+    s3 = Aws::S3::Resource.new(
+      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
+      region: ENV['AWS_REGION']
+    )
+     
+    obj = s3.bucket(ENV['AWS_BUCKET']).object('key')
+    obj.upload_file(Rails.root.join('pdf', "submission#{rand}.pdf"), acl:'public-read')
+    return obj.public_url
   end
 
   # GET /submissions/new
