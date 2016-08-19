@@ -20,6 +20,10 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
+        if !@submission.s3_url
+          create_and_save_pdf
+          @submission.save
+        end
         redirect_to @submission.s3_url
       end
     end
@@ -29,6 +33,10 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
+    if !@submission.s3_url
+      create_and_save_pdf
+      @submission.save
+    end
     send_email_pdf(@user.id, @user.name, @user.email, @submission.s3_url)
     redirect_to(
       matrix_submission_path(@matrix, @submission),
@@ -238,7 +246,7 @@ class SubmissionsController < ApplicationController
     puts obj.public_url
     return obj.public_url
   end
-
+  
   private
 
   # Use callbacks to share common setup or constraints between actions.
