@@ -27,16 +27,26 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+config.paperclip_defaults = {
+  :storage => :s3,
+  :s3_region => ENV['AWS_REGION'],
+  :s3_credentials => {
+    :bucket => ENV['AWS_BUCKET'],
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  }
+}
+
   Pony.options = {
-    via: :smtp,
-    via_options: {
-      address: 'smtp.gmail.com',
-      port: '587',
-      domain: 'example.com',
-      user_name: 'whosturnis',
-      password: 'whosturn',
-      authentication: :plain,
-      enable_starttls_auto: true
+    :via => :smtp,
+    :via_options => {
+      :address => 'smtp.gmail.com',
+      :port => '587',
+      :domain => 'example.com',
+      user_name: ENV['GMAIL_USER'],
+      password: ENV['GMAIL_PASS'],
+      :authentication => :plain,
+      :enable_starttls_auto => true
     }
   }
 

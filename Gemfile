@@ -19,7 +19,10 @@ gem 'high_voltage'
 gem 'stripe'
 gem 'simple_form'
 gem 'pony'
-group :production do
+gem 'paperclip'
+gem 'aws-sdk'
+gem 'figaro'
+group :production do 
   gem 'rails_12factor'
 end
 group :development, :test do

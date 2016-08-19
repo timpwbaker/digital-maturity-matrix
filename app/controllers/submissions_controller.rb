@@ -30,6 +30,7 @@ class SubmissionsController < ApplicationController
   end
 
   def emailpdf
+    puts "a string", ENV['AWS_REGION']
     get_submission_details
     get_topline_stats
     get_brand
@@ -45,6 +46,43 @@ class SubmissionsController < ApplicationController
       matrix_submission_path(@matrix, @submission),
       notice: 'We have emailed you your PDF'
     )
+  end
+
+  def emailpdf_api
+    puts "a string", ENV['AWS_REGION']
+    get_submission_details
+    get_topline_stats
+    get_brand
+    render  javascript_delay: 2000,
+            pdf:       'submission',
+            layout:    'pdf', 
+            template:  'submissions/showpdf.html.haml',
+            show_as_html: params.key?('debug'),
+            save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
+            save_only: true
+    Submission.add_attachment
+    @submission.export = File.open Rails.root.join('pdf', "submission#{@user.id}.pdf")
+    @submission.export.save
+    file_url = "https://s3-eu-west-1.amazonaws.com/digitalmaturitymatrix/submission#{@user.id}.pdf"
+    makepost(@user.name, @user.email, file_url)
+    redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
+  end
+
+  def makepost(user_name, user_email, file_url)
+    require "uri"
+    require "net/http"
+
+    uri = URI.parse("#{ENV['EMAIL_API_HOSTNAME']}api/v1/emails/post")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request.set_form_data({
+      'user_name' => user_name,
+      'user_email' => user_email,
+      'file_url' => file_url
+    })
+    response = http.request(request)
+
   end
 
   # GET /submissions/new

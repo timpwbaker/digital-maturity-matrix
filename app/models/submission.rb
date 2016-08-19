@@ -7,6 +7,7 @@ class Submission < ActiveRecord::Base
   has_many :targets, dependent: :destroy
   accepts_nested_attributes_for :targets,
                                 allow_destroy: true
+  
 
   def self.choices
     [
@@ -15,6 +16,11 @@ class Submission < ActiveRecord::Base
       'Disagree',
       'Strongly Disagree'
     ]
+  end
+
+  def self.add_attachment
+    has_attached_file :export
+    validates_attachment :export, content_type: { content_type: ["application/pdf"] }
   end
 
   after_save :update_scores
