@@ -86,7 +86,6 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new(submission_params)
     @matrix = Matrix.find(params[:matrix_id])
     @user_id = current_user
-    create_and_save_pdf
     respond_to do |format|
       if @submission.save
         format.html do
