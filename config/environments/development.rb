@@ -72,5 +72,5 @@ config.paperclip_defaults = {
   config.assets.compile = true
 
   # Precompile the JS for generating charts so it can be used in the view submissions#show
-  config.assets.precompile += ['edit_submission_display.js', 'new_submission_display.js']
+  config.assets.precompile += ['edit_submission_display.js', 'new_submission_display.js', 'loading_button.js']
 end

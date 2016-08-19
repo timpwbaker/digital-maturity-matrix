@@ -20,28 +20,16 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render  javascript_delay: 2000,
-                pdf:       'submission',
-                layout:    'pdf',
-                template:  'submissions/showpdf.html.haml',
-                show_as_html: params.key?('debug')
+        redirect_to @submission.s3_url
       end
     end
   end
 
   def emailpdf
-    puts "a string", ENV['AWS_REGION']
     get_submission_details
     get_topline_stats
     get_brand
-    render  javascript_delay: 2000,
-            pdf:       'submission',
-            layout:    'pdf',
-            template:  'submissions/showpdf.html.haml',
-            show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('pdf', "submission#{@user.id}.pdf"),
-            save_only: true
-    send_email_pdf(@user.id, @user.name, @user.email)
+    send_email_pdf(@user.id, @user.name, @user.email, @submission.s3_url)
     redirect_to(
       matrix_submission_path(@matrix, @submission),
       notice: 'We have emailed you your PDF'
@@ -52,46 +40,10 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
-    rand = SecureRandom.hex
-    render  javascript_delay: 2000,
-            pdf:       'submission',
-            layout:    'pdf', 
-            template:  'submissions/showpdf.html.haml',
-            show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('pdf', "submission#{rand}.pdf"),
-            save_only: true
-    file_url = to_s3_return_url(rand)
-    makepost(@user.name, @user.email, file_url)
+    makepost(@user.name, @user.email, @submission.s3_url)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
 
-  def makepost(user_name, user_email, file_url)
-    require "uri"
-    require "net/http"
-
-    uri = URI.parse("#{ENV['EMAIL_API_HOSTNAME']}api/v1/emails/post")
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request.set_form_data({
-      'user_name' => user_name,
-      'user_email' => user_email,
-      'file_url' => file_url
-    })
-    response = http.request(request)
-
-  end
-
-  def to_s3_return_url(rand)
-    s3 = Aws::S3::Resource.new(
-      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
-      region: ENV['AWS_REGION']
-    )
-     
-    obj = s3.bucket(ENV['AWS_BUCKET']).object('key')
-    obj.upload_file(Rails.root.join('pdf', "submission#{rand}.pdf"), acl:'public-read')
-    return obj.public_url
-  end
 
   # GET /submissions/new
   def new
@@ -126,6 +78,7 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new(submission_params)
     @matrix = Matrix.find(params[:matrix_id])
     @user_id = current_user
+    create_and_save_pdf
     respond_to do |format|
       if @submission.save
         format.html do
@@ -155,6 +108,7 @@ class SubmissionsController < ApplicationController
   def update
     @matrix = Matrix.find(params[:matrix_id])
     @user_id = current_user
+    create_and_save_pdf
     respond_to do |format|
       if @submission.update(submission_params)
         format.html do
@@ -196,6 +150,22 @@ class SubmissionsController < ApplicationController
 
   public
 
+  def create_and_save_pdf
+    get_submission_details
+    get_topline_stats
+    get_brand
+    rand = SecureRandom.hex
+    render  javascript_delay: 2000,
+            pdf:       'submission',
+            layout:    'pdf', 
+            template:  'submissions/showpdf.html.haml',
+            show_as_html: params.key?('debug'),
+            save_to_file: Rails.root.join('pdf', "submission#{rand}.pdf"),
+            save_only: true
+    @submission.s3_url = to_s3_return_url(rand)
+  end
+
+
   def get_brand
     if !Brand.exists?(user_id: @user.id)
       @brand_1 = 'rgba(0,255,0,1)'
@@ -220,7 +190,9 @@ class SubmissionsController < ApplicationController
     @target = (@targets.sum('score') / Matrix.digital_maturity_areas.count).round(0)
   end
 
-  def send_email_pdf(userid, username, useremail)
+  def send_email_pdf(userid, username, useremail, fileurl)
+    require 'open-uri'
+    @file = open(fileurl).read
     Pony.mail(
       to: useremail,
       from: 'digital@breastcancercare.org.uk',
@@ -233,9 +205,38 @@ class SubmissionsController < ApplicationController
         <p >All the best
         <p> Breast Cancer Care Digital Team',
       attachments: {
-        'matrix.pdf' => File.read("pdf/submission#{userid}.pdf")
+        'matrix.pdf' => @file
       }
     )
+  end
+
+  def makepost(user_name, user_email, file_url)
+    require "uri"
+    require "net/http"
+
+    uri = URI.parse("#{ENV['EMAIL_API_HOSTNAME']}api/v1/emails/post")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request.set_form_data({
+      'user_name' => user_name,
+      'user_email' => user_email,
+      'file_url' => file_url
+    })
+    response = http.request(request)
+
+  end
+
+  def to_s3_return_url(rand)
+    s3 = Aws::S3::Resource.new(
+      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
+      region: ENV['AWS_REGION']
+    )
+     
+    obj = s3.bucket(ENV['AWS_BUCKET']).object("submission#{rand}.pdf")
+    obj.upload_file(Rails.root.join('pdf', "submission#{rand}.pdf"), acl:'public-read')
+    puts obj.public_url
+    return obj.public_url
   end
 
   private

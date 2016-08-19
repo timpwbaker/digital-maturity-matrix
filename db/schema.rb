@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819104423) do
+ActiveRecord::Schema.define(version: 20160819134227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20160819104423) do
     t.string   "export_content_type"
     t.integer  "export_file_size"
     t.datetime "export_updated_at"
+    t.string   "s3_url"
   end
 
   add_index "submissions", ["matrix_id"], name: "index_submissions_on_matrix_id", using: :btree
