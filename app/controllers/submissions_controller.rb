@@ -9,6 +9,10 @@ class SubmissionsController < ApplicationController
   def index
     @matrix = Matrix.find(params[:matrix_id])
     @submissions = Submission.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data Submission.to_csv(@submissions), filename: "submissions-#{Date.today}.csv" }
+    end
   end
 
   # GET /submissions/1

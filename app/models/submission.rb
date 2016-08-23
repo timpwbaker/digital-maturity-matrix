@@ -23,6 +23,36 @@ class Submission < ActiveRecord::Base
     validates_attachment :export, content_type: { content_type: ["application/pdf"] }
   end
 
+  def self.to_csv(object)
+    require 'csv'
+    CSV.generate do |csv|
+      headers = ["Submission ID"]
+      Question.all.each do |question|
+        headers << "current: #{question.body}"
+        headers << "target: #{question.body}"
+      end
+      csv << headers
+      object.each do |submission|
+        row = []
+        row << submission.id
+        submission.answers.each_with_index do |answer, index|
+          row << answer.choice
+        end
+        submission.targets.each_with_index do |target, index|
+          row << target.choice
+        end
+        csv << row
+      end
+    end
+  end
+
+    private
+
+   
+  def name
+    "#{first_name} #{last_name}"
+  end
+
   after_save :update_scores
 
   def update_scores
