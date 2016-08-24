@@ -12,15 +12,15 @@
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
       = render 'existingform'
+      #loading.hidden
+        =image_tag '/images/loading.gif'
 
 :javascript
 
   $(document).ready( function() {
     $("#block_#{@area}").removeClass("hidden").addClass("on-show");
   });      
-
-
-
 = javascript_include_tag 'edit_submission_display'
+= javascript_include_tag 'loading_button'
 
 

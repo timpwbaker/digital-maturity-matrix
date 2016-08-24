@@ -26,20 +26,30 @@ class Submission < ActiveRecord::Base
   def self.to_csv(object)
     require 'csv'
     CSV.generate do |csv|
-      headers = ["Submission ID"]
-      Question.all.each do |question|
-        headers << "current: #{question.body}"
-        headers << "target: #{question.body}"
+      headers = ["Submission ID", "User name", "User organisation", "Organisation size", "Organisation turnover", "Digital team size", "Marketing opt in"]
+      Matrix.digital_maturity_areas.each_with_index do |area, index|
+        Question.where("area = '#{area}'").each do |question|
+          headers << "current: #{area} // #{question.body}"
+          headers << "target: #{area} // #{question.body}"
+        end
       end
       csv << headers
       object.each do |submission|
         row = []
         row << submission.id
-        submission.answers.each_with_index do |answer, index|
-          row << answer.choice
-        end
-        submission.targets.each_with_index do |target, index|
-          row << target.choice
+        row << submission.user.name
+        row << submission.user.organisation
+        row << submission.user.organisation_size
+        row << submission.user.organisation_turnover
+        row << submission.user.digital_size
+        row << submission.user.opt_in
+        Matrix.digital_maturity_areas.each_with_index do |area, index|
+          Question.where("area = '#{area}'").each do |question|
+            answer = Answer.where("submission_id = '#{submission.id}'").where("question_id = '#{question.id}'").first
+            target = Target.where("submission_id = '#{submission.id}'").where("question_id = '#{question.id}'").first
+            row << "#{answer.score}"
+            row << "#{target.score}"
+          end
         end
         csv << row
       end

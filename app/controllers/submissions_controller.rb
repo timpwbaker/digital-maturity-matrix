@@ -61,6 +61,9 @@ class SubmissionsController < ApplicationController
   def new
     @user = current_user
     @matrix = Matrix.find(params[:matrix_id])
+    @questions = @matrix.questions.order('questions.area')
+    @answer = Answer.new
+    @target = Target.new
     if Submission.exists?(user_id: current_user.id)
       @submission = Submission.find_by user_id: current_user.id
       redirect_to(
@@ -71,9 +74,6 @@ class SubmissionsController < ApplicationController
     else
       @submission = Submission.new
     end
-    @questions = @matrix.questions.order('questions.area')
-    @answer = Answer.new
-    @target = Target.new
   end
 
   # GET /submissions/1/edit
