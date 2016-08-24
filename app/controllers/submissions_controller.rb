@@ -3,6 +3,7 @@ class SubmissionsController < ApplicationController
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:create, :new, :edit, :index]
   before_action :require_submission_permission, only: [:show, :update]
+  before_action :is_admin, only: [:index]
 
   # GET /submissions
   # GET /submissions.json
