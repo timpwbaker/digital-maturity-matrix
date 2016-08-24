@@ -7,8 +7,10 @@
 
 %p#notice= notice
 %div.col-md-12
-  %h1{:style => "text-align:center"}
+  %h1.text-center
     = "#{@submission.user.organisation} #{@matrix.name}"
+  %p.text-center
+    = "Created on: #{@submission.updated_at.strftime("%d-%m-%Y")}"
 
 %div.col-md-12
 %div#placeholder{:style => "position:relative"}
@@ -16,7 +18,13 @@
   <canvas style="margin:30px 100px" id='radarChart' width='600' height='450'></canvas><br>
 
 .row
-  %h2{:style => "text-align:center"} Your Score
+  %h2{:style => "text-align:center"} Your Maturity
+  .col-xs-6.text-right
+    %h4
+      %strong= "Current maturity: #{@current}%"
+  .col-xs-6.text-left
+    %h4
+      %strong= "Target maturity: #{@target}%"
   .col-md-4.center-block{:style=>"float:none;width:50%"}
     .col-xs-8
       - @answers_data_array = []
