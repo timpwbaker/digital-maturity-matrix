@@ -172,7 +172,7 @@ class SubmissionsController < ApplicationController
             layout:    'pdf', 
             template:  'submissions/showpdf.html.haml',
             show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('pdf', "submission#{rand}1.pdf"),
+            save_to_file: Rails.root.join('app', 'pdf', "submission#{rand}.pdf"),
             save_only: true
     @submission.s3_url = to_s3_return_url(rand)
   end
@@ -246,7 +246,7 @@ class SubmissionsController < ApplicationController
     )
      
     obj = s3.bucket(ENV['AWS_BUCKET']).object("submission#{rand}.pdf")
-    obj.upload_file(Rails.root.join('pdf', "submission#{rand}.pdf"), acl:'public-read')
+    obj.upload_file(Rails.root.join('app', 'pdf', "submission#{rand}.pdf"), acl:'public-read')
     puts obj.public_url
     return obj.public_url
   end
