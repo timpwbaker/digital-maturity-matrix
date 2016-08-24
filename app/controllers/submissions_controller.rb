@@ -167,14 +167,15 @@ class SubmissionsController < ApplicationController
     get_topline_stats
     get_brand
     rand = SecureRandom.hex
+    date = Date.today
     render  javascript_delay: 2000,
             pdf:       'submission',
             layout:    'pdf', 
             template:  'submissions/showpdf.html.haml',
             show_as_html: params.key?('debug'),
-            save_to_file: Rails.root.join('app', 'pdf', "submission#{rand}.pdf"),
+            save_to_file: Rails.root.join('app', 'pdf', "#{@user.organisation}_#{date}_submission#{rand}.pdf"),
             save_only: true
-    @submission.s3_url = to_s3_return_url(rand)
+    @submission.s3_url = to_s3_return_url(rand, date, @user.organisation)
   end
 
 
@@ -239,14 +240,14 @@ class SubmissionsController < ApplicationController
 
   end
 
-  def to_s3_return_url(rand)
+  def to_s3_return_url(rand, date, org)
     s3 = Aws::S3::Resource.new(
       credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
       region: ENV['AWS_REGION']
     )
      
-    obj = s3.bucket(ENV['AWS_BUCKET']).object("submission#{rand}.pdf")
-    obj.upload_file(Rails.root.join('app', 'pdf', "submission#{rand}.pdf"), acl:'public-read')
+    obj = s3.bucket(ENV['AWS_BUCKET']).object("#{org}_#{date}_submission#{rand}.pdf")
+    obj.upload_file(Rails.root.join('app', 'pdf', "#{org}_#{date}_submission#{rand}.pdf"), acl:'public-read')
     puts obj.public_url
     return obj.public_url
   end
