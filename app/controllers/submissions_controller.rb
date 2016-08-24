@@ -120,7 +120,6 @@ class SubmissionsController < ApplicationController
   def update
     @matrix = Matrix.find(params[:matrix_id])
     @user_id = current_user
-    create_and_save_pdf
     respond_to do |format|
       if @submission.update(submission_params)
         format.html do
