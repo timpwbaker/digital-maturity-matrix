@@ -25,7 +25,10 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        create_and_save_pdf
+        if !@submission.s3_url
+          create_and_save_pdf
+          @submission.save
+        end
         redirect_to @submission.s3_url
       end
     end
@@ -35,11 +38,14 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
-    create_and_save_pdf
+    if !@submission.s3_url
+      create_and_save_pdf
+      @submission.save
+    end
     send_email_pdf(@user.id, @user.name, @user.email, @submission.s3_url)
     redirect_to(
-      matrix_submission_path(@matrix, @submission),
-      notice: 'We have emailed you your PDF'
+        matrix_submission_path(@matrix, @submission),
+        notice: 'We have emailed you your PDF'
     )
   end
 
@@ -47,7 +53,6 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
-    create_and_save_pdf
     makepost(@user.name, @user.email, @submission.s3_url)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
@@ -63,8 +68,8 @@ class SubmissionsController < ApplicationController
     if Submission.exists?(user_id: current_user.id)
       @submission = Submission.find_by user_id: current_user.id
       redirect_to(
-        edit_matrix_submission_path(@matrix, @submission),
-        notice: 'You can only have one matrix per account.
+          edit_matrix_submission_path(@matrix, @submission),
+          notice: 'You can only have one matrix per account.
         Please create another account, alternatively you can edit your existing matrix'
       )
     else
@@ -117,6 +122,7 @@ class SubmissionsController < ApplicationController
     @user_id = current_user
     respond_to do |format|
       if @submission.update(submission_params)
+        create_and_save_pdf
         format.html do
           redirect_to matrix_submission_path(@matrix, @submission),
                       notice: 'Submission was successfully updated.'
@@ -164,7 +170,7 @@ class SubmissionsController < ApplicationController
     date = Date.today
     render  javascript_delay: 2000,
             pdf:       'submission',
-            layout:    'pdf', 
+            layout:    'pdf',
             template:  'submissions/showpdf.html.haml',
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('app', 'pdf', "#{@user.organisation}_#{date}_submission#{rand}.pdf"),
@@ -202,19 +208,19 @@ class SubmissionsController < ApplicationController
     require 'open-uri'
     @file = open(fileurl).read
     Pony.mail(
-      to: useremail,
-      from: 'digital@breastcancercare.org.uk',
-      subject: 'Here’s your Third Sector Digital Maturity Matrix',
-      html_body: '<h2>Hello ' + username + '.</h2>
+        to: useremail,
+        from: 'digital@breastcancercare.org.uk',
+        subject: 'Here’s your Third Sector Digital Maturity Matrix',
+        html_body: '<h2>Hello ' + username + '.</h2>
         <p> Your Maturity Matrix is attached. We hope you find this useful.
         <p> We’d love to know what you think, so please email
         <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>
         with any feedback or questions.
         <p >All the best
         <p> Breast Cancer Care Digital Team',
-      attachments: {
-        'matrix.pdf' => @file
-      }
+        attachments: {
+            'matrix.pdf' => @file
+        }
     )
   end
 
@@ -227,26 +233,26 @@ class SubmissionsController < ApplicationController
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri)
     request.set_form_data({
-      'user_name' => user_name,
-      'user_email' => user_email,
-      'file_url' => file_url
-    })
+                              'user_name' => user_name,
+                              'user_email' => user_email,
+                              'file_url' => file_url
+                          })
     response = http.request(request)
 
   end
 
   def to_s3_return_url(rand, date, org)
     s3 = Aws::S3::Resource.new(
-      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
-      region: ENV['AWS_REGION']
+        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
+        region: ENV['AWS_REGION']
     )
-     
+
     obj = s3.bucket(ENV['AWS_BUCKET']).object("#{org}_#{date}_submission#{rand}.pdf")
     obj.upload_file(Rails.root.join('app', 'pdf', "#{org}_#{date}_submission#{rand}.pdf"), acl:'public-read')
     puts obj.public_url
     return obj.public_url
   end
-  
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -257,24 +263,24 @@ class SubmissionsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def submission_params
     params.require(:submission).permit(
-      :matrix_id,
-      :user_id,
-      :name,
-      :s3_url,
-      answers_attributes: [
-        :id,
-        :question_answered,
-        :choice,
-        :question_id,
-        :score
-      ],
-      targets_attributes: [
-        :id,
-        :question_answered,
-        :choice,
-        :question_id,
-        :score
-      ]
+        :matrix_id,
+        :user_id,
+        :name,
+        :s3_url,
+        answers_attributes: [
+            :id,
+            :question_answered,
+            :choice,
+            :question_id,
+            :score
+        ],
+        targets_attributes: [
+            :id,
+            :question_answered,
+            :choice,
+            :question_id,
+            :score
+        ]
     )
   end
 
