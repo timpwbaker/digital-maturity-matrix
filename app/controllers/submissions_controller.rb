@@ -25,10 +25,7 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        if !@submission.s3_url
-          create_and_save_pdf
-          @submission.save
-        end
+        create_and_save_pdf
         redirect_to @submission.s3_url
       end
     end
@@ -38,10 +35,7 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
-    if !@submission.s3_url
-      create_and_save_pdf
-      @submission.save
-    end
+    create_and_save_pdf
     send_email_pdf(@user.id, @user.name, @user.email, @submission.s3_url)
     redirect_to(
       matrix_submission_path(@matrix, @submission),
@@ -53,6 +47,7 @@ class SubmissionsController < ApplicationController
     get_submission_details
     get_topline_stats
     get_brand
+    create_and_save_pdf
     makepost(@user.name, @user.email, @submission.s3_url)
     redirect_to matrix_submission_path(@matrix,@submission), notice: "We have emailed you your PDF"
   end
@@ -120,7 +115,6 @@ class SubmissionsController < ApplicationController
   def update
     @matrix = Matrix.find(params[:matrix_id])
     @user_id = current_user
-    create_and_save_pdf
     respond_to do |format|
       if @submission.update(submission_params)
         format.html do
@@ -176,6 +170,7 @@ class SubmissionsController < ApplicationController
             save_to_file: Rails.root.join('app', 'pdf', "#{@user.organisation}_#{date}_submission#{rand}.pdf"),
             save_only: true
     @submission.s3_url = to_s3_return_url(rand, date, @user.organisation)
+    @submission.save
   end
 
 
