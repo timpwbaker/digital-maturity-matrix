@@ -9,6 +9,7 @@
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li= link_to 'Home', root_path
+        %li= link_to 'Benchmarking', 'https://s3-eu-west-1.amazonaws.com/digitalmaturitymatrix/Third_Sector_Digital_Maturity_-_A_Benchmark.pdf'
         -if !Matrix.exists?(id: 1)
         -elsif !current_user
           %li= link_to 'Create My Maturity Matrix', new_matrix_submission_path(Matrix.find(1))
