@@ -8,9 +8,9 @@
 %p#notice= notice
 %div.col-md-12
   %h1.text-center
-    = "#{@submission.user.organisation} #{@matrix.name}"
+    = "#{submission.user.organisation} #{matrix.name}"
   %p.text-center
-    = "Created on: #{@submission.updated_at.strftime("%d-%m-%Y")}"
+    = "Created on: #{submission.updated_at.strftime("%d-%m-%Y")}"
 
 %div.col-md-12
 %div#placeholder{:style => "position:relative"}
@@ -21,38 +21,20 @@
   %h2{:style => "text-align:center"} Your Maturity
   .col-xs-6.text-right
     %h4
-      %strong= "Current maturity: #{@current}%"
+      %strong= "Current maturity: #{submission.top_line_current}%"
   .col-xs-6.text-left
     %h4
-      %strong= "Target maturity: #{@target}%"
-  .col-md-4.center-block{:style=>"float:none;width:50%"}
-    .col-xs-8
-      - @answers_data_array = []
-      - Matrix.digital_maturity_areas.each do |area|
-        %h4{:style=>"margin-top:10px"}
+      %strong= "Target maturity: #{submission.top_line_target}%"
+  - Matrix.digital_maturity_areas.each do |area|
+    .row
+      .col-xs-12.text-center
+        %p
           %strong= area
-        - @total_score = 0
-        - @answers.each do |answer|
-          - if answer.question.area == area
-            - @total_score = @total_score+answer.score
-        %p= "Current: #{@total_score.round(0)}%"
-        - @answers_data_array.push(@total_score.round)
-
-
-    .col-xs-4
-      - @targets_data_array = []
-      - Matrix.digital_maturity_areas.each do |area|
-        %h4{:style=>"margin-top:10px", :class => "bg"}
-          %strong= "-"
-        - @total_score = 0
-        - @targets.each do |target|
-          - if target.question.area == area
-            - @total_score = @total_score+target.score
-        - @targets_data_array.push(@total_score.round)
-        %p{:style => "text-align:right"}= "Target: #{@total_score.round(0)}%"
-        
-
-
+    .row
+      .col-xs-6.text-right
+        %p= "Current: #{submission.total_current_score_by(area)}%"
+      .col-xs-6.text-left
+        %p= "Target: #{submission.total_target_score_by(area)}%"
 
 :javascript
   //radar chart data
@@ -60,20 +42,20 @@
     labels: #{Matrix.digital_maturity_areas.to_s},
     datasets : [
           {
-              label: "Answers",
+              label: "Current Maturity",
               fillColor: "rgba(255,255,255,0)",
-              strokeColor: "#{@brand_1}",
-              pointColor: "rgba(0,0,0,1)",
+              strokeColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              pointColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
               pointStrokeColor: "#fff",
-              data: #{@answers_data_array.to_s}
+              data: #{submission.current_data_array}
           },
           {
-              label: "Targets",
+              label: "Target Maturity",
               fillColor: "rgba(255,255,255,0)",
-              strokeColor: "#{@brand_2}",
-              pointColor: "rgba(0,0,0,1)",
+              strokeColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
+              pointColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
               pointStrokeColor: "#fff",
-              data: #{@targets_data_array.to_s}
+              data: #{submission.target_data_array}
           }
       ],
   }

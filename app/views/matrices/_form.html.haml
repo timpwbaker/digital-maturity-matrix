@@ -1,11 +1,11 @@
-= form_for(@matrix) do |f|
-  - if @matrix.errors.any?
+= form_for(matrix) do |f|
+  - if matrix.errors.any?
     #error_explanation
       %h2
-        = pluralize(@matrix.errors.count, "error")
+        = pluralize(matrix.errors.count, "error")
         prohibited this matrix from being saved:
       %ul
-        - @matrix.errors.full_messages.each do |message|
+        - matrix.errors.full_messages.each do |message|
           %li= message
   .field
     = f.label :name

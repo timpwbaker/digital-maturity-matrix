@@ -1,12 +1,12 @@
 // This form is used to create new submissions
-= form_for([@matrix,@submission]) do |f|
-  - if @submission.errors.any?
+= form_for([matrix, submission]) do |f|
+  - if submission.errors.any?
     #error_explanation
       %h2
-        = pluralize(@submission.errors.count, "error")
+        = pluralize(submission.errors.count, "error")
         prohibited this submission from being saved:
       %ul
-        - @submission.errors.full_messages.each do |message|
+        - submission.errors.full_messages.each do |message|
           %li= message
     %br/
   .field  
@@ -22,7 +22,7 @@
           %h3 Current State
         .col-xs-3.no-padding
           %h3 Target State
-      - @questions.each_with_index do |question, qi|
+      - matrix.questions.order(:area).each_with_index do |question, qi|
         -if question.area == area
           .row
             .col-xs-6.no-padding

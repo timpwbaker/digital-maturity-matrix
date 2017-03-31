@@ -1,5 +1,5 @@
 %h1 Editing Question
-= render 'form'
-= link_to 'Show', matrix_questions_path(@question)
+= render 'form', matrix: matrix, question: question
+= link_to 'Show', matrix_questions_path(question)
 |
 = link_to 'Back', matrix_questions_path

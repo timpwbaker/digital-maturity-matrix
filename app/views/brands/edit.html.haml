@@ -3,9 +3,9 @@
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h1 Editing brand
 
-      = render 'form'
+      = render 'form', matrix: matrix, submission: submission, brand: brand
 
-      = link_to 'Back', matrix_submission_path(@matrix, @submission), {:class => "btn btn-secondary", :style => "margin-left:15px"}
+      = link_to 'Back', matrix_submission_path(matrix, submission), {:class => "btn btn-secondary", :style => "margin-left:15px"}
 
       :javascript
         $(document).ready(function(){
