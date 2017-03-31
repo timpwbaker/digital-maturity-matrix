@@ -13,4 +13,8 @@ class Question < ActiveRecord::Base
       'Governance'
     ]
   end
+
+  def self.ordered_by_area
+    order(:area)
+  end
 end

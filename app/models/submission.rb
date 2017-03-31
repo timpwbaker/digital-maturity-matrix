@@ -7,7 +7,6 @@ class Submission < ActiveRecord::Base
   has_many :targets, dependent: :destroy
   accepts_nested_attributes_for :targets,
                                 allow_destroy: true
-  
 
   def self.choices
     [
@@ -23,7 +22,7 @@ class Submission < ActiveRecord::Base
     validates_attachment :export, content_type: { content_type: ["application/pdf"] }
   end
 
-  def self.to_csv(object)
+  def self.to_csv(submissions)
     require 'csv'
     CSV.generate do |csv|
       headers = ["Submission ID", "User name", "User organisation", "Organisation size", "Organisation turnover", "Digital team size", "Marketing opt in"]
@@ -34,7 +33,7 @@ class Submission < ActiveRecord::Base
         end
       end
       csv << headers
-      object.each do |submission|
+      submissions.each do |submission|
         row = []
         row << submission.id
         row << submission.user.name
@@ -44,7 +43,7 @@ class Submission < ActiveRecord::Base
         row << submission.user.digital_size
         row << submission.user.opt_in
         Matrix.digital_maturity_areas.each_with_index do |area, index|
-          Question.where("area = '#{area}'").each do |question|
+          Question.where(matrix: submission.matrix).where("area = '#{area}'").each do |question|
             answer = Answer.where("submission_id = '#{submission.id}'").where("question_id = '#{question.id}'").first
             target = Target.where("submission_id = '#{submission.id}'").where("question_id = '#{question.id}'").first
             row << "#{answer.score}"
@@ -56,9 +55,41 @@ class Submission < ActiveRecord::Base
     end
   end
 
+  def top_line_current
+    (answers.sum('score') / Matrix.digital_maturity_areas.count).round(0)
+  end
+
+  def top_line_target
+    (targets.sum('score') / Matrix.digital_maturity_areas.count).round(0)
+  end
+
+  def total_current_score_by(area)
+    answers.joins(:question).where('questions.area = ?', area).inject(0) { |sum, answer| sum + answer.score }.round(0)
+  end
+
+  def total_target_score_by(area)
+    targets.joins(:question).where('questions.area = ?', area).inject(0) { |sum, answer| sum + answer.score }.round(0)
+  end
+
+  def current_data_array
+    Matrix.digital_maturity_areas.map{|area| self.total_current_score_by(area)}
+  end
+
+  def target_data_array
+    Matrix.digital_maturity_areas.map{|area| self.total_target_score_by(area)}
+  end
+
+  def answers_ordered_by_question_area
+    answers.joins(:question).order('questions.area').order('questions.id')
+  end
+
+  def targets_ordered_by_question_area
+    targets.joins(:question).order('questions.area').order('questions.id')
+  end
+
     private
 
-   
+
   def name
     "#{first_name} #{last_name}"
   end

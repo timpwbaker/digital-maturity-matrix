@@ -6,8 +6,7 @@ feature 'Email submission', :devise do
     signin(user.email, user.password)
     visit new_matrix_submission_path(1)
     page.find('#submit-button').click
-    expect(page).to have_content('Created by:')
-    visit submissions_emailpdf_path(Matrix.find(1).id, Submission.find_by_user_id(user.id))
+    click_button 'Email my PDF'
     expect(page).to have_content('We have emailed you your PDF')
   end
 end

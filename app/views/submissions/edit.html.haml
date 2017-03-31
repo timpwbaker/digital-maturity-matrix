@@ -1,25 +1,24 @@
-
 %div.container
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
-      %h1= "#{@user.organisation} Digital Maturity Matrix"
+      %h1= "#{submission.user.organisation} Digital Maturity Matrix"
       %div
         - Matrix.digital_maturity_areas.each_with_index do |area|
-          - if area == @area
+          - if area == start_area
             %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-secondary", :disabled => "true", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
           -else
             %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-primary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
-      = render 'existingform'
+      = render 'existingform', matrix: matrix, submission: submission, start_area: start_area
       #loading.hidden
         =image_tag '/images/loading.gif'
 
 :javascript
 
   $(document).ready( function() {
-    $("#block_#{@area}").removeClass("hidden").addClass("on-show");
-  });      
+    $("#block_#{start_area}").removeClass("hidden").addClass("on-show");
+  });
 = javascript_include_tag 'edit_submission_display'
 = javascript_include_tag 'loading_button'
 

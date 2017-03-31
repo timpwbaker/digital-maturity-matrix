@@ -1,15 +1,15 @@
 // This form is used to edit existing submissions
-= form_for([@matrix,@submission]) do |f|
-  - if @submission.errors.any?
+= form_for([matrix, submission]) do |f|
+  - if submission.errors.any?
     #error_explanation
       %h2
-        = pluralize(@submission.errors.count, "error")
+        = pluralize(submission.errors.count, "error")
         prohibited this submission from being saved:
       %ul
-        - @submission.errors.full_messages.each do |message|
+        - submission.errors.full_messages.each do |message|
           %li= message
     %br/
-  .field  
+  .field
     = f.hidden_field :matrix_id, :value => params[:matrix_id]
   .field
     = f.hidden_field :user_id, :value => current_user.id
@@ -22,30 +22,30 @@
           %h3 Current State
         .col-xs-3.no-padding
           %h3 Target State
-      - @questions.each_with_index do |question, qi|
+      - matrix.questions.order(:area).each_with_index do |question, qi|
         -if question.area == area
           .row
             .col-xs-6.no-padding
-              = question.body 
+              = question.body
             .col-xs-3.no-padding
               = f.fields_for :answers, @answers do |answer|
                 -if question.id == answer.object.question_id
-                  .field 
-                    = answer.select :choice, Submission.choices
+                  .field
+                    = answer.select :choice, Submission.choices, {}, { id: "question_answer_#{answer.object.id}" }
                   .field
                     = answer.hidden_field :question_answered, :value => question.body
                   .field
                     = answer.hidden_field :question_id, :value => question.id
-            .col-xs-3.no-padding 
+            .col-xs-3.no-padding
               = f.fields_for :targets, @targets do |target|
                 -if question.id == target.object.question_id
-                  .field 
-                    = target.select :choice, Submission.choices
+                  .field
+                    = target.select :choice, Submission.choices, {}, { id: "question_target_#{target.object.id}" }
 
                   .field
                     = target.hidden_field :question_answered, :value => question.body
                   .field
                     = target.hidden_field :question_id, :value => question.id
-    
+
   .actions
     = f.submit "Save my matrix", :id => "submit-button", :class => "btn btn-primary save-update-matrix", :style => "margin:20px 10px 0 0"
