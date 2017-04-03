@@ -45,6 +45,7 @@ class SubmissionsController < ApplicationController
 
   def update
       if submission.update(submission_params)
+        submission.update_attribute(:s3_url, nil)
         redirect_to matrix_submission_path(matrix, submission),
           notice: 'Submission was successfully updated.'
       else
