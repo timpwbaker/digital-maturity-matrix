@@ -3,8 +3,9 @@ require 'rails_helper'
 feature 'Edit a brand', :devise do
   scenario 'successfully edit a brand' do
     user = FactoryGirl.create(:user)
+    matrix = FactoryGirl.create(:matrix)
     signin(user.email, user.password)
-    visit new_matrix_submission_path(1)
+    visit new_matrix_submission_path(matrix)
     page.find('#submit-button').click
     expect(page).to have_content('Created by:')
     page.find('#add-brand-colours').click
