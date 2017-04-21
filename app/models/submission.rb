@@ -8,6 +8,9 @@ class Submission < ActiveRecord::Base
   accepts_nested_attributes_for :targets,
                                 allow_destroy: true
 
+  before_save :update_top_line_current
+  before_save :update_top_line_target
+
   def self.choices
     [
       'Strongly Agree',
@@ -87,8 +90,23 @@ class Submission < ActiveRecord::Base
     targets.joins(:question).order('questions.area').order('questions.id')
   end
 
-    private
+  private
 
+  def update_top_line_current
+    stats = {}
+    Matrix.digital_maturity_areas.each do |area|
+      stats[area.to_sym] = total_current_score_by(area)
+    end
+    self.top_line_current_hash = stats
+  end
+
+  def update_top_line_target
+    stats = {}
+    Matrix.digital_maturity_areas.each do |area|
+      stats[area.to_sym] = total_target_score_by(area)
+    end
+    self.top_line_target_hash = stats
+  end
 
   def name
     "#{user.name}"

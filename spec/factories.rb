@@ -43,9 +43,11 @@ FactoryGirl.define do
 
   factory :answer do
     choice "Strongly agree"
+    score 16.6666666666667
   end
 
   factory :target do
     choice "Strongly agree"
+    score 16.6666666666667
   end
 end

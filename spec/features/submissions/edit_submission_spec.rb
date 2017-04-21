@@ -9,7 +9,6 @@ feature 'Edit submission', :devise do
 
     page.select("Agree", :from => "question_answer_#{submission.answers.first.id}")
     page.find('#submit-button').click
-    save_and_open_page
 
     expect(page).to have_content('Current digital maturity: 99%')
     expect(page).to have_content('Current: 94%')

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   scope module: :api do
     scope module: :v1 do
-      resource :query, only: [:create, :show]
+      resource :query, only: [:create]
     end
   end
   root to: 'visitors#index'
