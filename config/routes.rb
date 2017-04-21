@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
-  resources :users, only: [:index, :show, :delete]
+  resources :users, only: [:index, :show, :delete] do
+    resource :api_key, only: [:create, :show]
+  end
 end
