@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  scope module: :api do
+    scope module: :v1 do
+      resource :query, only: [:create, :show]
+    end
+  end
   root to: 'visitors#index'
 
   resources :brands, only: [:new, :edit, :create, :update]

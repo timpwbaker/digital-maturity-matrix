@@ -91,7 +91,7 @@ class Submission < ActiveRecord::Base
 
 
   def name
-    "#{first_name} #{last_name}"
+    "#{user.name}"
   end
 
   after_save :update_scores
