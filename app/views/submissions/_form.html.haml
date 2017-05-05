@@ -9,7 +9,7 @@
         - submission.errors.full_messages.each do |message|
           %li= message
     %br/
-  .field  
+  .field
     = f.hidden_field :matrix_id, :value => params[:matrix_id]
   .field
     = f.hidden_field :user_id, :value => current_user.id
@@ -26,10 +26,10 @@
         -if question.area == area
           .row
             .col-xs-6.no-padding
-              = question.body 
+              = question.body
             .col-xs-3.no-padding
               = f.fields_for :answers, [Answer.new] do |answer|
-                .field 
+                .field
                   = answer.select :choice, Submission.choices
                 .field
                   = answer.hidden_field :question_answered, :value => question.body
@@ -37,15 +37,15 @@
                   = answer.hidden_field :question_id, :value => question.id
             .col-xs-3.no-padding
               = f.fields_for :targets, [Target.new] do |target|
-                .field 
+                .field
                   = target.select :choice, Submission.choices
 
                 .field
                   = target.hidden_field :question_answered, :value => question.body
                 .field
                   = target.hidden_field :question_id, :value => question.id
-      
 
-      
+
+
   .actions
     = f.submit "Create my matrix", :id => "submit-button", :class => "hidden btn btn-primary save-update-matrix", :style => "margin:20px 10px 0 0"

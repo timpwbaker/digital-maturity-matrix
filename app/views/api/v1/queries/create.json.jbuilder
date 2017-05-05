@@ -1,0 +1,4 @@
+json.average_current_maturity submissions.current_averages
+json.average_target_maturity submissions.target_averages
+json.current_submissions_array submissions.current_averages_array
+json.target_submissions_array submissions.target_averages_array

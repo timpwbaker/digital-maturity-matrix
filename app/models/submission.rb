@@ -20,9 +20,59 @@ class Submission < ActiveRecord::Base
     ]
   end
 
+  def self.for_users(users)
+    where(user: users)
+  end
+
   def self.add_attachment
     has_attached_file :export
     validates_attachment :export, content_type: { content_type: ["application/pdf"] }
+  end
+
+  def self.current_averages
+    result = {}
+    count = self.all.count
+    submissions = self.all
+    Matrix.digital_maturity_areas.each do |area|
+      total_current = submissions.inject(0) { |total, submission| total = total + submission.top_line_current_hash[area].to_i }
+      average_current = total_current/count
+      result[area] = average_current
+    end
+    result
+  end
+
+  def self.target_averages
+    result = {}
+    count = self.all.count
+    submissions = self.all
+    Matrix.digital_maturity_areas.each do |area|
+      total_targets = submissions.inject(0) { |total, submission| total = total + submission.top_line_target_hash[area].to_i }
+      average_target = total_targets/count
+      result[area] = average_target
+    end
+    result
+  end
+
+  def self.current_averages_array
+    current_averages = self.current_averages
+    Matrix.digital_maturity_areas.map{ |area|
+      current_averages[area]
+    }
+  end
+
+  def self.target_averages_array
+    target_averages = self.target_averages
+    Matrix.digital_maturity_areas.map{ |area|
+      target_averages[area]
+    }
+  end
+
+  def self.current_average_maturity
+    self.current_averages_array.inject(:+).to_f/8
+  end
+
+  def self.target_average_maturity
+    self.target_averages_array.inject(:+).to_f/8
   end
 
   def self.to_csv(submissions)

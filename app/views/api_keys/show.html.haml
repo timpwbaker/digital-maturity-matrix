@@ -2,8 +2,8 @@
   %div.row
     %div.col-md-10.col-xs-11.center-block{:style => "float:none"}
       %h1 Your API details
-      %p This api will allow you to query average maturity data, currently it's in production, full details to follow
       %p
         %strong= "Key: #{user.api_key}"
       %p
         %p= link_to 'Reset Key', user_api_key_path(current_user), method: :post
+      %p API docs can be found on <a href='https://github.com/timpwbaker/digital-maturity-matrix/wiki/API-calls'> GitHub </a>

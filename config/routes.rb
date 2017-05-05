@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resource :dispatch_pdfs, only: [:create]
     end
   end
+  resources :benchmark_queries, only: [:new, :create, :show]
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   resources :users, only: [:index, :show, :delete] do
