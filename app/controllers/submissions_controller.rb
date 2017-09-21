@@ -34,7 +34,6 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    binding.pry
     new_submission = Submission.new(submission_params)
     if new_submission.save
       redirect_to matrix_submission_path(matrix, new_submission),
