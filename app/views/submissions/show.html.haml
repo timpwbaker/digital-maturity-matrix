@@ -37,8 +37,8 @@
             <canvas height="300px" id='barChart'></canvas><br>
       .col-md-6
         #chart-placeholder
-          %h2= "Current digital maturity: #{submission.top_line_current}%"
-          %h2= "Target digital maturity: #{submission.top_line_target}%"
+          %h2= "Current digital maturity: #{submission.top_line_current.round(0)}%"
+          %h2= "Target digital maturity: #{submission.top_line_target.round(0)}%"
         #chart-placeholder
           .col-xs-12.center-block.no-padding{:style=>"float:none"}
             - Matrix.digital_maturity_areas.each do |area|
@@ -56,134 +56,107 @@
                   = link_to 'Edit', edit_matrix_submission_path(matrix,submission,:area => area), :class => "no-margin btn btn-secondary edit-area-button"
 
 
-    .row
-      %h2{:style => "text-align:center"} Your Answers
-      .col-md-6
-        %h3 Current Level
-        - Matrix.digital_maturity_areas.each do |area|
-          %h4= area
-          - answers.includes(:question).where('questions.area = ?', area).each do |answer|
-            %p
-            %strong= answer.question_answered
-            %br= answer.choice
-          %p
-            %strong= "Area Score: #{submission.total_current_score_by(area)}"
-          %button.btn.btn-primary
-            = link_to 'Edit Section', edit_matrix_submission_path(matrix,submission,:area => area)
-      .col-md-6
-        %h3 Target Level
-        - Matrix.digital_maturity_areas.each do |area|
-          %h4= area
-          - targets.includes(:question).where('questions.area = ?', area).each do |target|
-            %p
-            %strong= target.question_answered
-            %br= target.choice
-          %p
-            %strong= "Area Target: #{submission.total_target_score_by(area)}"
-          %button.btn.btn-primary
-            = link_to 'Edit Section', edit_matrix_submission_path(matrix,submission,:area => area)
+:javascript
 
-        :javascript
+  $(".emailpdf").click(function(){
+    $(".emailpdf").html("<img height='30px' width='30px' src='/images/loading.gif'>");
+  });
 
-          $(".emailpdf").click(function(){
-            $(".emailpdf").html("<img height='30px' width='30px' src='/images/loading.gif'>");
-          });
-
-          //radar chart data
-          radarData = {
-            labels: #{Matrix.digital_maturity_areas.to_s},
-            datasets : [
-                  {
-                      label: "Current Maturity",
-                      fillColor: "rgba(255,255,255,0)",
-                      strokeColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
-                      pointColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
-                      pointStrokeColor: "#fff",
-                      data: #{submission.current_data_array}
-                  },
-                  {
-                      label: "Target Maturity",
-                      fillColor: "rgba(255,255,255,0)",
-                      strokeColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
-                      pointColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
-                      pointStrokeColor: "#fff",
-                      data: #{submission.target_data_array}
-                  }
-              ],
+  //radar chart data
+  radarData = {
+    labels: #{Matrix.digital_maturity_areas.to_s},
+    datasets : [
+          {
+              label: "Current Maturity",
+              fillColor: "rgba(255,255,255,0)",
+              strokeColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              pointColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              pointStrokeColor: "#fff",
+              data: #{submission.current_data_array}
+          },
+          {
+              label: "Target Maturity",
+              fillColor: "rgba(255,255,255,0)",
+              strokeColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
+              pointColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
+              pointStrokeColor: "#fff",
+              data: #{submission.target_data_array}
           }
+      ],
+  }
 
-          //Create Radar chart
-          var radarOptions = {
-            scaleShowLabels : true,
-            scaleOverride: true,
-            multiTooltipTemplate: "<%= value + ' %' %>",
-            responsive: true,
-            scaleSteps: 10,
-            scaleStepWidth: 10,
-            scaleStartValue: 0,
-          };
+  //Create Radar chart
+  var radarOptions = {
+    scaleShowLabels : true,
+    scaleOverride: true,
+    multiTooltipTemplate: "<%= value + ' %' %>",
+    responsive: true,
+    scaleSteps: 10,
+    scaleStepWidth: 10,
+    scaleStartValue: 0,
+  };
 
-          var barOptions = {
-            multiTooltipTemplate: "<%= value + ' %' %>",
-            responsive: true,
-            scaleShowLabels : true,
-            scaleOverride: true,
-            scaleSteps: 10,
-            scaleStepWidth: 10,
-            legend: {
-                display: true,
-                labels: {
-                    fontColor: 'rgb(255, 99, 132)'
-                }
-            },
-            scales: {
-                    xAxes: [{
-                            stacked: true
-                    }],
-                    yAxes: [{
-                            stacked: true
-                    }]
-                }
+  var barOptions = {
+    multiTooltipTemplate: "<%= value + ' %' %>",
+    responsive: true,
+    scaleShowLabels : true,
+    scaleOverride: true,
+    scaleSteps: 10,
+    scaleStepWidth: 10,
+    legend: {
+        display: true,
+        labels: {
+            fontColor: 'rgb(255, 99, 132)'
+        }
+    },
+    scales: {
+            xAxes: [{
+                    stacked: true
+            }],
+            yAxes: [{
+                    stacked: true
+            }]
+        }
 
-          };
+  };
 
-          //bar
-          var barData = {
-              labels: #{Matrix.digital_maturity_areas.to_s},
-              datasets: [
-                  {
-                      label: "Current Maturity",
-                      fillColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
-                      strokeColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
-                      borderWidth: 1,
-                      highlightFill: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
-                      highlightStroke: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
-                      data: #{submission.current_data_array},
-                  },
-                  {
-                      label: "Target Maturity",
-                      fillColor: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
-                      strokeColor: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
-                      borderWidth: 1,
-                      highlightFill: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
-                      highlightStroke: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
-                      data: #{submission.target_data_array},
-                  }
-              ]
-          };
+  //bar
+  var barData = {
+      labels: #{Matrix.digital_maturity_areas.to_s},
+      datasets: [
+          {
+              label: "Current Maturity",
+              fillColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              strokeColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              borderWidth: 1,
+              highlightFill: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              highlightStroke: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
+              data: #{submission.current_data_array},
+          },
+          {
+              label: "Target Maturity",
+              fillColor: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
+              strokeColor: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
+              borderWidth: 1,
+              highlightFill: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
+              highlightStroke: "#{submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)'}",
+              data: #{submission.target_data_array},
+          }
+      ]
+  };
 
-          $(document).ready( function() {
+  $(document).ready( function() {
 
-            var ctx2 = document.getElementById("radarChart").getContext("2d");
-            var radarChart = new Chart(ctx2).Radar(radarData,radarOptions);
+    var ctx2 = document.getElementById("radarChart").getContext("2d");
+    var radarChart = new Chart(ctx2).Radar(radarData,radarOptions);
 
-            document.getElementById('radar-legend').innerHTML = radarChart.generateLegend();
+    document.getElementById('radar-legend').innerHTML = radarChart.generateLegend();
 
-            var ctx3 = document.getElementById("barChart").getContext("2d");
-            var barChart = new Chart(ctx3).Bar(barData,barOptions);
+    var ctx3 = document.getElementById("barChart").getContext("2d");
+    var barChart = new Chart(ctx3).Bar(barData,barOptions);
 
-            document.getElementById('bar-legend').innerHTML = barChart.generateLegend();
+    document.getElementById('bar-legend').innerHTML = barChart.generateLegend();
 
-          });
+  });
 
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921171503) do
+ActiveRecord::Schema.define(version: 20170921211949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,9 +20,11 @@ ActiveRecord::Schema.define(version: 20170921171503) do
   create_table "answers", force: :cascade do |t|
     t.integer  "submission_id"
     t.integer  "question_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "choice"
+    t.string   "question_answered"
+    t.float    "score"
   end
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
@@ -83,23 +85,25 @@ ActiveRecord::Schema.define(version: 20170921171503) do
     t.string   "s3_url"
     t.hstore   "top_line_current_hash"
     t.hstore   "top_line_target_hash"
-    t.hstore   "answers"
-    t.hstore   "targets"
+    t.jsonb    "answers_json"
+    t.jsonb    "targets_json"
   end
 
-  add_index "submissions", ["answers"], name: "index_submissions_on_answers", using: :gin
+  add_index "submissions", ["answers_json"], name: "index_submissions_on_answers_json", using: :gin
   add_index "submissions", ["matrix_id"], name: "index_submissions_on_matrix_id", using: :btree
-  add_index "submissions", ["targets"], name: "index_submissions_on_targets", using: :gin
+  add_index "submissions", ["targets_json"], name: "index_submissions_on_targets_json", using: :gin
   add_index "submissions", ["top_line_current_hash"], name: "index_submissions_on_top_line_current_hash", using: :gin
   add_index "submissions", ["top_line_target_hash"], name: "index_submissions_on_top_line_target_hash", using: :gin
   add_index "submissions", ["user_id"], name: "index_submissions_on_user_id", using: :btree
 
   create_table "targets", force: :cascade do |t|
+    t.string   "question_answered"
     t.string   "choice"
     t.integer  "question_id"
     t.integer  "submission_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.float    "score"
   end
 
   add_index "targets", ["question_id"], name: "index_targets_on_question_id", using: :btree

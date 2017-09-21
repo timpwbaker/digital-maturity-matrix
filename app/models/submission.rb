@@ -1,6 +1,8 @@
 class Submission < ActiveRecord::Base 
   belongs_to :matrix
   belongs_to :user
+  has_many :answers, dependent: :destroy
+  has_many :targets, dependent: :destroy
 
   # before_save :update_top_line_current
   # before_save :update_top_line_target
@@ -13,6 +15,17 @@ class Submission < ActiveRecord::Base
       'Strongly Disagree'
     ]
   end
+
+  def self.score_map(response)
+    hash = {
+      "Strongly Agree": 16 + 2/3.to_f,
+      "Agree": 11,
+      "Disagree": 6,
+      "Strongly Disagree": 0
+    }
+    hash[response]
+  end
+
 
   def self.for_users(users)
     where(user: users)
@@ -70,19 +83,27 @@ class Submission < ActiveRecord::Base
   end
 
   def top_line_current
-    (answers.sum('score') / Matrix.digital_maturity_areas.count).round(0)
+    Matrix
+      .digital_maturity_areas
+      .map{ |area| total_current_score_by(area) }
+      .flatten
+      .reduce(:+)/Matrix.digital_maturity_areas.count
   end
 
   def top_line_target
-    (targets.sum('score') / Matrix.digital_maturity_areas.count).round(0)
+    Matrix
+      .digital_maturity_areas
+      .map{ |area| total_target_score_by(area) }
+      .flatten
+      .reduce(:+)/Matrix.digital_maturity_areas.count
   end
 
   def total_current_score_by(area)
-    answers.joins(:question).where('questions.area = ?', area).inject(0) { |sum, answer| sum + answer.score }.round(0)
+    answers_json[area].map{|key, value| value}.map{|response| Submission.score_map(response.to_sym)}.reduce(:+).round(0)
   end
 
   def total_target_score_by(area)
-    targets.joins(:question).where('questions.area = ?', area).inject(0) { |sum, answer| sum + answer.score }.round(0)
+    targets_json[area].map{|key, value| value}.map{|response| Submission.score_map(response.to_sym)}.reduce(:+).round(0)
   end
 
   def current_data_array

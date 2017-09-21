@@ -12,9 +12,7 @@ class SubmissionsController < ApplicationController
   def show
     render locals: {
       matrix: matrix,
-      submission: submission,
-      answers: submission.answers_ordered_by_question_area,
-      targets: submission.targets_ordered_by_question_area,
+      submission: submission
     }
   end
 
@@ -93,8 +91,14 @@ class SubmissionsController < ApplicationController
         :user_id,
         :name,
         :s3_url,
-        answers: Hash[Matrix.digital_maturity_areas.map{ |area| [area,  matrix.questions.where("area = ?", area).map{|question| question.id.to_s }]}],
-        targets: Hash[Matrix.digital_maturity_areas.map{ |area| [area,  matrix.questions.where("area = ?", area).map{|question| question.id.to_s }]}],
+        answers_json: Hash[Matrix.digital_maturity_areas.map{ |area| 
+          [area,  matrix.questions.where("area = ?", area).map{|question| 
+            question.id.to_s }]
+        }],
+        targets_json: Hash[Matrix.digital_maturity_areas.map{ |area| 
+          [area,  matrix.questions.where("area = ?", area).map{|question| 
+            question.id.to_s }]
+        }],
     )
   end
 
