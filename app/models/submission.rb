@@ -1,15 +1,9 @@
-class Submission < ActiveRecord::Base
+class Submission < ActiveRecord::Base 
   belongs_to :matrix
   belongs_to :user
-  has_many :answers, dependent: :destroy
-  accepts_nested_attributes_for :answers,
-                                allow_destroy: true
-  has_many :targets, dependent: :destroy
-  accepts_nested_attributes_for :targets,
-                                allow_destroy: true
 
-  before_save :update_top_line_current
-  before_save :update_top_line_target
+  # before_save :update_top_line_current
+  # before_save :update_top_line_target
 
   def self.choices
     [
@@ -75,39 +69,6 @@ class Submission < ActiveRecord::Base
     self.target_averages_array.inject(:+).to_f/8
   end
 
-  def self.to_csv(submissions)
-    require 'csv'
-    CSV.generate do |csv|
-      headers = ["Submission ID", "User name", "User organisation", "Organisation size", "Organisation turnover", "Digital team size", "Marketing opt in"]
-      Matrix.digital_maturity_areas.each_with_index do |area, index|
-        Question.where("area = '#{area}'").each do |question|
-          headers << "current: #{area} // #{question.body}"
-          headers << "target: #{area} // #{question.body}"
-        end
-      end
-      csv << headers
-      submissions.each do |submission|
-        row = []
-        row << submission.id
-        row << submission.user.name
-        row << submission.user.organisation
-        row << submission.user.organisation_size
-        row << submission.user.organisation_turnover
-        row << submission.user.digital_size
-        row << submission.user.opt_in
-        Matrix.digital_maturity_areas.each_with_index do |area, index|
-          Question.where(matrix: submission.matrix).where("area = '#{area}'").each do |question|
-            answer = Answer.where("submission_id = '#{submission.id}'").where("question_id = '#{question.id}'").first
-            target = Target.where("submission_id = '#{submission.id}'").where("question_id = '#{question.id}'").first
-            row << "#{answer.score}"
-            row << "#{target.score}"
-          end
-        end
-        csv << row
-      end
-    end
-  end
-
   def top_line_current
     (answers.sum('score') / Matrix.digital_maturity_areas.count).round(0)
   end
@@ -160,34 +121,5 @@ class Submission < ActiveRecord::Base
 
   def name
     "#{user.name}"
-  end
-
-  after_save :update_scores
-
-  def update_scores
-    answers.each do |answer|
-      @answer = Answer.find(answer.id)
-      if answer.choice == 'Strongly Agree'
-        @answer.update_column(:score, 16.666666666666666666)
-      elsif answer.choice == 'Agree'
-        @answer.update_column(:score, 11)
-      elsif answer.choice == 'Disagree'
-        @answer.update_column(:score, 6)
-      elsif answer.choice == 'Strongly Disagree'
-        @answer.update_column(:score, 0)
-           end
-    end
-    targets.each do |target|
-      @target = Target.find(target.id)
-      if target.choice == 'Strongly Agree'
-        @target.update_column(:score, 16.666666666666666666)
-      elsif target.choice == 'Agree'
-        @target.update_column(:score, 11)
-      elsif target.choice == 'Disagree'
-        @target.update_column(:score, 6)
-      elsif target.choice == 'Strongly Disagree'
-        @target.update_column(:score, 0)
-      end
-    end
   end
 end

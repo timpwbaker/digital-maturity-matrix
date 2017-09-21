@@ -34,6 +34,7 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    binding.pry
     new_submission = Submission.new(submission_params)
     if new_submission.save
       redirect_to matrix_submission_path(matrix, new_submission),
@@ -93,20 +94,8 @@ class SubmissionsController < ApplicationController
         :user_id,
         :name,
         :s3_url,
-        answers_attributes: [
-            :id,
-            :question_answered,
-            :choice,
-            :question_id,
-            :score
-        ],
-        targets_attributes: [
-            :id,
-            :question_answered,
-            :choice,
-            :question_id,
-            :score
-        ]
+        answers: Hash[Matrix.digital_maturity_areas.map{ |area| [area,  matrix.questions.where("area = ?", area).map{|question| question.id.to_s }]}],
+        targets: Hash[Matrix.digital_maturity_areas.map{ |area| [area,  matrix.questions.where("area = ?", area).map{|question| question.id.to_s }]}],
     )
   end
 
