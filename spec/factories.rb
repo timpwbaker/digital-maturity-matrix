@@ -34,21 +34,16 @@ FactoryGirl.define do
     matrix
     user
 
-    after(:create) do |submission|
-      submission.matrix.questions.each do |question|
-        submission.answers << create(:answer, question: question, question_answered: question.body)
-        submission.targets << create(:target, question: question, question_answered: question.body)
-      end
-    end
-  end
-
-  factory :answer do
-    choice "Strongly agree"
-    score 16.6666666666667
-  end
-
-  factory :target do
-    choice "Strongly agree"
-    score 16.6666666666667
+    after(:create) { |instance|
+      instance.answers_json = Hash[Matrix.digital_maturity_areas.map{ |area| 
+        [area,  Hash[instance.matrix.questions.where("area = ?", area).map{|question| 
+          [question.id.to_s, "Strongly Agree"] }]]
+      }]
+      instance.targets_json = Hash[Matrix.digital_maturity_areas.map{ |area| 
+        [area,  Hash[instance.matrix.questions.where("area = ?", area).map{|question| 
+          [question.id.to_s, "Strongly Agree"] }]]
+      }]
+      instance.save
+    }
   end
 end

@@ -14,7 +14,7 @@ RSpec.feature 'User queries benchmarking data' do
     select '1-5', from: 'query_organisation_size'
     click_button 'submit'
 
-    expect(page).to have_content "Current average maturity: 0.0%"
+    expect(page).to have_content "Current average maturity: 100.0%"
   end
 
   it 'returns no data and a reason' do

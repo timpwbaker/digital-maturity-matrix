@@ -14,8 +14,8 @@
             <canvas id='radarChart'></canvas><br>
       .col-md-6
         #chart-placeholder
-          %h2= "Current average maturity: #{submissions.current_average_maturity}%"
-          %h2= "Target average maturity: #{submissions.target_average_maturity}%"
+          %h2= "Current average maturity: #{submissions_aggregator.current_average_maturity}%"
+          %h2= "Target average maturity: #{submissions_aggregator.target_average_maturity}%"
         #chart-placeholder
           .col-xs-12.center-block.no-padding{:style=>"float:none"}
             - Matrix.digital_maturity_areas.each do |area|
@@ -24,10 +24,10 @@
                   %strong= area
               .row
                 .col-sm-4.no-padding
-                  %p= "Current: #{submissions.current_averages[area]}%"
+                  %p= "Current: #{submissions_aggregator.current_averages[area]}%"
 
                 .col-sm-4.no-padding
-                  %p= "Target: #{submissions.target_averages[area]}%"
+                  %p= "Target: #{submissions_aggregator.target_averages[area]}%"
         :javascript
           //radar chart data
           radarData = {
@@ -39,7 +39,7 @@
                       strokeColor: 'rgba(0,255,0,1)',
                       pointColor: 'rgba(0,255,0,1)',
                       pointStrokeColor: "#fff",
-                      data: #{submissions.current_averages_array}
+                      data: #{submissions_aggregator.current_averages_array}
                   },
                   {
                       label: "Target Maturity",
@@ -47,7 +47,7 @@
                       strokeColor: 'rgba(225,0,0,1)',
                       pointColor: 'rgba(225,0,0,1)',
                       pointStrokeColor: "#fff",
-                      data: #{submissions.target_averages_array}
+                      data: #{submissions_aggregator.target_averages_array}
                   }
               ],
           }

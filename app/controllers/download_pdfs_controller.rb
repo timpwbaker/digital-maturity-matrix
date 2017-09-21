@@ -20,7 +20,7 @@ class DownloadPdfsController < ApplicationController
   def create_and_save_pdf
     rand = SecureRandom.hex
     date = Date.today
-    render  locals: { matrix: matix, submission: submission },
+    render  locals: { submission: submission },
             javascript_delay: 2000,
             pdf:       'submission',
             layout:    'pdf',
