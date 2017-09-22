@@ -2,7 +2,10 @@ class BenchmarkQueriesController < ApplicationController
 
   def create
     if submissions.count > 9
-      render locals: {submissions: submissions, query_params: query_params}
+      render locals: {
+        submissions_aggregator: submissions.aggregator,
+        query_params: query_params
+      }
     else
       flash[:alert] = "Sorry there's not enough data, try widening your search"
       redirect_to new_benchmark_query_path(query_params)

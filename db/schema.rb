@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921211949) do
+ActiveRecord::Schema.define(version: 20170922103938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,16 +75,9 @@ ActiveRecord::Schema.define(version: 20170921211949) do
   create_table "submissions", force: :cascade do |t|
     t.integer  "matrix_id"
     t.integer  "user_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.string   "name"
-    t.string   "export_file_name"
-    t.string   "export_content_type"
-    t.integer  "export_file_size"
-    t.datetime "export_updated_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "s3_url"
-    t.hstore   "top_line_current_hash"
-    t.hstore   "top_line_target_hash"
     t.jsonb    "answers_json"
     t.jsonb    "targets_json"
   end
@@ -92,8 +85,6 @@ ActiveRecord::Schema.define(version: 20170921211949) do
   add_index "submissions", ["answers_json"], name: "index_submissions_on_answers_json", using: :gin
   add_index "submissions", ["matrix_id"], name: "index_submissions_on_matrix_id", using: :btree
   add_index "submissions", ["targets_json"], name: "index_submissions_on_targets_json", using: :gin
-  add_index "submissions", ["top_line_current_hash"], name: "index_submissions_on_top_line_current_hash", using: :gin
-  add_index "submissions", ["top_line_target_hash"], name: "index_submissions_on_top_line_target_hash", using: :gin
   add_index "submissions", ["user_id"], name: "index_submissions_on_user_id", using: :btree
 
   create_table "targets", force: :cascade do |t|

@@ -29,11 +29,11 @@
               = question.body
             .col-xs-3.no-padding
               .field
-                = select_tag "submission[answers_json][#{area}][" + question.id.to_s + "]", options_for_select(Submission.choices, submission.answers_json[area][question.id.to_s])
+                = select_tag "submission[answers_json][#{area}][" + question.id.to_s + "]", options_for_select(Submission.choices, submission.answers_json ? submission.answers_json[area][question.id.to_s] : nil)
             .col-xs-3.no-padding
               = f.fields_for :targets, [Target.new] do |target|
                 .field
-                  = select_tag "submission[targets_json][#{area}][" + question.id.to_s + "]", options_for_select(Submission.choices, submission.targets_json[area][question.id.to_s])
+                  = select_tag "submission[targets_json][#{area}][" + question.id.to_s + "]", options_for_select(Submission.choices, submission.targets_json ? submission.targets_json[area][question.id.to_s] : nil )
 
   .actions
     = f.submit "Create my matrix", :id => "submit-button", :class => "hidden btn btn-primary save-update-matrix", :style => "margin:20px 10px 0 0"

@@ -3,7 +3,9 @@ module Api
     class QueriesController < BaseApiController
       def create
         if submissions.count > 9
-          render locals: {submissions: submissions}
+          render locals: {
+            submissions_aggregator: submissions.aggregator
+          }
         else
           render json: {'response' => 'Sorry, there is not enough data'}
         end

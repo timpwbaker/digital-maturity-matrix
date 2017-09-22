@@ -10,10 +10,7 @@ class SubmissionsController < ApplicationController
   end
 
   def show
-    render locals: {
-      matrix: matrix,
-      submission: submission
-    }
+    render locals: { submission: submission }
   end
 
   def new

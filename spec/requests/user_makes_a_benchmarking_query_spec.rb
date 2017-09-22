@@ -9,7 +9,32 @@ RSpec.describe 'user makes a benchmark query' do
         submission = create :submission, user: user, matrix: matrix
       end
       post(query_path(api_key: User.first.api_key, query: { organisation_size: '1-5' }, format: :json))
-      expect(JSON.parse(response.body)).to eq ({"average_current_maturity"=>{"Technology"=>0, "Channels & Devices"=>0, "Audiences"=>0, "User Experience"=>0, "Content"=>0, "Campaigns"=>0, "Analytics"=>0, "Governance"=>0}, "average_target_maturity"=>{"Technology"=>0, "Channels & Devices"=>0, "Audiences"=>0, "User Experience"=>0, "Content"=>0, "Campaigns"=>0, "Analytics"=>0, "Governance"=>0}, "current_submissions_array"=>[0, 0, 0, 0, 0, 0, 0, 0], "target_submissions_array"=>[0, 0, 0, 0, 0, 0, 0, 0]})
+      expect(JSON.parse(response.body)).to eq (
+        {
+          "average_current_maturity"=>{
+            "Technology"=>100,
+            "Channels & Devices"=>100,
+            "Audiences"=>100,
+            "User Experience"=>100,
+            "Content"=>100,
+            "Campaigns"=>100,
+            "Analytics"=>100,
+            "Governance"=>100
+          },
+          "average_target_maturity"=>{
+            "Technology"=>100,
+            "Channels & Devices"=>100,
+            "Audiences"=>100,
+            "User Experience"=>100,
+            "Content"=>100,
+            "Campaigns"=>100,
+            "Analytics"=>100,
+            "Governance"=>100
+          },
+          "current_submissions_array"=>[100, 100, 100, 100, 100, 100, 100, 100],
+          "target_submissions_array"=>[100, 100, 100, 100, 100, 100, 100, 100]
+        }
+      )
     end
   end
 end

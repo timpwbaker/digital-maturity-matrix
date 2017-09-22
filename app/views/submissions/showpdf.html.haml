@@ -8,7 +8,7 @@
 %p#notice= notice
 %div.col-md-12
   %h1.text-center
-    = "#{submission.user.organisation} #{matrix.name}"
+    = "#{submission.user.organisation} #{submission.matrix.name}"
   %p.text-center
     = "Created on: #{submission.updated_at.strftime("%d-%m-%Y")}"
 
@@ -21,10 +21,10 @@
   %h2{:style => "text-align:center"} Your Maturity
   .col-xs-6.text-right
     %h4
-      %strong= "Current maturity: #{submission.top_line_current}%"
+      %strong= "Current maturity: #{submission.calculator.top_line_current}%"
   .col-xs-6.text-left
     %h4
-      %strong= "Target maturity: #{submission.top_line_target}%"
+      %strong= "Target maturity: #{submission.calculator.top_line_target}%"
   - Matrix.digital_maturity_areas.each do |area|
     .row
       .col-xs-12.text-center
@@ -32,9 +32,9 @@
           %strong= area
     .row
       .col-xs-6.text-right
-        %p= "Current: #{submission.total_current_score_by(area)}%"
+        %p= "Current: #{submission.calculator.total_current_score_by(area)}%"
       .col-xs-6.text-left
-        %p= "Target: #{submission.total_target_score_by(area)}%"
+        %p= "Target: #{submission.calculator.total_target_score_by(area)}%"
 
 :javascript
   //radar chart data
@@ -47,7 +47,7 @@
               strokeColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
               pointColor: "#{submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)'}",
               pointStrokeColor: "#fff",
-              data: #{submission.current_data_array}
+              data: #{submission.calculator.current_data_array}
           },
           {
               label: "Target Maturity",
@@ -55,7 +55,7 @@
               strokeColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
               pointColor: "#{submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)'}",
               pointStrokeColor: "#fff",
-              data: #{submission.target_data_array}
+              data: #{submission.calculator.target_data_array}
           }
       ],
   }

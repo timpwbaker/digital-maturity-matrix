@@ -1,5 +1,4 @@
 class DispatchPdfsController < ApplicationController
-
   def create
     if !submission.s3_url
       create_and_save_pdf
@@ -33,7 +32,7 @@ class DispatchPdfsController < ApplicationController
   def create_and_save_pdf
     rand = SecureRandom.hex
     date = Date.today
-    render  locals: { matrix: matrix, submission: submission },
+    render  locals: { submission: submission},
             javascript_delay: 2000,
             pdf:       'submission',
             layout:    'pdf',
@@ -52,7 +51,6 @@ class DispatchPdfsController < ApplicationController
 
     obj = s3.bucket(ENV['AWS_BUCKET']).object("#{org}_#{date}_submission#{rand}.pdf")
     obj.upload_file(Rails.root.join('app', 'pdf', "#{org}_#{date}_submission#{rand}.pdf"), acl:'public-read')
-    puts obj.public_url
     return obj.public_url
   end
 
