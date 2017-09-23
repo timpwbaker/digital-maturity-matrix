@@ -10,7 +10,7 @@
             %button{:id => "button"+area.delete(' ').delete('&'), :class => "btn btn-primary", :onclick => "changeArea(\'"+area.delete(' ').delete('&')+"\');"}=area
   %div.row
     %div.col-md-9.col-xs-11.center-block{:style => "float:none"}
-      = render 'form', matrix: matrix, submission: submission, start_area: start_area
+      = render 'form', matrix: matrix, submission: submission, start_area: start_area, progress_bar: false
       #loading.hidden
         =image_tag '/images/loading.gif'
 

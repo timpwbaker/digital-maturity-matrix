@@ -11,7 +11,7 @@
 
       %p Remember that your target state is not your ideal state. It is a realistic target of where you would like to be given your resources, time and priorities.
 
-      = render 'form', matrix: matrix, submission: submission
+      = render 'form', matrix: matrix, submission: submission, progress_bar: true
 
       %button{:class => "btn btn-primary hidden", :id => "prev-block", :onclick => "previousBlock();"} Previous
       %button{:class => "btn btn-primary", :id => "next-block", :onclick => "nextBlock();"} Next

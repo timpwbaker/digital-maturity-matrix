@@ -14,7 +14,16 @@
   .field
     = f.hidden_field :user_id, :value => current_user.id
   - Matrix.digital_maturity_areas.each_with_index do |area, index|
+    - complete = (index * 12.5).round(0)
     .area-block.hidden{:id => "block_#{area.delete(' ').delete('&')}"}
+      - if progress_bar && index > 0
+        .progress
+          .progress-bar{ "role" => "progressbar", 
+            "aria-valuenow" => "#{complete}", 
+            "aria-valuemin" => "0", 
+            "aria-valuemax" => "100", 
+            "style" => "width:#{complete}%" }
+            %p= "#{complete}% complete"
       .row
         .col-xs-6.no-padding
           %h2= area
