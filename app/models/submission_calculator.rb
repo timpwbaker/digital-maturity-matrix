@@ -10,18 +10,13 @@ class SubmissionCalculator
 
   def total_current_score_by(area)
     submission.answers_json[area]
-      .map{ |key, value|
-        score_map[value.to_sym]
-      }
-      .reduce(:+)
+      .inject(0){ |sum, (_, value)| sum + score_map[value.to_sym] }
       .round(0)
   end
 
   def total_target_score_by(area)
     submission.targets_json[area]
-      .map{|key, value| value}
-      .map{|response| score_map[response.to_sym]}
-      .reduce(:+)
+      .inject(0){ |sum, (_, value)| sum + score_map[value.to_sym] }
       .round(0)
   end
 

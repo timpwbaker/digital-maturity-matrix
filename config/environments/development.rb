@@ -37,26 +37,20 @@ Rails.application.configure do
     }
   }
 
-  Pony.options = {
-    :via => :smtp,
-    :via_options => {
-      :address => 'smtp.gmail.com',
-      :port => '587',
-      :domain => 'example.com',
-      user_name: ENV['GMAIL_USER'],
-      password: ENV['GMAIL_PASS'],
-      :authentication => :plain,
-      :enable_starttls_auto => true
-    }
-  }
-
   # ActionMailer Config
   config.action_mailer.default_url_options = { host: Rails.application.secrets.domain_name }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.raise_delivery_errors = true
   # Send email in development mode?
   config.action_mailer.perform_deliveries = true
-
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'digitalmaturity.com',
+    user_name:            ENV['GMAIL_USER'],
+    password:             ENV['GMAIL_PASS'],
+    authentication:       'plain',
+    enable_starttls_auto: true  }
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true

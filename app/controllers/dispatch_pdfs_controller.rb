@@ -4,8 +4,7 @@ class DispatchPdfsController < ApplicationController
       create_and_save_pdf
     end
     if target == 'email'
-      send_email_pdf(current_user.id, current_user.name,
-                     current_user.email, submission.s3_url)
+      UserMailer.matrix_pdf(current_user, submission.s3_url).deliver_later
       redirect_to(
         matrix_submission_path(matrix, submission),
         notice: 'We have emailed you your PDF'
@@ -22,7 +21,7 @@ class DispatchPdfsController < ApplicationController
   end
 
   def matrix
-    Matrix.find(params[:matrix_id])
+    submission.matrix
   end
 
   def target
@@ -52,25 +51,5 @@ class DispatchPdfsController < ApplicationController
     obj = s3.bucket(ENV['AWS_BUCKET']).object("#{org}_#{date}_submission#{rand}.pdf")
     obj.upload_file(Rails.root.join('app', 'pdf', "#{org}_#{date}_submission#{rand}.pdf"), acl:'public-read')
     return obj.public_url
-  end
-
-  def send_email_pdf(userid, username, useremail, fileurl)
-    require 'open-uri'
-    file = open(fileurl).read
-    Pony.mail(
-        to: useremail,
-        from: 'digital@breastcancercare.org.uk',
-        subject: 'Here’s your Third Sector Digital Maturity Matrix',
-        html_body: '<h2>Hello ' + username + '.</h2>
-        <p> Your Maturity Matrix is attached. We hope you find this useful.
-        <p> We’d love to know what you think, so please email
-        <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>
-        with any feedback or questions.
-        <p >All the best
-        <p> Breast Cancer Care Digital Team',
-        attachments: {
-            'matrix.pdf' => file
-        }
-    )
   end
 end

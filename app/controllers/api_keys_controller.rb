@@ -1,5 +1,4 @@
 class ApiKeysController < ApplicationController
-
   def create
     current_user.update_attribute(:api_key, SecureRandom.hex)
 

@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :brands, only: [:new, :edit, :create, :update]
   resources :matrices do
     resources :questions, only: [:new, :edit, :create, :update, :destroy]
-    resource :submissions_csv, only: [:create]
     resources :submissions do
       resource :dispatch_pdfs, only: [:create]
     end

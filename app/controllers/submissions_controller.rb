@@ -1,4 +1,3 @@
-# This controller acts on submissions, which belong to matrices and users.
 class SubmissionsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :new, :edit, :index]
   before_action :require_submission_permission, only: [:show, :update]

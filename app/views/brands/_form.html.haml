@@ -12,12 +12,8 @@
     = f.hidden_field :submission_id, :value => submission.id
   .field
     = f.label "Primary colour: current state"
-    = f.text_field :color_a, :class => "color-input"
+    = f.text_field :color_a, :class => "colour-input"
   .field
     = f.label "Secondary colour: target state"
-    = f.text_field :color_b, :class => "color-input"
+    = f.text_field :color_b, :class => "colour-input"
   = f.submit 'Save', :class => "btn btn-primary", :id => "save-brand"
-
-
-:javascript
-  $('input[type=text]').minicolors();

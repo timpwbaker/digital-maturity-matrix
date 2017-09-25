@@ -1,17 +1,19 @@
-class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+    :recoverable, :rememberable, :trackable, :validatable
 
-  has_one :benchmark_application
-  accepts_nested_attributes_for :benchmark_application, allow_destroy: true
   has_one :brand, dependent: :destroy
   has_one :submission, dependent: :destroy
-  accepts_nested_attributes_for :brand,
-                                allow_destroy: true
 
-  validates :name, :organisation, :organisation_turnover, :organisation_size, :digital_size, presence: true
+  accepts_nested_attributes_for :brand,
+    allow_destroy: true
+
+  validates :name,
+    :organisation,
+    :organisation_turnover,
+    :organisation_size,
+    :digital_size,
+    presence: true
 
   def self.turnover
     [
@@ -21,7 +23,7 @@ class User < ActiveRecord::Base
       'Large £1m-£10m',
       'Extra Large >£10m'
     ]
-    end
+  end
 
   def self.employees
     [
@@ -34,7 +36,7 @@ class User < ActiveRecord::Base
       '501-2500',
       '2500+'
     ]
-   end
+  end
 
   def self.digital
     [
@@ -49,5 +51,9 @@ class User < ActiveRecord::Base
       '31-40',
       '40+'
     ]
-   end
+  end
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_later
+  end
 end

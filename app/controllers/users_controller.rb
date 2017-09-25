@@ -1,5 +1,3 @@
-# This controls limited aspects of users (show and delete).
-# Additional user related functionality are handled by devise in controllers/users/..
 class UsersController < ApplicationController
   before_action :is_admin
   before_action :is_admin, only: [:index]

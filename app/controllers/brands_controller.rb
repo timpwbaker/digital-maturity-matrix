@@ -1,17 +1,20 @@
-# Brands controller. This controller allows users to add brand colours
 class BrandsController < ApplicationController
   before_action :no_existing_brand?, only: [:new]
 
   attr_reader :submission
 
   def new
-    @submission = Submission.find(params[:submission_id])
-    render locals: { submission: submission, matrix: submission.matrix, brand: Brand.new }
+    submission = Submission.find(params[:submission_id])
+    render locals: { submission: submission,
+                     matrix: submission.matrix,
+                     brand: Brand.new }
   end
 
   def edit
-    @submission = Submission.find(params[:submission_id])
-    render locals: { submission: submission, matrix: submission.matrix, brand: brand}
+    submission = Submission.find(params[:submission_id])
+    render locals: { submission: submission,
+                     matrix: submission.matrix,
+                     brand: brand}
   end
 
   def create
@@ -51,13 +54,9 @@ class BrandsController < ApplicationController
   end
 
   def brand_params
-    params.require(
-      :brand
-    )
-          .permit(
-            :user_id,
-            :color_a,
-            :color_b
-          )
+    params.require(:brand).permit(
+      :user_id,
+      :color_a,
+      :color_b)
   end
 end
