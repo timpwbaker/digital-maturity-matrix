@@ -17,7 +17,6 @@ function previousBlock() {
 }
 
 function nextPrevButtons() {
-  
   if ($(".area-block").first().hasClass("on-show")) {
     console.log("first");
     $("#prev-block").addClass("hidden");
@@ -35,5 +34,4 @@ function nextPrevButtons() {
     $("#next-block").removeClass("hidden");
     $("#submit-button").addClass("hidden");
   }
-
-    }
+}

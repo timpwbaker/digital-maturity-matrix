@@ -72,12 +72,9 @@ class SubmissionsController < ApplicationController
   end
 
   def is_only_submission
-    if Submission.where(matrix: matrix, user: current_user).any?
-      redirect_to(
-          edit_matrix_submission_path(matrix,
-                                      Submission.where(matrix: matrix).find_by_user_id(current_user.id)),
-          notice: 'You can only have one matrix per account.'
-      )
+    if current_user.submission
+      redirect_to edit_matrix_submission_path(matrix, current_user.submission),
+        notice: 'You can only have one matrix per account.'
     end
   end
 
@@ -87,15 +84,16 @@ class SubmissionsController < ApplicationController
         :user_id,
         :name,
         :s3_url,
-        answers_json: Hash[Matrix.digital_maturity_areas.map{ |area| 
-          [area,  matrix.questions.where("area = ?", area).map{|question| 
-            question.id.to_s }]
-        }],
-        targets_json: Hash[Matrix.digital_maturity_areas.map{ |area| 
-          [area,  matrix.questions.where("area = ?", area).map{|question| 
-            question.id.to_s }]
-        }],
+        answers_json: permitted_answers_targets_hash,
+        targets_json: permitted_answers_targets_hash,
     )
+  end
+
+  def permitted_answers_targets_hash
+    Hash[Matrix.digital_maturity_areas.map{ |area| 
+      [area,  matrix.questions.where("area = ?", area).map{|question| 
+        question.id.to_s }]
+    }]
   end
 
   def require_submission_permission
