@@ -1,4 +1,0 @@
-Log into heroku and pull the database, if you don't have the heroku creds
-there's a test.dump in the root to get you started:
-
-    heroku pg:pull DATABASE_URL maturity_matrix_db_development --app digital-maturity-matrix

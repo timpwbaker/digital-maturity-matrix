@@ -1,0 +1,33 @@
+<%= form_for([matrix, question]) do |f| %>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(question.errors.count, "error") %>
+        prohibited this question from being saved:
+      </h2>
+      <ul>
+        <% question.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :body %>
+    <br/>
+    <%= f.text_field :body %>
+  </div>
+  <div class="field">
+    <%= f.label :area %>
+    <br/>
+    <%= f.select :area, Matrix.digital_maturity_areas %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :matrix_id, :value => params[:matrix_id] %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

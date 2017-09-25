@@ -1,4 +1,4 @@
-class CreateBrands < ActiveRecord::Migration
+class CreateBrands < ActiveRecord::Migration[5.1]
   def change
     create_table :brands do |t|
       t.references :user, index: true, foreign_key: true

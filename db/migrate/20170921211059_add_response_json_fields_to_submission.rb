@@ -1,4 +1,4 @@
-class AddResponseJsonFieldsToSubmission < ActiveRecord::Migration
+class AddResponseJsonFieldsToSubmission < ActiveRecord::Migration[5.1]
   def change
     add_column :submissions, :answers_json, :jsonb
     add_index :submissions, :answers_json, using: :gin

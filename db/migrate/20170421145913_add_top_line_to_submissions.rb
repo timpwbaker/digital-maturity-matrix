@@ -1,4 +1,4 @@
-class AddTopLineToSubmissions < ActiveRecord::Migration
+class AddTopLineToSubmissions < ActiveRecord::Migration[5.1]
   def change
     enable_extension "hstore"
     add_column :submissions, :top_line_current_hash, :hstore

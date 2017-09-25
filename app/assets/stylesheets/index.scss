@@ -19,7 +19,8 @@
 } 
 
 #chart-graphic {
-	background: url(/images/radarchart.png) center center no-repeat;
+	background: center center no-repeat;
+  background-image: image-url("radarchart.png");
 	height:100%;
 	width:100%;
 }

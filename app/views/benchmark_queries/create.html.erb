@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="col-md-10 center-block" style="float:none">
+    <div class="row text-center">
+      <h1>Benchmarked Digital Maturity</h1>
+      <% query_params.to_hash.each do |key,value| %>
+        <h3>
+          <%= "#{key.humanize}: #{value}" %>
+        </h3>
+      <% end %>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div id="chart-placeholder" style="position:relative">
+          <h2>Digital Maturity Matrix</h2>
+          <div id="chart">
+            <div id="radar-legend" class="chart-legend"></div>
+            <canvas id='radarChart'></canvas><br>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="chart-placeholder">
+          <h2>
+            <%= "Current average maturity: #{submissions_aggregator.current_average_maturity}%" %>
+          </h2>
+          <h2>
+            <%= "Target average maturity: #{submissions_aggregator.target_average_maturity}%" %>
+          </h2>
+        </div>
+        <div id="chart-placeholder">
+          <div class="col-xs-12 center-block no-padding" style="float:none">
+            <% Matrix.digital_maturity_areas.each do |area| %>
+              <div class="row">
+                <p>
+                  <strong>
+                    <%= area %>
+                  </strong>
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 no-padding">
+                  <p>
+                    <%= "Current: #{submissions_aggregator.current_averages[area]}%" %>
+                  </p>
+                </div>
+                <div class="col-sm-4 no-padding">
+                  <p>
+                    <%= "Target: #{submissions_aggregator.target_averages[area]}%" %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <script>
+          
+          //radar chart data
+          radarData = {
+            labels: #{Matrix.digital_maturity_areas.to_s},
+            datasets : [
+                  {
+                      label: "Current Maturity",
+                      fillColor: "rgba(255,255,255,0)",
+                      strokeColor: 'rgba(0,255,0,1)',
+                      pointColor: 'rgba(0,255,0,1)',
+                      pointStrokeColor: "#fff",
+                      data: #{submissions_aggregator.current_averages_array}
+                  },
+                  {
+                      label: "Target Maturity",
+                      fillColor: "rgba(255,255,255,0)",
+                      strokeColor: 'rgba(225,0,0,1)',
+                      pointColor: 'rgba(225,0,0,1)',
+                      pointStrokeColor: "#fff",
+                      data: #{submissions_aggregator.target_averages_array}
+                  }
+              ],
+          }
+
+          //Create Radar chart
+          var radarOptions = {
+            scaleShowLabels : true,
+            scaleOverride: true,
+            responsive: true,
+            scaleSteps: 10,
+            scaleStepWidth: 10,
+            scaleStartValue: 0,
+          };
+
+          $(document).ready( function() {
+
+            var ctx2 = document.getElementById("radarChart").getContext("2d");
+            var radarChart = new Chart(ctx2).Radar(radarData,radarOptions);
+
+            document.getElementById('radar-legend').innerHTML = radarChart.generateLegend();
+
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,7 @@
+require 'rails_helper'
+
 feature 'Register', :devise do
-  scenario 'user can register with valid details' do
+  it 'user can register with valid details' do
     visit new_user_registration_path
     fill_in 'Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
@@ -12,8 +14,10 @@ feature 'Register', :devise do
     click_button 'create-account'
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
+end
 
-  scenario 'user can\'t register when passwords don\'t match' do
+feature "User fails to register", :devise do
+  it 'user can\'t register when passwords don\'t match' do
     visit new_user_registration_path
     fill_in 'Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
@@ -27,7 +31,7 @@ feature 'Register', :devise do
     expect(page).to have_content 'Password confirmation doesn\'t match Password'
   end
 
-  scenario 'user can\'t register when password is too short' do
+  it 'user can\'t register when password is too short' do
     visit new_user_registration_path
     fill_in 'Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
@@ -41,7 +45,7 @@ feature 'Register', :devise do
     expect(page).to have_content 'Password is too short (minimum is 8 characters)'
   end
 
-  scenario 'user can\'t register with an email address that already exists' do
+  it 'user can\'t register with an email address that already exists' do
     user = FactoryGirl.create(:user)
     visit new_user_registration_path
     fill_in 'Name', with: 'Bob'

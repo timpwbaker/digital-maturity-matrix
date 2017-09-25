@@ -1,0 +1,32 @@
+<%= form_for brand do |f| %>
+  <% if brand.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= "#{pluralize(brand.errors.count, "error")} prohibited this brand from being saved:" %>
+      </h2>
+      <ul>
+        <% brand.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :submission_id, :value => submission.id %>
+  </div>
+  <div class="field">
+    <%= f.label "Primary colour: current state" %>
+    <%= f.text_field :color_a, :class => "colour-input" %>
+  </div>
+  <div class="field">
+    <%= f.label "Secondary colour: target state" %>
+    <%= f.text_field :color_b, :class => "colour-input" %>
+  </div>
+  <%= f.submit 'Save', :class => "btn btn-primary", :id => "save-brand" %>
+<% end %>
+

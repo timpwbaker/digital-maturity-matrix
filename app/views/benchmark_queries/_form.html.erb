@@ -1,0 +1,20 @@
+<%= form_tag(controller: :benchmark_queries, action: :create) do %>
+  <div class="field">
+    <%= label_tag :organisation_turnover %>
+    <br/>
+    <%= select 'query', 'organisation_turnover', options_for_select(User.turnover,  params[:organisation_turnover]), :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= label_tag :organisation_size %>
+    <br/>
+    <%= select 'query', 'organisation_size', options_for_select(User.employees,  params[:organisation_size]), :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= label_tag :digital_size %>
+    <br/>
+    <%= select 'query', 'digital_size', options_for_select(User.digital,  params[:digital_size]), :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= button_tag 'submit', type: :submit %>
+  </div>
+<% end %>

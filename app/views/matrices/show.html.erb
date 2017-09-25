@@ -1,0 +1,47 @@
+<p id="notice">
+  <%= notice %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= matrix.name %>
+</p>
+<p>
+  <strong>Questions:</strong>
+  <br/>
+  <table class="table">
+    <thead></thead>
+    <tr>
+      <th>
+        <strong>Question</strong>
+      </th>
+      <th>
+        <strong>Area</strong>
+      </th>
+      <th colspan="2"></th>
+    </tr>
+    <tbody>
+      <% questions.each do |question| %>
+        <tr>
+          <td>
+            <%= question.body %>
+          </td>
+          <td>
+            <%= question.area %>
+          </td>
+          <td>
+            <%= link_to 'Edit question', edit_matrix_question_path(matrix,question) %>
+          </td>
+          <td>
+            <%= link_to 'Delete', matrix_question_path(matrix,question), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</p>
+<%= link_to 'Add Question', new_matrix_question_path(matrix) %>
+<%= link_to 'Add Submission', new_matrix_submission_path(matrix) %>
+<%= link_to 'Edit', edit_matrix_path(matrix) %>
+|
+<%= link_to 'Back', matrices_path %>
+

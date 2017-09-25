@@ -35,7 +35,7 @@ class DispatchPdfsController < ApplicationController
             javascript_delay: 2000,
             pdf:       'submission',
             layout:    'pdf',
-            template:  'submissions/showpdf.html.haml',
+            template:  'submissions/showpdf.html.erb',
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('app', 'pdf', "#{submission.user.organisation}_#{date}_submission#{rand}.pdf"),
             save_only: true

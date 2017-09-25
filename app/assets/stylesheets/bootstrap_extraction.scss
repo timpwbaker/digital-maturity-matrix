@@ -1,0 +1,51 @@
+@import "bootstrap";
+
+// Page section elements
+body { @extend .container; }
+footer { @extend .row; }
+
+section { @extend .row; }
+
+article.footer-copy { @extend .col-md-12; @extend .text-right }
+article.home-create-poll { @extend .col-md-6 }
+article.home-headline { @extend .col-md-6 }
+article.new-poll-container { @extend .col-md-4 }
+article.poll-results { @extend .col-md-6 }
+article.poll-submission { @extend .col-md-6 }
+article.search-result { @extend .col-md-12; }
+article.sign-up-form { @extend .col-md-6 }
+article.sign-up-form-header { @extend .col-md-6 }
+
+span.new-poll-title { @extend .col-md-9 }
+span.new-poll-vote { @extend .col-md-9 }
+span.title { @extend .col-sm-12; @extend .text-center }
+
+.alert { @extend .alert }
+.alert-error { @extend .alert-danger }
+.alert-success { @extend .alert-success }
+.home-search-form { @extend .col-md-8; @extend .mx-auto }
+.optional-option-field { @extend .col-md-11 }
+.remove-option-link { @extend .col-md-1 }
+.search-results-count { @extend .col-md-12 }
+.hero { @extend .col-sm-12; }
+.hero h2 { @extend .text-center; }
+
+#links { @extend .text-right }
+
+nav { @extend .navbar; }
+nav a.home { @extend .navbar-brand }
+nav ul.right-side { @extend .nav; @extend .navbar-nav }
+
+a.blue-button { @extend .btn; @extend .btn-info }
+a.delete-option { @extend .btn; @extend .btn-danger }
+a.green-button { @extend .btn; @extend .btn-success }
+
+p.strong { @extend .lead; }
+small { @extend .text-muted }
+
+// Form elements
+form input { @extend .form-control; }
+input[type="submit"] { @extend .btn; @extend .btn-success }
+div.field-group { @extend .form-group; }
+input.submit { @extend .btn; @extend .btn-primary }
+

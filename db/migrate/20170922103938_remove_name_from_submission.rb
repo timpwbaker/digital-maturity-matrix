@@ -1,4 +1,4 @@
-class RemoveNameFromSubmission < ActiveRecord::Migration
+class RemoveNameFromSubmission < ActiveRecord::Migration[5.1]
   def up
     remove_column :submissions, :name
   end

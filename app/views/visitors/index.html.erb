@@ -1,0 +1,155 @@
+<div class="index-header">
+  <div id="chart-graphic">
+    <div class="vertically-centered">
+      <h1 class="title">
+        <span class="index-title">Third Sector Digital Maturity Matrix</span>
+      </h1>
+    </div>
+    <div class="scroll-button">
+      <p><a href="#about" class="btn btn-circle page-scroll"><i class="fa fa-angle-double-down animated"></i></a></p>
+    </div>
+  </div>
+</div>
+<div class="container" id="about">
+  <div class="row home-row">
+    <div class="col-md-12 col-xs-11 text-center" style="z-index:10;margin-bottom:25px">
+      <% if !Matrix.exists?(id: 1) %>
+      <% elsif !current_user %>
+        <%= link_to 'Create My Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary" %>
+      <% elsif current_user && Submission.exists?(user_id: current_user.id) %>
+        <%= link_to 'View My Matrix', matrix_submission_path(Matrix.find(1),Submission.find_by_user_id(current_user.id)), :class => "btn btn-primary" %>
+      <% elsif current_user && !Submission.exists?(user_id: current_user.id) %>
+        <%= link_to 'Create Digital Maturity Matrix', new_matrix_submission_path(Matrix.find(1)), :class => "btn btn-primary" %>
+      <% end %>
+    </div>
+    <div class="col-md-10 col-xs-11 center-block" style="float:none">
+      <h2>About</h2>
+      <p>The Third Sector Digital Maturity Matrix is a free tool developed by the Digital Team at <a href="https://www.breastcancercare.org.uk">Breast Cancer Care</a> to assess the current maturity of a not-for-profit organisation's digital capability, compared with its desired target state. Through a simple self-assessment, you can understand where your organisation needs to invest to reach digital excellence.</p>
+      <p>Read more about why we talk about digital maturity rather than digital transformation in this <a href="https://medium.com/@gambollingsylph/why-i-choose-digital-maturity-over-digital-transformation-2a1f0ac27804">Medium post</a>.</p>
+    </div>
+  </div>
+  <div class="row home-row tint">
+    <div class="col-md-10 col-xs-11 center-block" style="float:none">
+      <h2>Featured in</h2>
+      <br/>
+      <div class="col-md-4 text-center home-featured">
+        <%= link_to "http://www.thirdsector.co.uk/why-i-choose-digital-maturity-digital-transformation/digital/article/1394746" do %>
+          <%= image_tag "thirdsector.jpg" %>
+        <% end %>
+      </div>
+      <div class="col-md-4 text-center home-featured">
+        <%= link_to "http://tech.newstatesman.com/enterprise-it/digital-transformation-maturity-breast-cancer-care" do %>
+          <%= image_tag "nstech.jpg" %>
+        <% end %>
+      </div>
+      <div class="col-md-4 text-center home-featured">
+        <%= link_to "http://www.civilsociety.co.uk/it/news/content/22027/stop_looking_for_a_big_bang_moment_for_digital_transformation?topic=&print=1" do %>
+          <%= image_tag "csuk.jpg" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row home-row">
+    <div class="col-md-10 col-xs-11 center-block" style="float:none">
+      <h2>Why?</h2>
+      <p>At Breast Cancer Care we developed the Digital Maturity Matrix to:</p>
+      <ul>
+        <li>Identify gaps in capability</li>
+        <li>Prioritise areas for development</li>
+        <li>Measure maturity over time to understand positive or negative change</li>
+      </ul>
+      <p>After launching an ambitious digital strategy for 2016, we needed a means to measure the progress and overall success of its implementation. From this need came the development of our maturity matrix, tailored to the way digital maturity should look like in the third-sector.</p>
+      <p>The usefulness of the tool within our organisation exceeded expectations and we soon realised this was something that could benefit the third-sector as a whole. We decided to develop the tool into a web application and make it freely accessible to anyone. We hope it's useful to you and your organisation.</p>
+      <p>We'd love to hear your feedback or questions. Please contact <a href="mailto:digital@breastcancercare.org.uk">digital@breastcancercare.org.uk</a>. Feel free to submit any feature requests to <a href="https://github.com/timpwbaker/digital-maturity-matrix">github</a>.</p>
+    </div>
+  </div>
+  <div class="row home-row tint">
+    <div class="col-md-10 col-xs-11 center-block" id="matrix-makers" style="float:none">
+      <h2>Digital matrix makers</h2>
+      <br/>
+      <div class="col-md-4 text-center home-featured">
+        <%= image_tag "tim.jpg" %>
+        <h4>
+          <strong>Tim Baker</strong>
+        </h4>
+        <h4>Technical Design & Development</h4>
+      </div>
+      <div class="col-md-4 text-center home-featured">
+        <%= image_tag "jo.jpg" %>
+        <h4>
+          <strong>Jo Wolfe</strong>
+        </h4>
+        <h4>Strategy, Marketing & Communications</h4>
+      </div>
+      <div class="col-md-4 text-center home-featured">
+        <%= image_tag "tom.jpg" %>
+        <h4>
+          <strong>Tom Kluge</strong>
+        </h4>
+        <h4>Concept Design, Theory & Analytics</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row home-row">
+    <div class="col-md-10 col-xs-11 center-block" style="float:none">
+      <h2>Benchmarking</h2>
+      <p>We have benchmarked the responses so far to give an overview of how the sector is moving towards digital maturity, you can read the report <a href='https://s3-eu-west-1.amazonaws.com/digitalmaturitymatrix/Third_Sector_Digital_Maturity_-_A_Benchmark.pdf'> here</a>.</p>
+    </div>
+  </div>
+  <div class="row tint home-row">
+    <div class="col-md-10 col-xs-11 center-block" style="float:none">
+      <h2>Open source</h2>
+      <p>The application is open source and built using Ruby on Rails. Feel free to <a href="https://github.com/timpwbaker/digital-maturity-matrix">submit any feature requests to github</a>, although we make this all in our own time so can't promise to be super agile on it.</p>
+    </div>
+  </div>
+  <div class="row home-row">
+    <div class="col-md-10 col-xs-11 center-block" style="float:none">
+      <h2>#digitalmaturitymatrix</h2>
+      <p>
+        <strong>Join the conversation...</strong>
+      </p>
+      <div class="row home-row">
+        <div class="col-md-6">
+          <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">It's digital maturity - not transformation - over at Breast Cancer Care <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://t.co/etvmk0FAPN">https://t.co/etvmk0FAPN</a> <a href="https://t.co/ti2o159yhr">pic.twitter.com/ti2o159yhr</a></p>&mdash; NSTech (@Technology_NS) <a href="https://twitter.com/Technology_NS/status/749969797023236096">July 4, 2016</a></blockquote>
+          <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-md-6">
+          <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Jo Wolfe: Charity sector&#39;s digital know-how is improving and we need to measure the change <a href="https://t.co/APLA4MPMa6">https://t.co/APLA4MPMa6</a> <a href="https://t.co/AxX24bkCp8">pic.twitter.com/AxX24bkCp8</a></p>&mdash; ThirdSector (@ThirdSector) <a href="https://twitter.com/ThirdSector/status/731915565460127744">May 15, 2016</a></blockquote>
+          <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+      <div class="row home-row">
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Finally found time to delve into <a href="https://twitter.com/msjowolfe">@msjowolfe</a> <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a> - it&#39;s fabulous! Check it out <a href="https://t.co/asHoDSradR">https://t.co/asHoDSradR</a></p>&mdash; Megan Griffith Gray (@meggriffithgray) <a href="https://twitter.com/meggriffithgray/status/729632624835186688">9 May 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr"><a href="https://twitter.com/BCCare">@BCCare</a> really enjoyed presentation from Jo at <a href="https://twitter.com/hashtag/DigCommsConf?src=hash">#DigCommsConf</a> yesterday. Thanks for fantastic tool <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a></p>&mdash; Town &amp; Country (@tandchousing) <a href="https://twitter.com/tandchousing/status/723491386985713664">22 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Guide Dogs would love to join the <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a>. Let me know how!</p>&mdash; Louise Robertshaw (@lourobertshaw) <a href="https://twitter.com/lourobertshaw/status/723186331803901953">21 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Can&#39;t wait to try <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a>. So innovative, so forward-thinking. <a href="https://twitter.com/hashtag/maytheforcebewithyou?src=hash">#maytheforcebewithyou</a></p>&mdash; Bath and NE Somerset (@nhsbanesccg) <a href="https://twitter.com/nhsbanesccg/status/723153073938550784">21 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Inspired to launch myself into the 21st century and use a <a href="https://twitter.com/hashtag/digitalmaturitymatrix?src=hash">#digitalmaturitymatrix</a> <a href="https://twitter.com/hashtag/DigCommsConf?src=hash">#DigCommsConf</a></p>&mdash; Peter Sutton (@petersutton81) <a href="https://twitter.com/petersutton81/status/723142459832832000">21 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Very impressed by the <a href="https://twitter.com/hashtag/digitalmaturitymatrix?src=hash">#digitalmaturitymatrix</a> free tool for charities by <a href="https://twitter.com/BCCare">@BCCare</a> <a href="https://twitter.com/msjowolfe">@msjowolfe</a> <a href="https://twitter.com/hashtag/DigCommsConf?src=hash">#DigCommsConf</a></p>&mdash; Alice Carder (@alicecarder) <a href="https://twitter.com/alicecarder/status/723141817710063616">21 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">We want to use the <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a> !! Thank you <a href="https://twitter.com/msjowolfe">@msjowolfe</a> <a href="https://twitter.com/hashtag/DigCommsConf?src=hash">#DigCommsConf</a></p>&mdash; Guideposts (@GuidepostsUK) <a href="https://twitter.com/GuidepostsUK/status/723141366142910464">21 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+        <div class="col-md-6">
+          <p><blockquote class="twitter-tweet" data-lang="en-gb"><p lang="en" dir="ltr">Absolutely fascinating talk on the <a href="https://twitter.com/hashtag/DigitalMaturityMatrix?src=hash">#DigitalMaturityMatrix</a> from <a href="https://twitter.com/msjowolfe">@msjowolfe</a>. I know what I'll be doing tomorrow now. <a href="https://twitter.com/hashtag/DigCommsConf?src=hash">#DigCommsConf</a></p>&mdash; Laurie (@digitallaurie) <a href="https://twitter.com/digitallaurie/status/723141300049051648">21 April 2016</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

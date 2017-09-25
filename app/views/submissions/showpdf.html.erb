@@ -1,0 +1,102 @@
+<%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' %>
+<style type="text/css">
+  <%= File.read(Rails.root.join("public","pdf-styles.css")) %>
+</style>
+<%= javascript_include_tag 'http://code.jquery.com/jquery-1.10.0.min.js' %>
+<%= javascript_include_tag 'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js' %>
+<p id="notice">
+  <%= notice %>
+</p>
+<div class="col-md-12">
+  <h1 class="text-center">
+    <%= "#{submission.user.organisation} #{submission.matrix.name}" %>
+  </h1>
+  <p class="text-center">
+    <%= "Created on: #{submission.updated_at.strftime("%d-%m-%Y")}" %>
+  </p>
+</div>
+<div class="col-md-12"></div>
+<div id="placeholder" style="position:relative"></div>
+<div id="chart">
+  <canvas style="margin:30px 100px" id='radarChart' width='600' height='450'></canvas><br>
+</div>
+<div class="row">
+  <h2 style="text-align:center">Your Maturity</h2>
+  <div class="col-xs-6 text-right">
+    <h4>
+      <strong>
+        <%= "Current maturity: #{submission.calculator.top_line_current}%" %>
+      </strong>
+    </h4>
+  </div>
+  <div class="col-xs-6 text-left">
+    <h4>
+      <strong>
+        <%= "Target maturity: #{submission.calculator.top_line_target}%" %>
+      </strong>
+    </h4>
+  </div>
+  <% Matrix.digital_maturity_areas.each do |area| %>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <p>
+          <strong>
+            <%= area %>
+          </strong>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 text-right">
+        <p>
+          <%= "Current: #{submission.calculator.total_current_score_by(area)}%" %>
+        </p>
+      </div>
+      <div class="col-xs-6 text-left">
+        <p>
+          <%= "Target: #{submission.calculator.total_target_score_by(area)}%" %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<script>
+  //radar chart data
+  radarData = {
+    labels: ["Technology", "Channels & Devices", "Audiences", "User Experience", "Content", "Campaigns", "Analytics", "Governance"],
+    datasets : [
+          {
+              label: "Current Maturity",
+              fillColor: "rgba(255,255,255,0)",
+              strokeColor: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
+              pointColor: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
+              pointStrokeColor: "#fff",
+              data: <%= "#{submission.calculator.current_data_array}" %>
+          },
+          {
+              label: "Target Maturity",
+              fillColor: "rgba(255,255,255,0)",
+              strokeColor: "<%= submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)' %>",
+              pointColor: "<%=submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)' %>",
+              pointStrokeColor: "#fff",
+              data: <%= "#{submission.calculator.target_data_array}" %>
+          }
+      ],
+  }
+  //Create Radar chart
+  $(document).ready(function(){
+  var options = {
+    scaleShowLabels : true, // to hide vertical lables
+    scaleOverride: true,
+    scaleSteps: 10,
+    scaleStepWidth: 10,
+    scaleStartValue: 0
+  };
+  var ctx2 = document.getElementById("radarChart").getContext("2d");
+  var myNewChart = new Chart(ctx2).Radar(radarData);
+  new Chart(ctx2).Radar(radarData,options);
+  var data = radarData;  // refers to the charts data
+  legend(document.getElementById('placeholder'), data)
+  });
+</script>

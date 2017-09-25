@@ -1,4 +1,4 @@
-class Question < ActiveRecord::Base
+class Question < ApplicationRecord
   belongs_to :matrix
 
   def self.digital_maturity_areas

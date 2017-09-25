@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9 col-xs-11 center-block" style="float:none">
+      <h1>
+        <%= "#{submission.user.organisation} Digital Maturity Matrix" %>
+      </h1>
+      <div>
+        <% Matrix.digital_maturity_areas.each_with_index do |area| %>
+          <%= button_tag area,
+            class: area == start_area ? "btn btn-secondary" : "btn btn-primary",
+            disabled: area == start_area ? true : false,
+            id: "button#{area.delete(' ').delete('&')}",
+            onclick: "changeArea('#{area.delete(' ').delete('&')}');" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9 col-xs-11 center-block" style="float:none">
+      <%= render 'form',
+        matrix: matrix,
+        submission: submission,
+        start_area: start_area,
+        progress_bar: false %>
+      <div class="hidden" id="loading">
+        <%= image_tag '/images/loading.gif' %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  $(document).ready( function() {
+    $("#block_<%= start_area %>").removeClass("hidden").addClass("on-show");
+  });
+
+</script>
+<%= javascript_include_tag 'edit_submission_display' %>
+<%= javascript_include_tag 'loading_button' %>

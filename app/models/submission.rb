@@ -1,4 +1,4 @@
-class Submission < ActiveRecord::Base 
+class Submission < ApplicationRecord
   belongs_to :matrix
   belongs_to :user
 

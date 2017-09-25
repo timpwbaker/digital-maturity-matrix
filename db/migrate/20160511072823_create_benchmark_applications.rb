@@ -1,4 +1,4 @@
-class CreateBenchmarkApplications < ActiveRecord::Migration
+class CreateBenchmarkApplications < ActiveRecord::Migration[5.1]
   def change
     create_table :benchmark_applications do |t|
       t.references :user, index: true, foreign_key: true

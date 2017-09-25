@@ -18,9 +18,9 @@ class BrandsController < ApplicationController
   end
 
   def create
-    @brand = Brand.new(brand_params)
-    @submission = Submission.find(params[:brand][:submission_id])
-    if @brand.save
+    brand = Brand.new(brand_params)
+    submission = Submission.find(params[:brand][:submission_id])
+    if brand.save
       redirect_to matrix_submission_path(submission.matrix, submission),
         notice: 'Brand was successfully created.'
     else
@@ -29,7 +29,7 @@ class BrandsController < ApplicationController
   end
 
   def update
-    @submission = Submission.find(params[:brand][:submission_id])
+    submission = Submission.find(params[:brand][:submission_id])
     if brand.update(brand_params)
       redirect_to matrix_submission_path(submission.matrix, submission),
         notice: 'Brand was successfully updated.'
