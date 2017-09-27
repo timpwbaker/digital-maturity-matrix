@@ -2,10 +2,7 @@ require 'rails_helper'
 
 feature 'Email submission', :devise do
   scenario 'Email a submission' do
-    stub_request(:get, /amazonaws.com/).
-      to_return(:status => 200, :headers => {})
-    stub_request(:put, /amazonaws.com/).
-      to_return(:status => 200, :headers => {})
+    stub_aws_client
 
     user = FactoryGirl.create(:user)
     matrix = FactoryGirl.create(:matrix)

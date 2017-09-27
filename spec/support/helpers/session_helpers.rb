@@ -19,5 +19,16 @@ module Features
       fill_in 'Password', with: password
       click_button 'Sign in'
     end
+
+    def stub_aws_client
+      stub_request(:get, /amazonaws.com/).
+        to_return(:status => 200, :headers => {})
+      stub_request(:put, /amazonaws.com/).
+        to_return(:status => 200, :headers => {})
+      client_stub = Aws::S3::Client.new(stub_responses: true)
+      resource_stub = Aws::S3::Resource.new(client: client_stub)
+      resource_stub.bucket('digitalmaturitymatrix')
+      allow(Aws::S3::Resource).to receive(:new).and_return resource_stub
+    end
   end
 end

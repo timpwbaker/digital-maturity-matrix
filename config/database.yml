@@ -3,10 +3,13 @@ development:
   database: maturity_matrix_db_development
   pool: 5
   timeout: 5000
+
 test:
   adapter: postgresql
   database: maturity_matrix_db_test
   pool: 5
+  host: localhost
+  user: postgres
   timeout: 5000
 
 production:

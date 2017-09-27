@@ -281,8 +281,5 @@ DEPENDENCIES
   wicked_pdf (>= 1.1.0)
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
 
-RUBY VERSION
-   ruby 2.2.3p173
-
 BUNDLED WITH
    1.15.4

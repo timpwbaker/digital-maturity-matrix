@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    parallelism: 3
+    working_directory: ~/digital-maturity-matrix
+    docker:
+      - image: circleci/ruby:2.3-jessie-node-browsers
+        environment:
+          RAILS_ENV: test
+      - image: circleci/postgres:9.4.12-alpine
+      - image: redis:2.8.19
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - restore_cache:
+          key: rails-demo-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - save_cache:
+          key: rails-demo-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # Database setup
+      - run: bundle exec rails db:create --trace
+      - run: bundle exec rails db:migrate --trace
+
+      # Run rspec in parallel
+      - type: shell
+        command: |
+          bundle exec rspec
+
+      # Save test results for timing analysis
+      - store_test_results:
+          path: test_results

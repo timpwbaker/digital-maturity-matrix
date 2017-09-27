@@ -39,17 +39,17 @@ class DispatchPdfsController < ApplicationController
             show_as_html: params.key?('debug'),
             save_to_file: Rails.root.join('app', 'pdf', "#{submission.user.organisation}_#{date}_submission#{rand}.pdf"),
             save_only: true
-    submission.update_attribute(:s3_url, to_s3_return_url(rand, date, submission.user.organisation))
+    submission.update_attribute(:s3_url, to_s3_return_url(s3_resource, rand, date, submission.user.organisation))
   end
 
-  def to_s3_return_url(rand, date, org)
-    s3 = Aws::S3::Resource.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
-        region: ENV['AWS_REGION']
-    )
-
-    obj = s3.bucket(ENV['AWS_BUCKET']).object("#{org}_#{date}_submission#{rand}.pdf")
+  def to_s3_return_url(s3, rand, date, org)
+    obj = s3.bucket('digital-maturity-matrix').object("#{org}_#{date}_submission#{rand}.pdf")
     obj.upload_file(Rails.root.join('app', 'pdf', "#{org}_#{date}_submission#{rand}.pdf"), acl:'public-read')
     return obj.public_url
+  end
+
+  def s3_resource
+    Aws::S3::Resource.new(credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
+                          region: ENV['AWS_REGION'])
   end
 end
