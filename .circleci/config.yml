@@ -8,6 +8,7 @@ jobs:
         environment:
           RAILS_ENV: test
       - image: circleci/postgres:9.4.12-alpine
+      - image: redis:2.8.19
     steps:
       - checkout
 

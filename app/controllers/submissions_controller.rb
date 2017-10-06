@@ -30,6 +30,7 @@ class SubmissionsController < ApplicationController
   def create
     new_submission = Submission.new(submission_params)
     if new_submission.save
+      PdfBuilderWorker.perform_async(new_submission.id)
       redirect_to matrix_submission_path(matrix, new_submission),
         notice: "Your digital maturity matrix has been saved"
     else
@@ -39,7 +40,8 @@ class SubmissionsController < ApplicationController
 
   def update
       if submission.update(submission_params)
-        submission.update_attribute(:s3_url, nil)
+        submission.update(s3_url: nil)
+        PdfBuilderWorker.perform_async(submission.id)
         redirect_to matrix_submission_path(matrix, submission),
           notice: 'Submission was successfully updated.'
       else

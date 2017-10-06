@@ -502,6 +502,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.2)
@@ -527,6 +528,7 @@ GEM
       activesupport (>= 4.2.0)
     hashdiff (0.3.6)
     high_voltage (3.0.0)
+    hiredis (0.6.1)
     i18n (0.8.6)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -569,6 +571,8 @@ GEM
     public_suffix (3.0.0)
     puma (3.10.0)
     rack (2.0.3)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.7.0)
       rack (>= 1.0, < 3)
     rails (5.1.4)
@@ -598,6 +602,7 @@ GEM
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    redis (3.3.3)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -640,6 +645,11 @@ GEM
     shoulda-context (1.2.2)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
+    sidekiq (4.2.1)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (~> 1.5)
+      redis (~> 3.2, >= 3.2.1)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
@@ -691,6 +701,7 @@ DEPENDENCIES
   factory_girl_rails
   figaro
   high_voltage
+  hiredis
   jbuilder (~> 2.7.0)
   jquery-minicolors-rails
   jquery-rails
@@ -704,6 +715,7 @@ DEPENDENCIES
   sass-rails (>= 5.0.6)
   selenium-webdriver
   shoulda
+  sidekiq
   simple_form (~> 3.5.0)
   spring
   turbolinks (~> 5)

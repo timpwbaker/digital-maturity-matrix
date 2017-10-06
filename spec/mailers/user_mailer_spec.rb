@@ -2,6 +2,10 @@ require "rails_helper"
 
 RSpec.describe UserMailer, "welcome_email" do
   it "sends welcome email" do
+    stub_aws_return_matrix
+    stub_aws_post_return_200
+    stub_aws_client
+
     user = build_stubbed :user
     mail = UserMailer.welcome_email(user).deliver_now
 
@@ -15,8 +19,11 @@ end
 RSpec.describe UserMailer, "matrix_pdf" do
   it "sends welcome email" do
     stub_aws_return_matrix
+    stub_aws_post_return_200
+    stub_aws_client
+
     user = build_stubbed :user
-    file_url = "https://stubbed.amazonaws.com/submission.pdf"
+    file_url = "https://digitalmaturitymatrix.s3-eu-west-1.amazonaws.com/submission.pdf"
     mail = UserMailer.matrix_pdf(user, file_url).deliver_now
 
     expect(mail.subject).to eq "Your Digital Maturity Matrix"
