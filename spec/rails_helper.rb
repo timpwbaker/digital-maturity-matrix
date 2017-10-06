@@ -76,3 +76,5 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :headless_chrome
   # config.filter_gems_from_backtrace("gem name")
 end
+
+Aws.config[:stub_responses] = true

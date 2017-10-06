@@ -2,7 +2,8 @@ require 'rails_helper'
 
 feature 'Email submission', :devise do
   scenario 'Email a submission' do
-    stub_aws_client
+    stub_aws_post_return_200
+    stub_aws_return_matrix
 
     user = FactoryGirl.create(:user)
     matrix = FactoryGirl.create(:matrix)
