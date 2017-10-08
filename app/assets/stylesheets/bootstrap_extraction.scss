@@ -1,4 +1,6 @@
+@import "bootstrap-sprockets";
 @import "bootstrap";
+@import "sass/bootstrap_buttons";
 
 // Page section elements
 body { @extend .container; }
@@ -7,26 +9,15 @@ footer { @extend .row; }
 section { @extend .row; }
 
 article.footer-copy { @extend .col-md-12; @extend .text-right }
-article.home-create-poll { @extend .col-md-6 }
 article.home-headline { @extend .col-md-6 }
-article.new-poll-container { @extend .col-md-4 }
-article.poll-results { @extend .col-md-6 }
-article.poll-submission { @extend .col-md-6 }
-article.search-result { @extend .col-md-12; }
 article.sign-up-form { @extend .col-md-6 }
 article.sign-up-form-header { @extend .col-md-6 }
 
-span.new-poll-title { @extend .col-md-9 }
-span.new-poll-vote { @extend .col-md-9 }
 span.title { @extend .col-sm-12; @extend .text-center }
 
 .alert { @extend .alert }
 .alert-error { @extend .alert-danger }
 .alert-success { @extend .alert-success }
-.home-search-form { @extend .col-md-8; @extend .mx-auto }
-.optional-option-field { @extend .col-md-11 }
-.remove-option-link { @extend .col-md-1 }
-.search-results-count { @extend .col-md-12 }
 .hero { @extend .col-sm-12; }
 .hero h2 { @extend .text-center; }
 
@@ -36,9 +27,11 @@ nav { @extend .navbar; }
 nav a.home { @extend .navbar-brand }
 nav ul.right-side { @extend .nav; @extend .navbar-nav }
 
-a.blue-button { @extend .btn; @extend .btn-info }
-a.delete-option { @extend .btn; @extend .btn-danger }
-a.green-button { @extend .btn; @extend .btn-success }
+.blue-button { @extend .btn; @extend .btn-info }
+.delete-option { @extend .btn; @extend .btn-danger }
+.green-button { @extend .btn; @extend .btn-success }
+.primary-button { @extend .btn; @extend .btn-primary; }
+.secondary-button { @extend .btn; @extend .btn-secondary }
 
 p.strong { @extend .lead; }
 small { @extend .text-muted }
@@ -49,3 +42,17 @@ input[type="submit"] { @extend .btn; @extend .btn-success }
 div.field-group { @extend .form-group; }
 input.submit { @extend .btn; @extend .btn-primary }
 
+img { @extend .img-responsive; }
+.form { @extend .col-md-6; }
+.form-centered { @extend .col-md-6; @extend .text-center; }
+.submit { @extend .btn; @extend .btn-primary; @extend .btn-lg; }
+main { @extend .container; }
+.authform .button { @extend .btn; @extend .btn-primary; }
+.authform fieldset { @extend .well; }
+#error_explanation:not(:empty) { @extend .alert; @extend .alert-danger; }
+.col-md-10 col-xs-11 center-blockbutton-xs { @extend .btn; @extend .btn-primary; @extend .btn-xs; }
+.content-block { @extend .col-md-10; @extend .col-xs-11; @extend .center-block }
+.block { @extend .col-md-10; @extend .col-xs-11; @extend .center-block }
+.home-create-buttons-block { @extend .col-md-12; @extend .col-xs-11; @extend .text-center }
+.home-tweet { @extend .col-md-6 }
+.home-featured-image { @extend .col-md-4; @extend .text-center }

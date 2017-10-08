@@ -1,11 +1,9 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-xs-11 center-block" style="float:none">
-      <h1>Editing brand</h1>
-      <%= render 'form', matrix: matrix, submission: submission, brand: brand %>
-      <%= link_to 'Back', matrix_submission_path(matrix, submission), {:class => "btn btn-secondary"} %>
-    </div>
+<section>
+  <div class="content-block" style="float:none">
+    <h1>Editing brand</h1>
+    <%= render 'form', matrix: matrix, submission: submission, brand: brand %>
+    <%= link_to 'Back', matrix_submission_path(matrix, submission), {:class => "secondary-button"} %>
   </div>
-</div>
+</section>
 <%= javascript_include_tag "minicolours" %>
 

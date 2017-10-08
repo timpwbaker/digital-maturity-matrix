@@ -1,18 +1,10 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-xs-11 center-block" style="float:none">
-      <h1>Your API details</h1>
-      <p>
-        <strong>
-          <%= "Key: #{user.api_key}" %>
-        </strong>
-      </p>
-      <p>
-        <p>
-          <%= link_to 'Reset Key', user_api_key_path(current_user), method: :post %>
-        </p>
-      </p>
-      <p>API docs can be found on <a href='https://github.com/timpwbaker/digital-maturity-matrix/wiki/API-calls'> GitHub </a></p>
-    </div>
+<section>
+  <div class="content-block">
+    <h1>Your API details</h1>
+    <p><strong><%= "Key: #{user.api_key}" %></strong></p>
+    <p>
+      <%= link_to 'Reset Key', user_api_key_path(current_user), method: :post %>
+    </p>
+    <p>API docs can be found on <%= link_to "GitHub", "https://github.com/timpwbaker/digital-maturity-matrix/wiki/API-calls" %></p>
   </div>
-</div>
+</section>

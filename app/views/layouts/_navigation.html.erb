@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
       <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
@@ -62,6 +62,9 @@
             <%= link_to 'Sign in', new_user_session_path %>
           </li>
         <% end %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://www.ncvo.org.uk/"><%= image_tag "ncvo.png", size: "45x22" %></a></li>
       </ul>
     </div>
   </div>

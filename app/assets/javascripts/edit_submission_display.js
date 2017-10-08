@@ -3,6 +3,6 @@ function changeArea(block) {
   $(".on-show").addClass("hidden");
   $(".on-show").removeClass("on-show");
   $("#block_"+block).addClass("on-show");
-  $("button.btn-secondary").removeClass("btn-secondary").addClass("btn-primary").prop("disabled", false);
-  $("button#button"+block).removeClass("btn-primary").addClass("btn-secondary").prop("disabled", true);
+  $("button.secondary-button").removeClass("secondary-button").addClass("primary-button").prop("disabled", false);
+  $("button#button"+block).removeClass("primary-button").addClass("secondary-button").prop("disabled", true);
 }

@@ -5,7 +5,7 @@ RSpec.feature 'User queries benchmarking data' do
     matrix = create :matrix
     10.times do |thing|
       user = create :user, organisation_size: '1-5'
-      submission = create :submission, user: user, matrix: matrix
+      create :submission, user: user, matrix: matrix
     end
     user = create :user
 
@@ -14,14 +14,14 @@ RSpec.feature 'User queries benchmarking data' do
     select '1-5', from: 'query_organisation_size'
     click_button 'submit'
 
-    expect(page).to have_content "Current average maturity: 100.0%"
+    expect(page).to have_content "Current average maturity: 100%"
   end
 
   it 'returns no data and a reason' do
     matrix = create :matrix
     5.times do |thing|
       user = create :user, organisation_size: '1-5'
-      submission = create :submission, user: user, matrix: matrix
+      create :submission, user: user, matrix: matrix
     end
     user = create :user
 

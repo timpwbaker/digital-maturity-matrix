@@ -1,33 +1,29 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-9 col-xs-11 center-block" style="float:none">
-      <h1>
-        <%= "#{submission.user.organisation} Digital Maturity Matrix" %>
-      </h1>
-      <div>
-        <% Matrix.digital_maturity_areas.each_with_index do |area| %>
-          <%= button_tag area,
-            class: area == start_area ? "btn btn-secondary" : "btn btn-primary",
-            disabled: area == start_area ? true : false,
-            id: "button#{area.delete(' ').delete('&')}",
-            onclick: "changeArea('#{area.delete(' ').delete('&')}');" %>
-        <% end %>
-      </div>
+<section>
+  <div class="content-block" style="float:none">
+    <h1>
+      <%= "#{submission.user.organisation} Digital Maturity Matrix" %>
+    </h1>
+    <div>
+      <% Matrix.digital_maturity_areas.each_with_index do |area| %>
+        <%= button_tag area,
+          class: area == start_area ? "secondary-button" : "primary-button",
+          disabled: area == start_area ? true : false,
+          id: "button#{area.delete(' ').delete('&')}",
+          onclick: "changeArea('#{area.delete(' ').delete('&')}');" %>
+      <% end %>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-9 col-xs-11 center-block" style="float:none">
-      <%= render 'form',
-        matrix: matrix,
-        submission: submission,
-        start_area: start_area,
-        progress_bar: false %>
-      <div class="hidden" id="loading">
-        <%= image_tag '/images/loading.gif' %>
-      </div>
-    </div>
+</section>
+<section>
+  <%= render 'form',
+    matrix: matrix,
+    submission: submission,
+    start_area: start_area,
+    progress_bar: false %>
+  <div class="hidden" id="loading">
+    <%= image_tag '/images/loading.gif' %>
   </div>
-</div>
+</section>
 <script>
 
   $(document).ready( function() {

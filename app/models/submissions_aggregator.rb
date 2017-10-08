@@ -39,11 +39,11 @@ class SubmissionsAggregator
   end
 
   def current_average_maturity
-    current_averages_array.reduce(:+).to_f/areas.count
+    (current_averages_array.reduce(:+).to_f/areas.count).round(0)
   end
 
   def target_average_maturity
-    target_averages_array.reduce(:+).to_f/areas.count
+    (target_averages_array.reduce(:+).to_f/areas.count).round(0)
   end
 
   private

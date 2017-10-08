@@ -2,7 +2,6 @@
   color: #FFF;
   border-color: transparent;
   min-width: 200px;
-  padding: 10px 15px;
   font-weight: 600;
   font-size: 16px;
   box-shadow: none;
@@ -13,6 +12,7 @@
     background-color: darken(#E2E2D7, 3%);
   }
 }
+
 .btn-primary {
   background: $brand-primary !important;
   border: darken($brand-primary, 3%) !important;
@@ -30,18 +30,4 @@
     color: white !important;
     background-color: darken($brand-secondary, 7%) !important;
   }
-}
-
-.btn-circle {
-    width: 70px;
-    height: 70px;
-    min-width:70px;
-    border: 2px solid !important;
-    border-radius: 100%!important;
-    font-size: 40px;
-    color: #fff;
-    background: 0 0;
-    -webkit-transition: background .3s ease-in-out;
-    -moz-transition: background .3s ease-in-out;
-    transition: background .3s ease-in-out;
 }

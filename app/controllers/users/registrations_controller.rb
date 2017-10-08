@@ -15,4 +15,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     super
   end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(
+      :account_update,
+      keys: [
+        :name,
+        :organisation,
+        :organisation_turnover,
+        :organisation_size,
+        :digital_size, :opt_in
+      ]
+    )
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: [
+        :name,
+        :organisation,
+        :organisation_turnover,
+        :organisation_size,
+        :digital_size,
+        :opt_in
+      ]
+    )
+  end
 end

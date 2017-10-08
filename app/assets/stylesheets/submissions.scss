@@ -73,37 +73,23 @@ form.edit_submission select {
 
 }
 
-@media screen and (max-width:499px) {
-
-	#small-warning {
-		position: fixed;
-		top:0px;
-		left:0px;
-		z-index:10;
-		width:100%;
-		height:100%;
-		background: rgba(0,0,0,0.4);
-		padding:20px;
-		margin:auto;
-	}
-
-	#small-warning p {
-		background:#fff;
-		padding:20px;
-	}
-
-	.email-pdf {
-		display:block;
-	}
-
-	.show-pdf {
-		display:none;
-	}
-
+.submission-form-question {
+  width: 50%;
+  float: left;
 }
 
-@media screen and (min-width:500px) {
-	#small-warning {
-		display:none;
-	}
+.submission-form-selection {
+  width: 25%;
+  float: left;
+}
+
+.submission-show-chart {
+  width: 75%;
+  float: left;
+}
+
+.submission-show-areas {
+  width: 25%;
+  padding-left: 15px;
+  float: left;
 }

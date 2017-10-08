@@ -1,0 +1,17 @@
+<section>
+  <div class="content-block" style="float:none">
+    <div class="submission-form-question">
+      <%= question.body %>
+    </div>
+    <div class="submission-form-selection">
+      <div class="field">
+        <%= select_tag "submission[answers_json][#{area}][" + question.id.to_s + "]", options_for_select(Submission.choices, submission.answers_json ? submission.answers_json[area][question.id.to_s] : nil) %>
+      </div>
+    </div>
+    <div class="submission-form-selection">
+      <div class="field">
+        <%= select_tag "submission[targets_json][#{area}][" + question.id.to_s + "]", options_for_select(Submission.choices, submission.targets_json ? submission.targets_json[area][question.id.to_s] : nil ) %>
+      </div>
+    </div>
+  </div>
+</section>
