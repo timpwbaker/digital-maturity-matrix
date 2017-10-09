@@ -7,16 +7,16 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
 
   resources :brands, only: [:new, :edit, :create, :update]
-  resources :matrices do
+  resources :matrices, only: [:show, :edit, :new, :create, :update] do
     resources :questions, only: [:new, :edit, :create, :update, :destroy]
-    resources :submissions do
+    resources :submissions, only: [:index, :new, :create, :show, :edit, :update ] do
       resource :dispatch_pdfs, only: [:create]
     end
   end
   resources :benchmark_queries, only: [:new, :create, :show]
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
-  resources :users, only: [:index, :show, :delete] do
+  resources :users, only: [:index, :show] do
     resource :api_key, only: [:create, :show]
   end
 

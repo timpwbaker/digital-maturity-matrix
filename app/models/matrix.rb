@@ -2,6 +2,8 @@ class Matrix < ApplicationRecord
   has_many :questions, dependent: :destroy
   has_many :submissions, dependent: :destroy
 
+  validates :name, presence: true
+
   DIGITAL_MATURITY_AREAS = [
     'Technology',
     'Channels & Devices',

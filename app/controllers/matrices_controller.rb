@@ -2,10 +2,6 @@
 class MatricesController < ApplicationController
   before_action :is_admin
 
-  def index
-    render locals: { matrices: Matrix.all }
-  end
-
   def show
     render locals: { matrix: matrix, questions: questions }
   end
@@ -24,7 +20,7 @@ class MatricesController < ApplicationController
       redirect_to matrix_url(matrix),
                   notice: 'Matrix was successfully created.'
     else
-      render :new
+      render :new, locals: { matrix: matrix }
     end
   end
 
@@ -33,14 +29,8 @@ class MatricesController < ApplicationController
       redirect_to matrix_url(matrix),
                   notice: 'Matrix was successfully updated.'
     else
-      render :edit
+      render :edit, locals: { matrix: matrix }
     end
-  end
-
-  def destroy
-    matrix.destroy
-    redirect_to matrices_url,
-                notice: 'Matrix was successfully destroyed.'
   end
 
   private

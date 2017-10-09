@@ -24,7 +24,11 @@ class BrandsController < ApplicationController
       redirect_to matrix_submission_path(submission.matrix, submission),
         notice: 'Brand was successfully created.'
     else
-      render :new
+      render :new, locals: {
+        submission: submission,
+        matrix: submission.matrix,
+        brand: brand
+      }
     end
   end
 
@@ -34,7 +38,11 @@ class BrandsController < ApplicationController
       redirect_to matrix_submission_path(submission.matrix, submission),
         notice: 'Brand was successfully updated.'
     else
-      render :edit
+      render :edit, locals: {
+        submission: submission,
+        matrix: submission.matrix,
+        brand: brand
+      }
     end
   end
 

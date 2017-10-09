@@ -35,7 +35,9 @@ class PdfBuilder
   end
 
   def path
-    @_path ||= Rails.root.join('app', 'pdf',"#{org}_#{date}_submission#{rand}.pdf")
+    @_path ||= Rails.root.join(
+      'app', 'pdf',"#{org}_#{date}_submission#{rand}.pdf"
+    )
   end
 
   def to_s3_return_url
@@ -47,8 +49,17 @@ class PdfBuilder
   end
 
   def s3_resource
-    @_s3_resource ||= Aws::S3::Resource.new(credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
-                          region: ENV['AWS_REGION'])
+    @_s3_resource ||= Aws::S3::Resource.new(
+      credentials: s3_credentials,
+      region: ENV['AWS_REGION']
+    )
+  end
+
+  def s3_credentials
+    Aws::Credentials.new(
+      ENV['AWS_ACCESS_KEY_ID'], 
+      ENV['AWS_SECRET_ACCESS_KEY']
+    )
   end
 
   def bucket

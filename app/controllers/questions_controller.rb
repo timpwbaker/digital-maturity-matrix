@@ -16,7 +16,7 @@ class QuestionsController < ApplicationController
       redirect_to matrix_path(matrix),
                   notice: 'Question was successfully created.'
     else
-      render :new
+      render :new, locals: { matrix: matrix, question: new_question }
     end
   end
 
@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
       redirect_to matrix_path(matrix),
                   notice: 'Question was successfully updated.'
     else
-      render :edit
+      render :edit, locals: { matrix: matrix, question: question }
     end
   end
 

@@ -34,7 +34,7 @@ class SubmissionsController < ApplicationController
       redirect_to matrix_submission_path(matrix, new_submission),
         notice: "Your digital maturity matrix has been saved"
     else
-      format.html { render :new }
+      render :new, { matrix: matrix, submission: new_submission }
     end
   end
 
@@ -45,14 +45,8 @@ class SubmissionsController < ApplicationController
         redirect_to matrix_submission_path(matrix, submission),
           notice: 'Submission was successfully updated.'
       else
-        render :edit
+        render :edit, locals: { matrix: matrix, submission: submission }
       end
-  end
-
-  def destroy
-    submission.destroy
-    redirect_to matrix_submissions_url,
-      notice: 'Submission was successfully destroyed.'
   end
 
   private

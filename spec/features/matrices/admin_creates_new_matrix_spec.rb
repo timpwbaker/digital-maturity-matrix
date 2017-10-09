@@ -1,6 +1,11 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.feature "Managing a matrix" do
+  scenario "Guest prompted to sign in" do
+    visit new_matrix_path
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing'
+  end
   scenario "Admin creates a new matrix" do
     admin = create :user, :admin
 
@@ -10,6 +15,16 @@ RSpec.feature "Managing a matrix" do
     click_button 'Create Matrix'
 
     expect(page).to have_content 'Matrix was successfully created.'
+  end
+
+  scenario "Admin creates a new matrix" do
+    admin = create :user, :admin
+
+    signin(admin.email, admin.password)
+    visit new_matrix_path
+    click_button 'Create Matrix'
+
+    expect(page).to have_content "Name can't be blank"
   end
 
   scenario "Admin edits a matrix" do
@@ -24,7 +39,19 @@ RSpec.feature "Managing a matrix" do
     expect(page).to have_content 'Name: Neo'
   end
 
-  scenario "Admin adds a question" do
+  scenario "Admin adds a valid question" do
+    admin = create :user, :admin
+    matrix = create :matrix, name: "Nebuchadnezzar"
+
+    signin(admin.email, admin.password)
+    visit matrix_path(matrix)
+    click_link 'Add Question'
+    click_button 'Create Question'
+
+    expect(page).to have_content "Body can't be blank"
+  end
+
+  scenario "Admin tries to add invalid question" do
     admin = create :user, :admin
     matrix = create :matrix, name: "Nebuchadnezzar"
 

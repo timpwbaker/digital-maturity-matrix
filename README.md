@@ -19,3 +19,7 @@ there's a test.dump in the root to get you started:
 Tests are RSpec, to run:
 
     rspec
+
+Test coverage is generated when rspec is run
+
+    open coverage/index.html

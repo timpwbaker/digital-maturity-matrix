@@ -12,24 +12,4 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: 'Access denied.'
     end
   end
-
-  def destroy
-    @user = current_user
-    @user.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to root_url,
-                    notice: 'User deleted.'
-      end
-      format.json do
-        head :no_content
-      end
-    end
-  end
-
-  private
-
-  def submission_params
-    params.permit(:paid)
-  end
 end
