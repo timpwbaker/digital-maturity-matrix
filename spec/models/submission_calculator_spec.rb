@@ -15,7 +15,7 @@ RSpec.describe SubmissionCalculator, '.new' do
  end
 end
 
-RSpec.describe SubmissionCalculator, "#top_line_current" do
+RSpec.describe SubmissionCalculator, "#current_maturity" do
   it "returns an integer denoting top line maturity" do
     submission = FactoryGirl.create :submission
     areas = Matrix.digital_maturity_areas
@@ -24,11 +24,11 @@ RSpec.describe SubmissionCalculator, "#top_line_current" do
       submission: submission, areas: areas, score_map: score_map
     )
 
-    expect(calculator.top_line_current).to eq 100
+    expect(calculator.current_maturity).to eq 100
   end
 end
 
-RSpec.describe SubmissionCalculator, "#top_line_target" do
+RSpec.describe SubmissionCalculator, "#target_maturity" do
   it "returns an integer denoting top line maturity" do
     submission = FactoryGirl.create :submission
     areas = Matrix.digital_maturity_areas
@@ -37,12 +37,12 @@ RSpec.describe SubmissionCalculator, "#top_line_target" do
       submission: submission, areas: areas, score_map: score_map
     )
 
-    expect(calculator.top_line_target).to eq 100
+    expect(calculator.target_maturity).to eq 100
   end
 end
 
-RSpec.describe SubmissionCalculator, "#total_current_score_by(area)" do
-  it "returns an integer the top line score for a particular area" do
+RSpec.describe SubmissionCalculator, "#current_hash" do
+  it "returns a hash of areas and targets" do
     submission = FactoryGirl.create :submission
     areas = Matrix.digital_maturity_areas
     score_map = Submission.score_map
@@ -51,13 +51,17 @@ RSpec.describe SubmissionCalculator, "#total_current_score_by(area)" do
     )
 
     areas.each do |area|
-      expect(calculator.total_current_score_by(area)).to eq 100
+      expect(calculator.current_hash).to eq(
+        {"Technology"=>100, "Channels & Devices"=>100,
+         "Audiences"=>100, "User Experience"=>100, 
+         "Content"=>100, "Campaigns"=>100, "Analytics"=>100, "Governance"=>100}
+      )
     end
   end
 end
 
-RSpec.describe SubmissionCalculator, "#total_target_score_by(area)" do
-  it "returns an integer the top line score for a particular area" do
+RSpec.describe SubmissionCalculator, "#target_hash" do
+  it "returns a hash of areas and targets" do
     submission = FactoryGirl.create :submission
     areas = Matrix.digital_maturity_areas
     score_map = Submission.score_map
@@ -66,12 +70,16 @@ RSpec.describe SubmissionCalculator, "#total_target_score_by(area)" do
     )
 
     areas.each do |area|
-      expect(calculator.total_target_score_by(area)).to eq 100
+      expect(calculator.target_hash).to eq(
+        {"Technology"=>100, "Channels & Devices"=>100,
+         "Audiences"=>100, "User Experience"=>100, 
+         "Content"=>100, "Campaigns"=>100, "Analytics"=>100, "Governance"=>100}
+      )
     end
   end
 end
 
-RSpec.describe SubmissionCalculator, "#current_data_array" do
+RSpec.describe SubmissionCalculator, "#current_array" do
   it "returns an array of current scores for each area" do
     submission = FactoryGirl.create :submission
     areas = Matrix.digital_maturity_areas
@@ -80,12 +88,12 @@ RSpec.describe SubmissionCalculator, "#current_data_array" do
       submission: submission, areas: areas, score_map: score_map
     )
 
-    expect(calculator.current_data_array)
+    expect(calculator.current_array)
       .to eq [100, 100, 100, 100, 100, 100, 100, 100]
   end
 end
 
-RSpec.describe SubmissionCalculator, "#current_data_array" do
+RSpec.describe SubmissionCalculator, "#target_array" do
   it "returns an array of target scores for each area" do
     submission = FactoryGirl.create :submission
     areas = Matrix.digital_maturity_areas
@@ -94,7 +102,7 @@ RSpec.describe SubmissionCalculator, "#current_data_array" do
       submission: submission, areas: areas, score_map: score_map
     )
 
-    expect(calculator.current_data_array)
+    expect(calculator.target_array)
       .to eq [100, 100, 100, 100, 100, 100, 100, 100]
   end
 end

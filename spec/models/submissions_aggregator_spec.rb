@@ -15,7 +15,7 @@ RSpec.describe SubmissionsAggregator, ".new" do
   end
 end
 
-RSpec.describe SubmissionsAggregator, "#current_averages" do
+RSpec.describe SubmissionsAggregator, "#current_averages_hash" do
   it "returns a hash of current averages by area" do
     submissions = FactoryGirl.create_list :submission, 3
     areas = Matrix.digital_maturity_areas
@@ -24,7 +24,7 @@ RSpec.describe SubmissionsAggregator, "#current_averages" do
       submissions: submissions, areas: areas, score_map: score_map
     )
 
-    expect(aggregator.current_averages).to eq(
+    expect(aggregator.current_averages_hash).to eq(
       {
         "Technology"=>100,
         "Channels & Devices"=>100,
@@ -39,7 +39,7 @@ RSpec.describe SubmissionsAggregator, "#current_averages" do
   end
 end
 
-RSpec.describe SubmissionsAggregator, "#target_averages" do
+RSpec.describe SubmissionsAggregator, "#target_averages_hash" do
   it "returns a hash of current averages by area" do
     submissions = FactoryGirl.create_list :submission, 3
     areas = Matrix.digital_maturity_areas
@@ -48,7 +48,7 @@ RSpec.describe SubmissionsAggregator, "#target_averages" do
       submissions: submissions, areas: areas, score_map: score_map
     )
 
-    expect(aggregator.target_averages).to eq(
+    expect(aggregator.target_averages_hash).to eq(
       {
         "Technology"=>100,
         "Channels & Devices"=>100,

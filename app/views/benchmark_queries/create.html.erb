@@ -26,8 +26,8 @@
         <h2>Results by area</h2>
       <% Matrix.digital_maturity_areas.each do |area| %>
           <p><strong><%= area %></strong></p>
-          <p><%= "Current: #{submissions_aggregator.current_averages[area]}%" %></p> 
-          <p><%= "Target: #{submissions_aggregator.target_averages[area]}%" %></p>
+          <p><%= "Current: #{submissions_aggregator.current_averages_hash[area]}%" %></p> 
+          <p><%= "Target: #{submissions_aggregator.target_averages_hash[area]}%" %></p>
       <% end %>
     </div>
   </div>

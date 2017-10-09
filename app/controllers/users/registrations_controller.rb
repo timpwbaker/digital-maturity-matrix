@@ -1,6 +1,10 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, only: [:new, :create, :update]
 
+  def new
+    super
+  end
+
   def create
     super
     if resource.persisted?
@@ -15,6 +19,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     super
   end
+  private
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
