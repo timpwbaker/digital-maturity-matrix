@@ -1,4 +1,3 @@
-# Application level controller. Most controllers inherit from this one.
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 

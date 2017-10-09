@@ -8,10 +8,10 @@
       <%= submission.user.name %>
     </p>
     <h3>
-      <%= "Current digital maturity: #{submission.calculator.top_line_current}%" %>
+      <%= "Current digital maturity: #{submission.calculator.current_maturity}%" %>
     </h3>
     <h3>
-      <%= "Target digital maturity: #{submission.calculator.top_line_target}%" %>
+      <%= "Target digital maturity: #{submission.calculator.target_maturity}%" %>
     </h3>
   </div>
 </section>
@@ -53,8 +53,8 @@
       <h2>Results</h2>
       <% Matrix.digital_maturity_areas.each do |area| %>
         <p><strong><%= area %></strong></p>
-        <p><%= "Current: #{submission.calculator.total_current_score_by(area)}%" %></br>
-        <%= "Target: #{submission.calculator.total_target_score_by(area)}%" %></p>
+        <p><%= "Current: #{submission.calculator.current_hash[area]}%" %></br>
+        <%= "Target: #{submission.calculator.target_hash[area]}%" %></p>
       <% end %>
     </div>
   </div>
@@ -76,7 +76,7 @@
               strokeColor: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
               pointColor: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
               pointStrokeColor: "#fff",
-              data: <%= "#{submission.calculator.current_data_array}" %>
+              data: <%= "#{submission.calculator.current_array}" %>
           },
           {
               label: "Target Maturity",
@@ -84,7 +84,7 @@
               strokeColor: "<%= submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)' %>",
               pointColor: "<%=submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)' %>",
               pointStrokeColor: "#fff",
-              data: <%= "#{submission.calculator.target_data_array}" %>
+              data: <%= "#{submission.calculator.target_array}" %>
           }
       ],
   }
@@ -133,7 +133,7 @@
               borderWidth: 1,
               highlightFill: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
               highlightStroke: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
-              data: <%= "#{submission.calculator.current_data_array}" %>
+              data: <%= "#{submission.calculator.current_array}" %>
           },
           {
               label: "Target Maturity",
@@ -142,7 +142,7 @@
               borderWidth: 1,
               highlightFill: "<%= submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)' %>",
               highlightStroke: "<%= submission.user.brand.try(:color_b) || 'rgba(255,0,0,1)' %>",
-              data: <%= "#{submission.calculator.target_data_array}" %>
+              data: <%= "#{submission.calculator.target_array}" %>
           }
       ]
   };

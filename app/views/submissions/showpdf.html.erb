@@ -26,14 +26,14 @@
   <div class="col-xs-6 text-right">
     <h4>
       <strong>
-        <%= "Current maturity: #{submission.calculator.top_line_current}%" %>
+        <%= "Current maturity: #{submission.calculator.current_maturity}%" %>
       </strong>
     </h4>
   </div>
   <div class="col-xs-6 text-left">
     <h4>
       <strong>
-        <%= "Target maturity: #{submission.calculator.top_line_target}%" %>
+        <%= "Target maturity: #{submission.calculator.target_maturity}%" %>
       </strong>
     </h4>
   </div>
@@ -50,12 +50,12 @@
     <div class="row">
       <div class="col-xs-6 text-right">
         <p>
-          <%= "Current: #{submission.calculator.total_current_score_by(area)}%" %>
+          <%= "Current: #{submission.calculator.current_hash[area]}%" %>
         </p>
       </div>
       <div class="col-xs-6 text-left">
         <p>
-          <%= "Target: #{submission.calculator.total_target_score_by(area)}%" %>
+        <%= "Target: #{submission.calculator.target_hash[area]}%" %>
         </p>
       </div>
     </div>
@@ -72,7 +72,7 @@
               strokeColor: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
               pointColor: "<%= submission.user.brand.try(:color_a) || 'rgba(0,255,0,1)' %>",
               pointStrokeColor: "#fff",
-              data: <%= "#{submission.calculator.current_data_array}" %>
+              data: <%= "#{submission.calculator.current_array}" %>
           },
           {
               label: "Target Maturity",
@@ -80,7 +80,7 @@
               strokeColor: "<%= submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)' %>",
               pointColor: "<%=submission.user.brand.try(:color_b) || 'rgba(225,0,0,1)' %>",
               pointStrokeColor: "#fff",
-              data: <%= "#{submission.calculator.target_data_array}" %>
+              data: <%= "#{submission.calculator.target_array}" %>
           }
       ],
   }
