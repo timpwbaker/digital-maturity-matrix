@@ -96,7 +96,9 @@ Rails.application.configure do
     user_name:            ENV['SENDGRID_USERNAME'],
     password:             ENV['SENDGRID_PASSWORD'],
     authentication:       'plain',
-    enable_starttls_auto: true  }
+    tls:                  false,
+    enable_starttls_auto: false
+  }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
