@@ -11,10 +11,10 @@ you've got postgres installed, and then
     bundle install
     rails db:create
 
-Log into heroku and pull the database, if you don't have the heroku creds
-there's a test.dump in the root to get you started:
+You could create your own matrix, but there's on pre created in the database dump
+in the root. Load it:
 
-    heroku pg:pull DATABASE_URL maturity_matrix_db_development --app digital-maturity-matrix
+    pg_restore --verbose --clean --no-acl --no-owner -h localhost -U {{YOUR_USERNAME}} -d maturity_matrix_db_development test.dump
 
 Tests are RSpec, to run:
 
